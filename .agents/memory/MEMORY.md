@@ -1,1 +1,2 @@
 - [OpenAPI email validation](orval-zod-compatibility.md) — the workspace's generated Zod client currently supports email as a length-checked string rather than zod.email().
+- [Vite artifact builds](vite-artifact-builds.md) — artifact Vite builds require workflow-style PORT/BASE_PATH values, and root-relative HTML asset URLs can be treated as directories.

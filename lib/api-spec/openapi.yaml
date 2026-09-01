@@ -72,6 +72,9 @@ components:
         email:
           type: string
           minLength: 3
+        age:
+          type: string
+          maxLength: 3
         treatmentId:
           type: string
           minLength: 1

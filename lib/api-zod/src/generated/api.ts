@@ -27,6 +27,8 @@ export const createAppointmentRequestBodyPhoneMin = 10;
 
 export const createAppointmentRequestBodyEmailMin = 3;
 
+export const createAppointmentRequestBodyAgeMax = 3;
+
 
 
 
@@ -38,6 +40,7 @@ export const CreateAppointmentRequestBody = zod.object({
   "patientName": zod.string().min(createAppointmentRequestBodyPatientNameMin),
   "phone": zod.string().min(createAppointmentRequestBodyPhoneMin),
   "email": zod.string().min(createAppointmentRequestBodyEmailMin).optional(),
+  "age": zod.string().max(createAppointmentRequestBodyAgeMax).optional(),
   "treatmentId": zod.string().min(1),
   "treatmentName": zod.string().min(1),
   "price": zod.string().nullable(),

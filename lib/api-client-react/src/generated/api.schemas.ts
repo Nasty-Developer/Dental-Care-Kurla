@@ -16,6 +16,8 @@ export interface AppointmentRequestInput {
   phone: string;
   /** @minLength 3 */
   email?: string;
+  /** @maxLength 3 */
+  age?: string;
   /** @minLength 1 */
   treatmentId: string;
   /** @minLength 1 */

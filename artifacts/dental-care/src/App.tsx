@@ -40,6 +40,15 @@ import {
 } from 'wouter';
 
 const queryClient = new QueryClient();
+const whatsappMessage = 'Hello Dental Care, I would like to enquire about booking an appointment.';
+const env = import.meta.env as Record<string, string | undefined>;
+const configuredPhone = env.NEXT_PUBLIC_CLINIC_PHONE || env.VITE_CLINIC_PHONE || '';
+const configuredWhatsApp = env.NEXT_PUBLIC_WHATSAPP_NUMBER || env.VITE_WHATSAPP_NUMBER || '';
+const configuredWhatsAppUrl = configuredWhatsApp
+  ? configuredWhatsApp.startsWith('http')
+    ? configuredWhatsApp
+    : `https://wa.me/${configuredWhatsApp.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`
+  : '';
 
 const clinicConfig = {
   name: 'Dental Care',
@@ -55,10 +64,10 @@ const clinicConfig = {
   ],
   address:
     'Shop No: 01, Bldg No: 84, Navchaitanya CHS, Police Colony, Nehru Nagar, Kurla East - 400024',
-  phone: '',
+  phone: configuredPhone,
   email: '',
-  whatsapp: '',
-  mapUrl: '',
+  whatsapp: configuredWhatsAppUrl,
+  mapUrl: env.VITE_CLINIC_MAP_URL || '',
   doctors: [] as Array<{ name: string; role: string; focus: string }>,
   testimonials: [] as Array<{ quote: string; name: string; detail: string }>,
 };
@@ -78,6 +87,7 @@ type Treatment = {
   featured: boolean;
   icon: typeof ShieldCheck;
   faqs: string[];
+  priceLabel?: string;
 };
 
 const treatmentConfig: Treatment[] = [
@@ -221,7 +231,8 @@ const initialDraft: BookingDraft = {
 };
 
 function formatPrice(treatment: Treatment) {
-  if (!treatment.price) return 'Price to be updated';
+  if (!treatment.price) return treatment.priceLabel || 'Price to be updated';
+  if (treatment.priceType === 'custom') return treatment.priceLabel || 'Contact clinic for pricing';
   if (treatment.priceType === 'starting_from') return `Starting from ${treatment.price}`;
   return treatment.price;
 }
@@ -430,6 +441,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
   };
 
   const submit = () => {
+    if (createRequest.isPending) return;
     const validation = validateStep();
     if (validation || !selectedTreatment) {
       setError(validation || 'Please select a treatment.');
@@ -444,6 +456,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
       price: selectedTreatment.price,
       date: draft.date,
       time: draft.time,
+      age: draft.age.trim() || undefined,
       reason: draft.reason.trim() || undefined,
     };
     createRequest.mutate({ data: payload }, { onSuccess: (response) => setResult(response) });
@@ -562,7 +575,16 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
               </div>
               <div className="review-address"><span className="price-caption">Clinic</span>{clinicConfig.addressLines.map((line) => <span key={line}>{line}</span>)}</div>
             </div>
-            {createRequest.isError && <div className="booking-error" role="alert">Something went wrong. Your appointment request could not be submitted. Please try again.</div>}
+            {createRequest.isError && (
+              <div className="booking-error" role="alert">
+                <p>Something went wrong. Your appointment request could not be submitted.</p>
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <button type="button" onClick={submit} className="font-bold underline underline-offset-4">Try again</button>
+                  {clinicConfig.phone && <a href={`tel:${clinicConfig.phone}`} className="font-bold underline underline-offset-4">Call clinic</a>}
+                  {clinicConfig.whatsapp && <a href={clinicConfig.whatsapp} target="_blank" rel="noreferrer" className="font-bold underline underline-offset-4">WhatsApp</a>}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

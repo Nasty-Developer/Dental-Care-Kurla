@@ -1,0 +1,1762 @@
+You are building a REAL, PREMIUM, PRODUCTION-QUALITY dental
+clinic website for:
+
+DENTAL CARE
+
+This is NOT just a marketing landing page.
+
+Build a complete dental clinic digital experience with:
+
+- Premium blue visual identity
+- Treatment catalogue
+- Treatment prices
+- Treatment details
+- Treatment duration
+- Appointment booking
+- Date selection
+- Time-slot selection
+- Patient information
+- Appointment summary
+- Appointment request/confirmation
+- Contact system
+- WhatsApp integration
+- Call clinic
+- Location
+- Admin-ready appointment architecture
+- Mobile-first UX
+- Excellent animations
+- Responsive design
+- Accessibility
+- SEO
+- Fast performance
+
+The website should feel like a real product that a dental clinic
+could actually use.
+
+============================================================
+1. BRAND
+============================================================
+
+Brand:
+
+Dental Care
+
+Location:
+
+Kurla East, Mumbai
+
+Exact clinic address:
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Use this exact address.
+
+Do not change the address.
+
+============================================================
+2. DESIGN DIRECTION
+============================================================
+
+The entire website must have a strong PREMIUM BLUE identity.
+
+Primary colors:
+
+Deep Navy Blue
+Royal Blue
+Healthcare Blue
+Sky Blue
+Cyan accents
+Very Light Blue
+White
+
+Use blue as a major visual identity.
+
+The website should NOT look like:
+
+- A generic WordPress dental template
+- A plain white page with blue buttons
+- A stretched landing page
+- A school project
+- An AI-generated template
+
+It should feel like:
+
+Premium healthcare
++
+modern technology
++
+luxury dental clinic
++
+excellent SaaS UX
+
+Use:
+
+- Deep blue hero
+- Blue gradients
+- Light blue sections
+- Navy sections
+- White cards
+- Blue glowing accents
+- Soft shadows
+- Elegant typography
+- Clean icons
+- Premium photography
+
+Keep the design sophisticated.
+
+============================================================
+3. IMPORTANT LAYOUT RULE
+============================================================
+
+DO NOT make the website excessively stretched vertically.
+
+Do NOT create huge empty sections.
+
+Do NOT put one giant heading in a massive section followed by
+large amounts of whitespace.
+
+Content should feel compact, useful and information-rich.
+
+Use a strong visual grid.
+
+Desktop should use the available screen width intelligently.
+
+Recommended max-width:
+
+1200px–1400px
+
+Use:
+
+2-column
+3-column
+4-column
+
+layouts where appropriate.
+
+The website should feel dense enough to be useful, but never
+cluttered.
+
+============================================================
+4. NAVIGATION
+============================================================
+
+Create a sticky navigation bar.
+
+Logo:
+
+Dental Care
+
+Navigation:
+
+Home
+Treatments
+Pricing
+About
+Why Us
+FAQ
+Contact
+
+Primary button:
+
+BOOK APPOINTMENT
+
+The navbar should become compact when scrolling.
+
+Use:
+
+- backdrop blur
+- subtle blue border
+- smooth transition
+- shadow
+
+Mobile:
+
+Hamburger menu
+
+Menu:
+
+Home
+Treatments
+Pricing
+About
+Why Us
+FAQ
+Contact
+
+Large:
+
+BOOK APPOINTMENT
+
+============================================================
+5. HERO
+============================================================
+
+Create a strong compact hero.
+
+Do NOT make the hero unnecessarily tall.
+
+Use a premium blue gradient background.
+
+Hero heading:
+
+"Confident Smiles Start Here."
+
+Supporting text:
+
+"Modern dental care designed around your comfort, health and smile."
+
+Primary CTA:
+
+BOOK AN APPOINTMENT
+
+Secondary CTA:
+
+VIEW TREATMENTS & PRICES
+
+Show:
+
+📍 Kurla East, Mumbai
+
+Use a premium dental/clinic image.
+
+Hero should immediately communicate:
+
+What:
+Dental Care
+
+Where:
+Kurla East, Mumbai
+
+Action:
+Book Appointment
+
+============================================================
+6. QUICK BOOKING BAR
+============================================================
+
+Immediately below the hero, create a compact booking/action bar.
+
+Include:
+
+📅 Book Appointment
+🦷 View Treatments
+💰 View Pricing
+📍 Get Directions
+📞 Call Clinic
+
+This should make the site feel like a real clinic website.
+
+============================================================
+7. TREATMENTS SECTION
+============================================================
+
+Create a complete Treatments section.
+
+Heading:
+
+"Treatments & Services"
+
+Supporting text:
+
+"Explore dental treatments and choose the care you need."
+
+Create treatment cards.
+
+Each treatment card MUST include:
+
+- Treatment name
+- Short description
+- Starting price
+- Approximate duration
+- Learn More
+- Book Appointment
+
+Example data structure:
+
+{
+  id,
+  name,
+  category,
+  shortDescription,
+  description,
+  price,
+  priceLabel,
+  duration,
+  image,
+  icon,
+  available,
+  featured
+}
+
+============================================================
+8. TREATMENT CATEGORIES
+============================================================
+
+Create filters/categories:
+
+ALL
+
+GENERAL DENTISTRY
+
+CLEANING & PREVENTION
+
+COSMETIC DENTISTRY
+
+RESTORATIVE DENTISTRY
+
+ROOT CANAL
+
+ORTHODONTICS
+
+IMPLANTS
+
+PEDIATRIC DENTISTRY
+
+OTHER
+
+Clicking a category filters the treatments smoothly.
+
+Use animated filtering.
+
+============================================================
+9. TREATMENT CARD DESIGN
+============================================================
+
+Treatment cards should NOT be giant.
+
+Use compact premium cards.
+
+Each card:
+
+Treatment Name
+
+Short description
+
+Starting from:
+₹XXXX
+
+Duration:
+XX min
+
+Button:
+
+VIEW DETAILS
+
+Secondary:
+
+BOOK
+
+Example visual:
+
+--------------------------------
+Dental Cleaning
+Professional cleaning and oral
+hygiene care.
+
+Starting from ₹XXXX
+30–45 min
+
+[ View Details ] [ Book ]
+--------------------------------
+
+Prices MUST be editable.
+
+============================================================
+10. PRICING
+============================================================
+
+Create a dedicated pricing section.
+
+Heading:
+
+"Transparent Treatment Pricing"
+
+Display treatment prices clearly.
+
+IMPORTANT:
+
+The clinic's actual prices have not yet been provided.
+
+Therefore:
+
+DO NOT invent prices and present them as actual Dental Care
+prices.
+
+Create a centralized editable pricing configuration.
+
+Example:
+
+treatments = [
+  {
+    name: "Dental Consultation",
+    price: 0,
+    priceLabel: "Price to be configured",
+    duration: "30 min"
+  }
+]
+
+The clinic owner/developer should be able to replace every
+price easily.
+
+Once actual prices are supplied, display:
+
+₹XXX
+
+or:
+
+Starting from ₹XXX
+
+depending on the configured price type.
+
+============================================================
+11. PRICE TYPES
+============================================================
+
+Support these pricing formats:
+
+FIXED:
+
+₹1,500
+
+STARTING FROM:
+
+Starting from ₹1,500
+
+RANGE:
+
+₹1,500 – ₹3,000
+
+CUSTOM:
+
+Contact clinic for pricing
+
+The UI must automatically format the price correctly.
+
+============================================================
+12. PRICING TABLE
+============================================================
+
+Create a compact pricing table on desktop.
+
+Columns:
+
+Treatment
+Description
+Duration
+Price
+Book
+
+Example:
+
+| Treatment | Duration | Price | |
+|-----------|----------|-------|---|
+| Consultation | 30 min | ₹XXX | Book |
+| Cleaning | 45 min | ₹XXX | Book |
+| Filling | 45 min | ₹XXX | Book |
+| Root Canal | 60–90 min | ₹XXX | Book |
+
+On mobile:
+
+Convert each row into a premium card.
+
+Do NOT create a horizontally overflowing table.
+
+============================================================
+13. PRICE DISCLAIMER
+============================================================
+
+Include a small note:
+
+"Prices shown are indicative and may vary depending on treatment
+requirements. Final treatment cost will be discussed with the
+dentist."
+
+Only use this if appropriate for the clinic's actual pricing.
+
+Do not make misleading pricing promises.
+
+============================================================
+14. TREATMENT DETAILS
+============================================================
+
+Clicking:
+
+VIEW DETAILS
+
+should open a detailed treatment page/modal.
+
+Display:
+
+Treatment name
+
+What it is
+
+Why it may be recommended
+
+What the appointment generally involves
+
+Approximate duration
+
+Price
+
+Price type
+
+Frequently asked questions
+
+BOOK APPOINTMENT
+
+Do not make medical guarantees.
+
+============================================================
+15. TREATMENT SEARCH
+============================================================
+
+Add a search box:
+
+"Search treatments..."
+
+Search should filter treatment names and descriptions.
+
+Example:
+
+User types:
+
+root
+
+Results:
+
+Root Canal Treatment
+
+User types:
+
+clean
+
+Results:
+
+Dental Cleaning
+
+Make search fast and animated.
+
+============================================================
+16. FEATURED TREATMENTS
+============================================================
+
+Create a compact featured treatment section.
+
+Possible examples:
+
+Dental Cleaning
+Teeth Whitening
+Root Canal Treatment
+Dental Implants
+
+BUT:
+
+Only mark treatments as featured if configured.
+
+Do not assume every listed treatment is offered.
+
+============================================================
+17. APPOINTMENT BOOKING
+============================================================
+
+THIS IS THE MOST IMPORTANT FEATURE.
+
+The appointment system must feel like a real modern booking
+application.
+
+Click:
+
+BOOK APPOINTMENT
+
+Open:
+
+/book-appointment
+
+or a premium full-screen booking experience.
+
+Do NOT use a tiny generic contact form.
+
+============================================================
+18. BOOKING STEP 1
+============================================================
+
+STEP 1:
+
+Choose Treatment
+
+Display treatment cards.
+
+Each card:
+
+Treatment
+Price
+Duration
+
+Example:
+
+Dental Cleaning
+₹XXXX
+45 min
+
+[ Select ]
+
+Selected treatment gets:
+
+Blue border
+Blue background tint
+Checkmark
+Smooth animation
+
+============================================================
+19. BOOKING STEP 2
+============================================================
+
+STEP 2:
+
+Choose Date
+
+Display calendar.
+
+Requirements:
+
+- Current month
+- Previous/next month
+- Available dates
+- Unavailable dates
+- Selected date
+- Today indicator
+- Disabled past dates
+
+Use blue visual states.
+
+Do NOT hardcode availability permanently.
+
+Availability should eventually come from backend/configuration.
+
+============================================================
+20. BOOKING STEP 3
+============================================================
+
+STEP 3:
+
+Choose Time
+
+Display available slots.
+
+Example:
+
+10:00 AM
+10:30 AM
+11:00 AM
+11:30 AM
+12:00 PM
+12:30 PM
+4:00 PM
+4:30 PM
+5:00 PM
+
+These are placeholder examples only.
+
+Actual slots must come from configurable availability.
+
+Unavailable slots should appear disabled.
+
+Selected slot:
+
+Blue background
+White text
+Check icon
+
+============================================================
+21. BOOKING STEP 4
+============================================================
+
+STEP 4:
+
+Patient Details
+
+Fields:
+
+Full Name *
+Phone Number *
+Email
+Age
+Reason for Visit
+
+Keep the form short.
+
+Do not ask for unnecessary medical information.
+
+============================================================
+22. BOOKING STEP 5
+============================================================
+
+STEP 5:
+
+Review Appointment
+
+Display a beautiful summary.
+
+Example:
+
+--------------------------------
+
+YOUR APPOINTMENT
+
+Treatment:
+Dental Cleaning
+
+Price:
+₹XXXX
+
+Duration:
+45 minutes
+
+Date:
+12 September 2026
+
+Time:
+11:30 AM
+
+Patient:
+John Doe
+
+Phone:
+XXXXXXXXXX
+
+Clinic:
+
+Dental Care
+
+Shop No: 01
+Bldg No: 84
+Navchaitanya CHS
+Police Colony
+Nehru Nagar
+Kurla East - 400024
+
+--------------------------------
+
+Button:
+
+SUBMIT APPOINTMENT REQUEST
+
+============================================================
+23. BOOKING PROGRESS
+============================================================
+
+Show a progress indicator:
+
+01 Treatment
+02 Date
+03 Time
+04 Details
+05 Review
+
+Use blue progress animation.
+
+User must always know where they are.
+
+============================================================
+24. BACK / NEXT
+============================================================
+
+Buttons:
+
+BACK
+
+CONTINUE
+
+Each step must validate before continuing.
+
+Do not allow users to continue with missing required data.
+
+============================================================
+25. APPOINTMENT VALIDATION
+============================================================
+
+Name:
+Required
+
+Phone:
+Required
+
+Email:
+Optional but validate if entered
+
+Treatment:
+Required
+
+Date:
+Required
+
+Time:
+Required
+
+Show friendly errors.
+
+Example:
+
+"Please select a treatment."
+
+"Please choose a date."
+
+"Please select a time slot."
+
+"Please enter your name."
+
+"Please enter a valid phone number."
+
+============================================================
+26. APPOINTMENT SUBMISSION
+============================================================
+
+On submission:
+
+Show loading state:
+
+"Submitting your appointment request..."
+
+Disable button.
+
+Prevent duplicate submissions.
+
+Then display success.
+
+============================================================
+27. APPOINTMENT SUCCESS
+============================================================
+
+Success screen:
+
+✓
+
+"Appointment Request Received"
+
+Show:
+
+Appointment ID
+Treatment
+Date
+Time
+Patient name
+Clinic address
+
+Message:
+
+"We've received your appointment request. The clinic will
+contact you to confirm the appointment."
+
+IMPORTANT:
+
+Do NOT say:
+
+"Appointment Confirmed"
+
+unless the backend has actually confirmed it.
+
+============================================================
+28. APPOINTMENT FAILURE
+============================================================
+
+If submission fails:
+
+"Something went wrong."
+
+"Your appointment request could not be submitted."
+
+Buttons:
+
+TRY AGAIN
+
+CALL CLINIC
+
+WHATSAPP
+
+Do not expose technical errors.
+
+============================================================
+29. APPOINTMENT BACKEND
+============================================================
+
+Prepare the architecture for:
+
+POST /api/appointments
+
+Data:
+
+{
+  patientName,
+  phone,
+  email,
+  treatmentId,
+  treatmentName,
+  price,
+  date,
+  time,
+  reason
+}
+
+Return:
+
+{
+  success,
+  appointmentId,
+  status,
+  message
+}
+
+Possible statuses:
+
+pending
+confirmed
+cancelled
+completed
+rescheduled
+
+============================================================
+30. ADMIN-READY APPOINTMENT SYSTEM
+============================================================
+
+Prepare architecture for an admin dashboard.
+
+Admin should eventually be able to:
+
+- View appointments
+- Search appointments
+- Filter by date
+- Filter by treatment
+- View patient details
+- Confirm
+- Cancel
+- Reschedule
+- Mark completed
+
+Also allow:
+
+Set available days
+Set available time slots
+Block dates
+Block individual slots
+Change treatment prices
+Add treatment
+Remove treatment
+Edit treatment
+Change treatment duration
+
+============================================================
+31. TREATMENT DATABASE
+============================================================
+
+Create one centralized treatment configuration.
+
+Example:
+
+{
+  id: "cleaning",
+  name: "Dental Cleaning",
+  category: "cleaning",
+  description: "...",
+  priceType: "starting_from",
+  price: 0,
+  duration: "45 min",
+  available: true
+}
+
+This means prices do NOT need to be manually changed in
+multiple components.
+
+Change once:
+
+Treatment database
+
+and the entire website updates.
+
+============================================================
+32. PRICE + BOOK BUTTON CONNECTION
+============================================================
+
+Every treatment card must have:
+
+PRICE
+
+and
+
+BOOK
+
+The BOOK button must automatically select that treatment
+inside the appointment system.
+
+Example:
+
+User clicks:
+
+Dental Cleaning → Book
+
+Booking page opens with:
+
+Treatment:
+Dental Cleaning
+
+already selected.
+
+This is VERY important.
+
+Do not force the patient to select the same treatment twice.
+
+============================================================
+33. PRICE + APPOINTMENT SUMMARY CONNECTION
+============================================================
+
+If user selects:
+
+Dental Cleaning
+
+and price is:
+
+₹1,000
+
+the appointment summary must automatically display:
+
+Dental Cleaning
+₹1,000
+
+Do NOT duplicate price manually in the UI.
+
+Use the centralized treatment data.
+
+============================================================
+34. CONTACT
+============================================================
+
+Create contact section.
+
+Address:
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Include configurable:
+
+Phone
+Email
+WhatsApp
+
+Do NOT invent contact information.
+
+============================================================
+35. WHATSAPP
+============================================================
+
+Create configurable WhatsApp integration.
+
+Environment variable:
+
+NEXT_PUBLIC_WHATSAPP_NUMBER
+
+Message:
+
+"Hello Dental Care, I would like to enquire about booking an
+appointment."
+
+============================================================
+36. CALL
+============================================================
+
+Environment variable:
+
+NEXT_PUBLIC_CLINIC_PHONE
+
+CTA:
+
+CALL CLINIC
+
+Use:
+
+tel:
+
+when configured.
+
+============================================================
+37. LOCATION
+============================================================
+
+Create a compact premium location section.
+
+Heading:
+
+"Visit Dental Care"
+
+Display the complete address.
+
+Buttons:
+
+GET DIRECTIONS
+
+BOOK APPOINTMENT
+
+Use configurable map URL.
+
+Do not invent map coordinates.
+
+============================================================
+38. ABOUT
+============================================================
+
+Create a concise About section.
+
+Do NOT use huge amounts of text.
+
+Headline:
+
+"Thoughtful Care. Confident Smiles."
+
+Explain the clinic philosophy.
+
+If doctor details are unavailable:
+
+Do not invent doctors, qualifications or experience.
+
+============================================================
+39. WHY US
+============================================================
+
+Create a compact blue section.
+
+Features:
+
+Patient-Centered Care
+Comfortable Experience
+Clear Treatment Guidance
+Modern Clinical Approach
+Personalized Care
+Convenient Location
+
+Keep it visually rich but compact.
+
+============================================================
+40. DOCTOR / TEAM
+============================================================
+
+Create an editable team section.
+
+Each doctor:
+
+Photo
+Name
+Qualification
+Specialty
+Experience
+Biography
+
+Do not invent actual doctors.
+
+Hide the section completely if no real doctor data is configured,
+or show an elegant "Meet Our Dental Team" placeholder state in
+development.
+
+============================================================
+41. TESTIMONIALS
+============================================================
+
+Create testimonials.
+
+Do NOT fabricate real patient reviews.
+
+Use editable testimonial data.
+
+If no real testimonials exist:
+
+Hide the section or show development placeholders.
+
+Never present fake testimonials as genuine.
+
+============================================================
+42. FAQ
+============================================================
+
+Create compact FAQ accordion.
+
+Questions:
+
+How do I book an appointment?
+Where is Dental Care located?
+How do treatment prices work?
+Can I choose my preferred time?
+What happens after I submit an appointment request?
+Can I contact the clinic through WhatsApp?
+
+Make answers editable.
+
+============================================================
+43. MOBILE EXPERIENCE
+============================================================
+
+Mobile is extremely important.
+
+Do NOT simply shrink the desktop website.
+
+Mobile layout should have:
+
+- Compact navbar
+- Sticky BOOK button
+- Easy treatment cards
+- Easy price viewing
+- Full-screen appointment flow
+- Large touch targets
+- Easy calendar
+- Easy time selection
+
+At the bottom create:
+
+CALL
+WHATSAPP
+BOOK
+
+fixed action bar.
+
+============================================================
+44. DESKTOP EXPERIENCE
+============================================================
+
+Desktop should use space efficiently.
+
+Do not make everything enormous.
+
+Use:
+
+12-column grid
+
+Example:
+
+Hero:
+6 columns text
+6 columns visual
+
+Treatment:
+3 or 4 cards per row
+
+Pricing:
+full-width compact table
+
+Booking:
+centered application-style layout
+
+============================================================
+45. ANIMATIONS
+============================================================
+
+Use premium animations.
+
+Treatment cards:
+
+Fade + slight upward motion
+
+Filter:
+
+Smooth layout animation
+
+Price:
+
+Subtle fade
+
+Booking steps:
+
+Smooth slide/fade
+
+Calendar:
+
+Smooth month transition
+
+Time slots:
+
+Smooth selection
+
+Modal:
+
+Scale + fade
+
+Buttons:
+
+Small hover elevation
+
+Navbar:
+
+Smooth scroll transition
+
+Avoid excessive animation.
+
+============================================================
+46. BLUE ANIMATION SYSTEM
+============================================================
+
+Use subtle:
+
+Blue glow
+Blue gradient movement
+Soft radial lighting
+Light-blue particles
+Gradient borders
+
+Do not overdo it.
+
+The website should feel like:
+
+Premium healthcare technology.
+
+============================================================
+47. RESPONSIVENESS
+============================================================
+
+Test:
+
+320px
+375px
+390px
+430px
+768px
+1024px
+1280px
+1440px
+1920px
+
+Check:
+
+No horizontal overflow
+No clipped text
+No broken cards
+No broken calendar
+No overflowing pricing table
+No tiny buttons
+
+============================================================
+48. ACCESSIBILITY
+============================================================
+
+Implement:
+
+Semantic HTML
+Accessible labels
+Keyboard navigation
+Focus states
+Screen-reader support
+Accessible modal
+Accessible calendar
+Accessible form errors
+Reduced motion
+
+Support:
+
+prefers-reduced-motion
+
+============================================================
+49. SEO
+============================================================
+
+Title:
+
+Dental Care | Dental Clinic in Kurla East, Mumbai
+
+Description:
+
+Modern dental care and appointment booking in Kurla East,
+Mumbai.
+
+Implement:
+
+Metadata
+Open Graph
+Sitemap
+Robots
+Canonical URL
+Local business structured data where appropriate
+
+Do not fabricate reviews or ratings.
+
+============================================================
+50. PERFORMANCE
+============================================================
+
+Optimize:
+
+Images
+Fonts
+JavaScript
+CSS
+Animations
+
+Use:
+
+Lazy loading
+Responsive images
+Modern image formats
+Code splitting
+
+Avoid unnecessary dependencies.
+
+============================================================
+51. SECURITY
+============================================================
+
+Never expose:
+
+API keys
+Database passwords
+Private keys
+
+Validate appointment data on backend.
+
+Prevent duplicate submissions.
+
+Do not collect unnecessary sensitive information.
+
+============================================================
+52. DESIGN SYSTEM
+============================================================
+
+Create reusable:
+
+Colors
+Typography
+Spacing
+Buttons
+Cards
+Inputs
+Badges
+Icons
+Modals
+Tables
+Forms
+
+All components must share the same visual language.
+
+============================================================
+53. FINAL HOMEPAGE STRUCTURE
+============================================================
+
+NAVBAR
+
+HERO
+
+QUICK ACTIONS
+
+TREATMENTS
+
+PRICING
+
+WHY CHOOSE DENTAL CARE
+
+ABOUT
+
+DOCTOR / TEAM
+
+PATIENT JOURNEY
+
+TESTIMONIALS
+
+FAQ
+
+LOCATION
+
+FINAL BOOKING CTA
+
+FOOTER
+
+============================================================
+54. FINAL BOOKING CTA
+============================================================
+
+Use a strong blue section.
+
+Headline:
+
+"Ready to Book Your Visit?"
+
+Supporting:
+
+"Choose your treatment, preferred date and time in just a few
+simple steps."
+
+Button:
+
+BOOK AN APPOINTMENT
+
+============================================================
+55. FOOTER
+============================================================
+
+Dark navy blue footer.
+
+Dental Care
+
+Navigation
+
+Treatments
+
+Pricing
+
+Book Appointment
+
+Contact
+
+Address
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Configurable:
+
+Phone
+Email
+WhatsApp
+
+============================================================
+56. IMPORTANT PRICE RULE
+============================================================
+
+Actual Dental Care treatment prices have NOT been supplied yet.
+
+Therefore:
+
+DO NOT invent actual clinic prices.
+
+Build the complete pricing system using configurable values.
+
+Example development values:
+
+price: null
+
+Display:
+
+"Price to be updated"
+
+or:
+
+"Contact clinic"
+
+Once real prices are added, automatically display them throughout
+the website.
+
+If the clinic later provides actual prices, they should only need
+to update the centralized treatment configuration.
+
+============================================================
+57. IMPORTANT APPOINTMENT RULE
+============================================================
+
+The booking system must be FUNCTIONAL in architecture.
+
+Do not create a fake button that simply opens a contact form.
+
+The flow must be:
+
+Treatment
+↓
+Date
+↓
+Time
+↓
+Patient Details
+↓
+Review
+↓
+Submit
+↓
+Appointment ID
+↓
+Pending / Confirmation status
+
+Every selected value must persist through the entire flow.
+
+============================================================
+58. NO FAKE INFORMATION
+============================================================
+
+Never invent:
+
+Doctor names
+Qualifications
+Phone numbers
+Email addresses
+Opening hours
+Treatment prices
+Reviews
+Awards
+Certifications
+Medical guarantees
+
+Use configurable placeholders instead.
+
+============================================================
+59. QUALITY CONTROL
+============================================================
+
+Before finishing, test:
+
+NAVIGATION
+
+[ ] Navbar works
+[ ] Mobile menu works
+[ ] Smooth scrolling works
+
+TREATMENTS
+
+[ ] Treatment cards work
+[ ] Search works
+[ ] Category filters work
+[ ] Details work
+[ ] Prices display correctly
+[ ] Book button selects treatment
+
+PRICING
+
+[ ] Pricing table works
+[ ] Mobile pricing works
+[ ] Price formatting works
+[ ] Price data comes from centralized config
+
+BOOKING
+
+[ ] Treatment selection works
+[ ] Date selection works
+[ ] Time selection works
+[ ] Patient form works
+[ ] Validation works
+[ ] Back button works
+[ ] Next button works
+[ ] Review works
+[ ] Submission works
+[ ] Loading works
+[ ] Success works
+[ ] Error works
+[ ] Appointment ID works
+[ ] Duplicate submission prevented
+
+CONTACT
+
+[ ] Phone works when configured
+[ ] WhatsApp works when configured
+[ ] Directions works when configured
+[ ] Exact address displayed
+
+RESPONSIVE
+
+[ ] 320px
+[ ] 375px
+[ ] 390px
+[ ] 430px
+[ ] Tablet
+[ ] Desktop
+[ ] Large desktop
+
+ACCESSIBILITY
+
+[ ] Keyboard navigation
+[ ] Focus states
+[ ] Labels
+[ ] Reduced motion
+[ ] Accessible modal
+[ ] Accessible forms
+
+PERFORMANCE
+
+[ ] No console errors
+[ ] No broken images
+[ ] No broken links
+[ ] No horizontal scrolling
+[ ] Fast loading
+
+============================================================
+60. FINAL QUALITY BAR
+============================================================
+
+This website must NOT feel like a long scrolling presentation.
+
+It must feel like a REAL dental clinic platform.
+
+The user should be able to:
+
+1. Discover treatments
+2. See prices
+3. Understand treatment duration
+4. Open treatment details
+5. Click BOOK
+6. Automatically have that treatment selected
+7. Choose date
+8. Choose available time
+9. Enter patient information
+10. Review appointment
+11. Submit request
+12. Receive appointment ID/status
+
+Make the treatment catalogue and appointment system the heart
+of the product.
+
+The design should be:
+
+BLUE
+PREMIUM
+COMPACT
+MODERN
+FAST
+CLEAN
+TRUSTWORTHY
+EASY TO USE
+
+Do not make sections unnecessarily huge.
+
+Do not waste screen space.
+
+Do not create fake information.
+
+Do not create fake prices.
+
+Do not create a fake booking button.
+
+Build the actual experience.
+
+============================================================
+FINAL COMMAND
+============================================================
+
+Build Dental Care as a complete premium dental clinic website,
+not merely a landing page.
+
+Prioritize:
+
+TREATMENTS
+PRICES
+APPOINTMENT BOOKING
+PATIENT UX
+MOBILE UX
+PREMIUM BLUE DESIGN
+
+The result should look polished enough to launch as a real
+dental clinic website.
+
+Make every interaction intentional.
+
+Make booking extremely easy.
+
+Make prices extremely easy to understand.
+
+Make treatments extremely easy to browse.
+
+Make the entire website feel like a premium blue healthcare
+product.
+
+Do not stop until the complete experience is implemented.
