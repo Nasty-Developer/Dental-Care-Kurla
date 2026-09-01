@@ -1,0 +1,657 @@
+IMPORTANT — FIX THE TREATMENTS SECTION PROPERLY.
+
+The current implementation is NOT acceptable.
+
+I provided a real Dental Care rate-sheet image containing 46
+treatments and their prices.
+
+You MUST actually add those treatments and prices to the website.
+
+Do NOT leave generic placeholder treatment cards such as only
+"Dental Consultation".
+
+Do NOT show "editable treatment catalogue" without actually
+displaying the complete catalogue.
+
+==================================================
+1. FONT — CHANGE IT COMPLETELY
+==================================================
+
+REMOVE THE CURRENT DECORATIVE / SCRIPT / CURSIVE FONT.
+
+I do NOT like the current font.
+
+Use a completely NORMAL, MODERN, PROFESSIONAL SANS-SERIF FONT
+throughout the entire website.
+
+Recommended:
+
+Inter
+
+or
+
+Manrope
+
+or
+
+DM Sans
+
+Choose one.
+
+Use the SAME font family consistently.
+
+NO:
+
+- Cursive
+- Script
+- Handwriting
+- Calligraphy
+- Decorative serif
+- Fancy display fonts
+
+Headings should also use the normal sans-serif font.
+
+Do NOT use a different fancy font for headings.
+
+The typography should look:
+
+CLEAN
+NORMAL
+MODERN
+PROFESSIONAL
+MEDICAL
+READABLE
+
+==================================================
+2. TREATMENT NAME MUST BE VISIBLE
+==================================================
+
+Every treatment card MUST visibly display:
+
+TREATMENT NAME
+
+PRICE
+
+and
+
+BOOK
+
+The treatment name must be prominent and easy to read.
+
+Use bold/semibold weight for treatment names.
+
+Example:
+
+Dental Cleaning
+
+₹250
+
+[ BOOK ]
+
+The treatment name MUST NOT be hidden inside a modal only.
+
+==================================================
+3. PRICE MUST BE VISIBLE
+==================================================
+
+Every treatment must display its actual provided rate.
+
+Price should be visually prominent.
+
+Example:
+
+Dental Cleaning
+₹250
+
+Use:
+
+font-weight: 700
+
+for the price.
+
+Price should NOT be tiny grey text.
+
+Treatment name and price should be the strongest information
+on the card.
+
+==================================================
+4. ADD ALL 46 TREATMENTS
+==================================================
+
+Use the supplied Dental Care rate sheet.
+
+Add ALL 46 entries:
+
+1. Case Paper — ₹50
+
+2. X-Ray — ₹100
+
+3. Simple Extraction / Mobile Tooth Extraction — ₹150–₹250
+
+4. Complicated / Root Pieces Extraction — ₹350
+
+5. Wisdom Tooth Extraction — ₹550
+
+6. Surgical Extraction (with sutures) — ₹600–₹700
+
+7. Surgical Extraction (by Oral Surgeon) — ₹800–₹1800
+
+8. Cleaning/Scaling & Polishing (1st sitting) — ₹250
+
+9. Cleaning/Scaling (additional sitting) — ₹200
+
+10. Polishing — ₹150
+
+11. Filling - Zinc Oxide — ₹100
+
+12. Filling - Dycal — ₹150
+
+13. Filling - Silver / GIC — ₹350
+
+14. Filling - Silver + GIC (Miracle) — ₹450
+
+15. Filling - Sandwich Filling (GIC+Composite) — ₹650
+
+16. Filling - Composite — ₹600
+
+17. Calplus — ₹150
+
+18. Pulp Devitaliser — ₹100
+
+19. RCT using Hand Files
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1200 / ₹1300 / ₹1400
+
+20. RCT using Hand ProTapers
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1500 / ₹1700 / ₹1850
+
+21. RCT using Rotary Files
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1700 / ₹1900 / ₹2000
+
+22. RE-RCT using Hand Files
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1400 / ₹1600 / ₹1700
+
+23. RE-RCT using Hand ProTapers
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1700 / ₹1900 / ₹2000
+
+24. RE-RCT using Rotary Files
+(incl. 2 x-ray + GIC/MM/Composite)
+— ₹1900 / ₹2100 / ₹2200
+
+25. Kids RCT (Protaper/Rotary) — ₹1200
+
+26. Crown - Metal — ₹1100
+
+27. Crown - Half Ceramic — ₹1600
+
+28. Crown - Full Ceramic (PFM) — ₹1900
+
+29. Crown - MLS CAD CAM (10 yrs warranty) — ₹3700
+
+30. Crown - Zirconia (10 yrs warranty) — ₹4900
+
+31. Crown - Acrylic — ₹850
+
+32. Crown - Metal Acrylic facing — ₹1200
+
+33. Single Crown Refixing — ₹150
+
+34. Single Crown Removal using crown remover — ₹150
+
+35. Single Crown Removal (using regular bur) — ₹200
+
+36. Single Crown Removal (using metal cutting bur) — ₹450
+
+37. Denture - Lucitone (with Ordinary Teeth) - Per Arch
+— ₹3200
+
+38. Denture - Lucitone (with Imported Teeth) - Per Arch
+— ₹4200
+
+39. Denture - Lucitone Metal Meshwork
+(with Ordinary Teeth) - Per Arch
+— ₹5600
+
+40. RPD (incl. 1 tooth) - Lucitone
+(upto 8 teeth RPD)
+— ₹1100
+
+41. Additional Per Tooth — ₹150
+
+42. RPD (incl. 1 ordinary tooth) - Metal Meshwork
+(upto 8 teeth RPD)
+— ₹2400
+
+43. Additional Per Tooth (ordinary) — ₹150
+
+44. Additional Per Tooth in RPD
+(made from elsewhere)
+— ₹350
+
+45. One Clasp — ₹50
+
+46. Denture Repairing — ₹400
+
+==================================================
+5. TREATMENT CARD DESIGN
+==================================================
+
+Do NOT make cards excessively tall.
+
+Use a compact card.
+
+Example:
+
+┌─────────────────────────────────────┐
+│ GENERAL DENTISTRY                   │
+│                                     │
+│ Dental Cleaning                     │
+│ Cleaning, scaling & polishing       │
+│                                     │
+│ ₹250                                │
+│                                     │
+│ [ View Details ]   [ Book ]         │
+└─────────────────────────────────────┘
+
+Treatment name:
+
+font-size: approximately 20–24px
+font-weight: 700
+
+Price:
+
+font-size: approximately 20px
+font-weight: 700
+
+Description:
+
+normal weight
+
+Buttons:
+
+medium/semibold
+
+==================================================
+6. DO NOT USE HUGE CARDS
+==================================================
+
+The screenshot shows the treatment card taking too much
+vertical space.
+
+Reduce:
+
+Card padding
+Heading size
+Vertical gaps
+Description spacing
+
+Show more treatments on screen.
+
+Desktop:
+
+3 or 4 cards per row.
+
+Mobile:
+
+1 card per row.
+
+Cards should be compact but still comfortable to read.
+
+==================================================
+7. TREATMENT SECTION HEADER
+==================================================
+
+Replace the current fancy heading:
+
+"Care that meets you where you are."
+
+with a normal sans-serif heading.
+
+Use:
+
+Treatments & Pricing
+
+or:
+
+Dental Treatments & Prices
+
+Use bold modern typography.
+
+No cursive.
+
+No giant heading.
+
+Keep the section header compact.
+
+Subtitle:
+
+"Explore our dental treatments and view the applicable rates."
+
+==================================================
+8. PRICE BADGE
+==================================================
+
+Make price visually obvious.
+
+Example:
+
+PRICE
+
+₹250
+
+or simply:
+
+₹250
+
+For ranges:
+
+₹600–₹700
+
+For multiple prices:
+
+₹1,200 / ₹1,300 / ₹1,400
+
+Do not hide the price.
+
+Do not put it only inside View Details.
+
+==================================================
+9. MULTIPLE PRICES
+==================================================
+
+For treatments with multiple rates, display ALL rates.
+
+Example:
+
+RCT using Hand Files
+
+₹1,200 / ₹1,300 / ₹1,400
+
+Do NOT choose only the highest price.
+
+Do NOT choose only the lowest price.
+
+Preserve the exact multiple-rate structure from the supplied
+rate sheet.
+
+==================================================
+10. PER-ARCH / ADDITIONAL TOOTH
+==================================================
+
+Preserve important pricing qualifiers.
+
+Example:
+
+Denture - Lucitone
+(with Ordinary Teeth)
+
+₹3,200 / Per Arch
+
+Additional Per Tooth
+₹150
+
+Do not remove:
+
+Per Arch
+
+Additional Per Tooth
+
+upto 8 teeth RPD
+
+or other meaningful qualifiers.
+
+==================================================
+11. CATEGORY FILTERS
+==================================================
+
+Keep category filters, but make them compact.
+
+Categories:
+
+All
+Diagnostics
+Extraction
+Cleaning
+Fillings
+Root Canal
+Crowns
+Dentures & RPD
+
+Do not let the filter row become huge.
+
+On mobile:
+
+horizontal scrolling filter chips are acceptable.
+
+==================================================
+12. SEARCH
+==================================================
+
+Keep:
+
+Search treatments...
+
+Search must search ALL 46 treatments.
+
+Example:
+
+"crown"
+
+should show:
+
+Crown - Metal
+Crown - Half Ceramic
+Crown - Full Ceramic (PFM)
+Crown - MLS CAD CAM
+Crown - Zirconia
+Crown - Acrylic
+Crown - Metal Acrylic facing
+Single Crown Refixing
+Single Crown Removal...
+
+==================================================
+13. BOOK BUTTON
+==================================================
+
+Every treatment MUST have:
+
+BOOK
+
+button.
+
+Clicking BOOK should open appointment booking with that
+treatment already selected.
+
+Example:
+
+User clicks:
+
+Crown - Zirconia
+₹4,900
+BOOK
+
+Then booking page shows:
+
+Selected Treatment:
+Crown - Zirconia
+
+Price:
+₹4,900
+
+The patient should NOT have to select the treatment again.
+
+==================================================
+14. VIEW DETAILS
+==================================================
+
+Optional:
+
+VIEW DETAILS
+
+can open a modal.
+
+But the card itself MUST already show:
+
+Treatment Name
+Price
+
+Do not make users open a modal just to discover the price.
+
+==================================================
+15. TREATMENT COUNT
+==================================================
+
+Add a small indicator:
+
+46 Treatments
+
+near the section header.
+
+Example:
+
+TREATMENTS & PRICING
+
+46 treatments available
+
+This immediately tells visitors that the full catalogue is
+actually present.
+
+==================================================
+16. MOBILE LAYOUT
+==================================================
+
+On mobile:
+
+Treatment card should approximately contain:
+
+CATEGORY
+
+Treatment Name
+
+Short description
+
+PRICE
+
+[BOOK]
+
+No giant empty area.
+
+The current screenshot has too much vertical space before
+the important information.
+
+Reduce it.
+
+==================================================
+17. BOTTOM MOBILE BAR
+==================================================
+
+Keep the sticky bottom bar:
+
+CALL
+WHATSAPP
+BOOK
+
+But make sure it does NOT cover treatment prices or buttons.
+
+Add appropriate bottom padding to the page.
+
+==================================================
+18. IMPORTANT VISUAL RULE
+==================================================
+
+NORMAL FONT.
+
+NORMAL FONT.
+
+NORMAL FONT.
+
+I specifically do NOT want the current fancy/cursive typography.
+
+Everything should use a consistent modern sans-serif font.
+
+Treatment names:
+
+BOLD
+
+Prices:
+
+BOLD
+
+Buttons:
+
+SEMIBOLD
+
+Body:
+
+REGULAR
+
+==================================================
+19. FINAL RESULT
+==================================================
+
+When I open the Treatments section, I should immediately see:
+
+Treatment Name
+Price
+Book Button
+
+for the actual Dental Care treatments.
+
+I should NOT see:
+
+Generic placeholder content
+"Editable catalogue"
+Only one treatment
+Fake prices
+Hidden prices
+Cursive typography
+Huge empty cards
+
+The section should look like a professional dental clinic
+pricing catalogue.
+
+Think:
+
+"Apple-like clarity + modern healthcare UI"
+
+not:
+
+"Fancy editorial website."
+
+==================================================
+20. FINAL CHECK
+==================================================
+
+Before completing the update, verify:
+
+[ ] Current cursive font completely removed
+[ ] One normal sans-serif font used everywhere
+[ ] Treatment names are bold
+[ ] Prices are bold
+[ ] Prices are clearly visible
+[ ] All 46 treatments are present
+[ ] All provided prices are present
+[ ] Multiple prices preserved
+[ ] Per Arch preserved
+[ ] Additional Per Tooth preserved
+[ ] Search works
+[ ] Categories work
+[ ] BOOK works
+[ ] Treatment auto-selects in booking
+[ ] Cards are compact
+[ ] No excessive whitespace
+[ ] Mobile layout is compact
+[ ] Desktop grid shows multiple treatments
+[ ] No fake treatment information
+[ ] No fake prices
+
+DO NOT JUST CHANGE THE HEADING.
+
+Actually populate the complete treatment catalogue and pricing
+data and redesign the typography and card layout.
+
+THIS IS A REQUIRED FUNCTIONAL + UI FIX.

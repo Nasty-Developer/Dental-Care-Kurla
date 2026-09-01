@@ -90,107 +90,78 @@ type Treatment = {
   priceLabel?: string;
 };
 
+type TreatmentSeed = Pick<
+  Treatment,
+  'id' | 'name' | 'category' | 'shortDescription' | 'description' | 'price' | 'priceType' | 'icon'
+> &
+  Partial<Pick<Treatment, 'duration' | 'available' | 'featured' | 'faqs'>>;
+
+const makeTreatment = (seed: TreatmentSeed): Treatment => ({
+  duration: 'As advised',
+  available: true,
+  featured: false,
+  faqs: ['The dentist will explain suitability, steps, and the final cost at your visit.'],
+  ...seed,
+});
+
 const treatmentConfig: Treatment[] = [
-  {
-    id: 'consultation',
-    name: 'Dental Consultation',
-    category: 'general',
-    shortDescription: 'A considered first conversation about your oral health.',
-    description:
-      'A consultation gives you space to share what is on your mind and understand the next sensible step. Your dentist will talk through your concerns and answer questions without rushing.',
-    duration: '30 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: Stethoscope,
-    faqs: ['Do I need to know what treatment I need?', 'What should I bring to my first visit?'],
-  },
-  {
-    id: 'cleaning',
-    name: 'Dental Cleaning',
-    category: 'cleaning',
-    shortDescription: 'Professional cleaning and practical hygiene guidance.',
-    description:
-      'A cleaning appointment focuses on removing everyday build-up and understanding habits that support a healthier mouth. The exact approach depends on your needs and will be discussed with you.',
-    duration: '45 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: Sparkles,
-    faqs: ['How often should I book a cleaning?', 'Will the dentist explain home care?'],
-  },
-  {
-    id: 'filling',
-    name: 'Dental Filling',
-    category: 'restorative',
-    shortDescription: 'Care for a tooth that needs support and protection.',
-    description:
-      'A filling may be recommended when a tooth needs to be restored. Your dentist will explain the finding, the available options, and what the visit generally involves before treatment begins.',
-    duration: '45 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: ShieldCheck,
-    faqs: ['Will I know what my options are?', 'How long does a filling visit take?'],
-  },
-  {
-    id: 'root-canal',
-    name: 'Root Canal Treatment',
-    category: 'root-canal',
-    shortDescription: 'Thoughtful treatment planning for a tooth in pain.',
-    description:
-      'When the inside of a tooth needs attention, a root canal consultation helps clarify what is happening and what care may be appropriate. Timing and treatment steps vary by case.',
-    duration: '60–90 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: HeartPulse,
-    faqs: ['What happens after I request an appointment?', 'Will the dentist explain the next step?'],
-  },
-  {
-    id: 'smile-care',
-    name: 'Smile Care',
-    category: 'cosmetic',
-    shortDescription: 'Explore subtle, personal options for your smile.',
-    description:
-      'Smile care starts with a conversation about what you would like to change and what feels natural to you. Your dentist will discuss suitable options and their considerations.',
-    duration: '45 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: CircleCheck,
-    faqs: ['Can I ask questions before deciding?', 'Are prices discussed before treatment?'],
-  },
-  {
-    id: 'children',
-    name: 'Children’s Dentistry',
-    category: 'pediatric',
-    shortDescription: 'A gentle, unhurried introduction to dental care.',
-    description:
-      'Children’s visits are shaped around comfort, age, and what helps a young patient feel at ease. Share anything useful when requesting a visit so the team can prepare.',
-    duration: '30 min',
-    price: null,
-    priceType: 'custom',
-    available: true,
-    featured: false,
-    icon: ShieldCheck,
-    faqs: ['Can I request care for a child?', 'How can I prepare my child for a first visit?'],
-  },
+  makeTreatment({ id: 'case-paper', name: 'Case Paper', category: 'diagnostics', shortDescription: 'Clinic case documentation for your visit.', description: 'Case documentation as listed on the Dental Care rate sheet.', price: '₹50', priceType: 'fixed', icon: Stethoscope }),
+  makeTreatment({ id: 'x-ray', name: 'X-Ray', category: 'diagnostics', shortDescription: 'Dental imaging as advised by the dentist.', description: 'X-ray service as listed on the Dental Care rate sheet.', price: '₹100', priceType: 'fixed', icon: Stethoscope }),
+  makeTreatment({ id: 'simple-extraction', name: 'Simple Extraction / Mobile Tooth Extraction', category: 'extraction', shortDescription: 'Extraction service for a mobile or straightforward tooth.', description: 'The approach depends on the tooth and the clinical findings discussed with you.', price: '₹150–₹250', priceType: 'range', icon: ShieldCheck }),
+  makeTreatment({ id: 'complicated-extraction', name: 'Complicated / Root Pieces Extraction', category: 'extraction', shortDescription: 'Extraction service for a complicated tooth or root pieces.', description: 'The dentist will explain the expected steps after assessing the tooth.', price: '₹350', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'wisdom-tooth-extraction', name: 'Wisdom Tooth Extraction', category: 'extraction', shortDescription: 'Care for a wisdom tooth when extraction is advised.', description: 'Wisdom tooth extraction as listed on the Dental Care rate sheet.', price: '₹550', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'surgical-extraction-sutures', name: 'Surgical Extraction (with sutures)', category: 'extraction', shortDescription: 'Surgical extraction with sutures, as listed.', description: 'The dentist will discuss the procedure and aftercare before treatment.', price: '₹600–₹700', priceType: 'range', icon: ShieldCheck }),
+  makeTreatment({ id: 'surgical-extraction-oral-surgeon', name: 'Surgical Extraction (by Oral Surgeon)', category: 'extraction', shortDescription: 'Surgical extraction by an oral surgeon, as listed.', description: 'A referral or oral surgeon appointment can be discussed when appropriate.', price: '₹800–₹1800', priceType: 'range', icon: ShieldCheck }),
+  makeTreatment({ id: 'scaling-first-sitting', name: 'Cleaning/Scaling & Polishing (1st sitting)', category: 'cleaning', shortDescription: 'Cleaning, scaling and polishing for the first sitting.', description: 'Cleaning, scaling and polishing service as listed on the rate sheet.', price: '₹250', priceType: 'fixed', icon: Sparkles }),
+  makeTreatment({ id: 'scaling-additional-sitting', name: 'Cleaning/Scaling (additional sitting)', category: 'cleaning', shortDescription: 'Cleaning and scaling for an additional sitting.', description: 'Additional cleaning and scaling service as listed on the rate sheet.', price: '₹200', priceType: 'fixed', icon: Sparkles }),
+  makeTreatment({ id: 'polishing', name: 'Polishing', category: 'cleaning', shortDescription: 'Polishing service as listed on the rate sheet.', description: 'Polishing service with the final approach discussed at the visit.', price: '₹150', priceType: 'fixed', icon: Sparkles }),
+  makeTreatment({ id: 'filling-zinc-oxide', name: 'Filling - Zinc Oxide', category: 'fillings', shortDescription: 'Zinc oxide filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹100', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'filling-dycal', name: 'Filling - Dycal', category: 'fillings', shortDescription: 'Dycal filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'filling-silver-gic', name: 'Filling - Silver / GIC', category: 'fillings', shortDescription: 'Silver or GIC filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹350', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'filling-silver-gic-miracle', name: 'Filling - Silver + GIC (Miracle)', category: 'fillings', shortDescription: 'Silver and GIC combination filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹450', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'filling-sandwich', name: 'Filling - Sandwich Filling (GIC+Composite)', category: 'fillings', shortDescription: 'GIC and composite sandwich filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹650', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'filling-composite', name: 'Filling - Composite', category: 'fillings', shortDescription: 'Composite filling option.', description: 'A filling material option listed on the Dental Care rate sheet.', price: '₹600', priceType: 'fixed', icon: ShieldCheck }),
+  makeTreatment({ id: 'calplus', name: 'Calplus', category: 'root-canal', shortDescription: 'Calplus service as listed on the rate sheet.', description: 'Calplus service as listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'pulp-devitaliser', name: 'Pulp Devitaliser', category: 'root-canal', shortDescription: 'Pulp devitaliser service as listed.', description: 'Pulp devitaliser service as listed on the Dental Care rate sheet.', price: '₹100', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rct-hand-files', name: 'RCT using Hand Files', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Root canal treatment using hand files, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1200 / ₹1300 / ₹1400', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rct-hand-protapers', name: 'RCT using Hand ProTapers', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Root canal treatment using hand ProTapers, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1500 / ₹1700 / ₹1850', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rct-rotary-files', name: 'RCT using Rotary Files', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Root canal treatment using rotary files, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1700 / ₹1900 / ₹2000', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rerct-hand-files', name: 'RE-RCT using Hand Files', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Re-root canal treatment using hand files, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1400 / ₹1600 / ₹1700', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rerct-hand-protapers', name: 'RE-RCT using Hand ProTapers', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Re-root canal treatment using hand ProTapers, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1700 / ₹1900 / ₹2000', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'rerct-rotary-files', name: 'RE-RCT using Rotary Files', category: 'root-canal', shortDescription: 'Includes 2 x-ray + GIC/MM/Composite.', description: 'Re-root canal treatment using rotary files, including 2 x-ray + GIC/MM/Composite as listed on the rate sheet.', price: '₹1900 / ₹2100 / ₹2200', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'kids-rct', name: 'Kids RCT (Protaper/Rotary)', category: 'root-canal', shortDescription: 'Kids root canal service using Protaper/Rotary.', description: 'Kids root canal service as listed on the Dental Care rate sheet.', price: '₹1200', priceType: 'fixed', icon: HeartPulse }),
+  makeTreatment({ id: 'crown-metal', name: 'Crown - Metal', category: 'crowns', shortDescription: 'Metal crown option.', description: 'Metal crown option as listed on the Dental Care rate sheet.', price: '₹1100', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-half-ceramic', name: 'Crown - Half Ceramic', category: 'crowns', shortDescription: 'Half ceramic crown option.', description: 'Half ceramic crown option as listed on the Dental Care rate sheet.', price: '₹1600', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-full-ceramic-pfm', name: 'Crown - Full Ceramic (PFM)', category: 'crowns', shortDescription: 'Full ceramic PFM crown option.', description: 'Full ceramic PFM crown option as listed on the Dental Care rate sheet.', price: '₹1900', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-mls-cad-cam', name: 'Crown - MLS CAD CAM (10 yrs warranty)', category: 'crowns', shortDescription: 'MLS CAD CAM crown with 10 yrs warranty, as listed.', description: 'MLS CAD CAM crown option with the rate-sheet warranty qualifier.', price: '₹3700', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-zirconia', name: 'Crown - Zirconia (10 yrs warranty)', category: 'crowns', shortDescription: 'Zirconia crown with 10 yrs warranty, as listed.', description: 'Zirconia crown option with the rate-sheet warranty qualifier.', price: '₹4900', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-acrylic', name: 'Crown - Acrylic', category: 'crowns', shortDescription: 'Acrylic crown option.', description: 'Acrylic crown option as listed on the Dental Care rate sheet.', price: '₹850', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-metal-acrylic-facing', name: 'Crown - Metal Acrylic facing', category: 'crowns', shortDescription: 'Metal crown with acrylic facing option.', description: 'Metal acrylic facing crown option as listed on the rate sheet.', price: '₹1200', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-refixing', name: 'Single Crown Refixing', category: 'crowns', shortDescription: 'Refixing service for a single crown.', description: 'Single crown refixing service as listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-removal-crown-remover', name: 'Single Crown Removal using crown remover', category: 'crowns', shortDescription: 'Single crown removal using a crown remover.', description: 'Single crown removal service as listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-removal-regular-bur', name: 'Single Crown Removal (using regular bur)', category: 'crowns', shortDescription: 'Single crown removal using a regular bur.', description: 'Single crown removal service as listed on the Dental Care rate sheet.', price: '₹200', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'crown-removal-metal-cutting-bur', name: 'Single Crown Removal (using metal cutting bur)', category: 'crowns', shortDescription: 'Single crown removal using a metal cutting bur.', description: 'Single crown removal service as listed on the Dental Care rate sheet.', price: '₹450', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'denture-lucitone-ordinary', name: 'Denture - Lucitone (with Ordinary Teeth) - Per Arch', category: 'dentures-rpd', shortDescription: 'Lucitone denture with ordinary teeth · Per Arch.', description: 'Lucitone denture with ordinary teeth, priced per arch as listed on the rate sheet.', price: '₹3200 / Per Arch', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'denture-lucitone-imported', name: 'Denture - Lucitone (with Imported Teeth) - Per Arch', category: 'dentures-rpd', shortDescription: 'Lucitone denture with imported teeth · Per Arch.', description: 'Lucitone denture with imported teeth, priced per arch as listed on the rate sheet.', price: '₹4200 / Per Arch', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'denture-lucitone-metal-meshwork', name: 'Denture - Lucitone Metal Meshwork (with Ordinary Teeth) - Per Arch', category: 'dentures-rpd', shortDescription: 'Lucitone metal meshwork with ordinary teeth · Per Arch.', description: 'Lucitone metal meshwork denture with ordinary teeth, priced per arch as listed on the rate sheet.', price: '₹5600 / Per Arch', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'rpd-lucitone', name: 'RPD (incl. 1 tooth) - Lucitone (upto 8 teeth RPD)', category: 'dentures-rpd', shortDescription: 'Lucitone RPD including 1 tooth · upto 8 teeth RPD.', description: 'Lucitone RPD including 1 tooth, upto 8 teeth RPD, as listed on the rate sheet.', price: '₹1100', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'additional-per-tooth', name: 'Additional Per Tooth', category: 'dentures-rpd', shortDescription: 'Additional per tooth service.', description: 'Additional per tooth charge as listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'rpd-metal-meshwork', name: 'RPD (incl. 1 ordinary tooth) - Metal Meshwork (upto 8 teeth RPD)', category: 'dentures-rpd', shortDescription: 'Metal meshwork RPD including 1 ordinary tooth · upto 8 teeth RPD.', description: 'Metal meshwork RPD including 1 ordinary tooth, upto 8 teeth RPD, as listed on the rate sheet.', price: '₹2400', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'additional-per-tooth-ordinary', name: 'Additional Per Tooth (ordinary)', category: 'dentures-rpd', shortDescription: 'Additional ordinary tooth service.', description: 'Additional ordinary tooth charge as listed on the Dental Care rate sheet.', price: '₹150', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'additional-per-tooth-elsewhere', name: 'Additional Per Tooth in RPD (made from elsewhere)', category: 'dentures-rpd', shortDescription: 'Additional per tooth in an RPD made from elsewhere.', description: 'Additional per tooth in an RPD made from elsewhere, as listed on the rate sheet.', price: '₹350', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'one-clasp', name: 'One Clasp', category: 'dentures-rpd', shortDescription: 'One clasp service.', description: 'One clasp charge as listed on the Dental Care rate sheet.', price: '₹50', priceType: 'fixed', icon: CircleCheck }),
+  makeTreatment({ id: 'denture-repairing', name: 'Denture Repairing', category: 'dentures-rpd', shortDescription: 'Denture repairing service.', description: 'Denture repairing service as listed on the Dental Care rate sheet.', price: '₹400', priceType: 'fixed', icon: CircleCheck }),
 ];
 
 const categories = [
   ['all', 'All'],
-  ['general', 'General dentistry'],
-  ['cleaning', 'Cleaning & prevention'],
-  ['cosmetic', 'Cosmetic dentistry'],
-  ['restorative', 'Restorative dentistry'],
+  ['diagnostics', 'Diagnostics'],
+  ['extraction', 'Extraction'],
+  ['cleaning', 'Cleaning'],
+  ['fillings', 'Fillings'],
   ['root-canal', 'Root canal'],
-  ['pediatric', 'Pediatric dentistry'],
+  ['crowns', 'Crowns'],
+  ['dentures-rpd', 'Dentures & RPD'],
 ];
 
 const bookingConfig = {
@@ -353,15 +324,15 @@ function TreatmentCard({ treatment, onDetails, onBook }: { treatment: Treatment;
         <span className="icon-bubble"><Icon size={18} /></span>
         <span className="treatment-category">{treatment.category.replace('-', ' ')}</span>
       </div>
-      <div className="mt-8">
-        <h3 className="font-display text-[2rem] leading-[0.94] tracking-[-0.03em]">{treatment.name}</h3>
-        <p className="mt-3 min-h-[50px] text-sm leading-6 text-[hsl(var(--muted-foreground))]">{treatment.shortDescription}</p>
+      <div className="mt-5">
+        <h3 className="treatment-name">{treatment.name}</h3>
+        <p className="treatment-description">{treatment.shortDescription}</p>
       </div>
-      <div className="mt-7 grid grid-cols-2 border-y border-[hsl(var(--border))] py-3 text-xs">
-        <div><span className="block price-caption">Price</span><span className="mt-1 block font-semibold">{formatPrice(treatment)}</span></div>
-        <div><span className="block price-caption">Duration</span><span className="mt-1 flex items-center gap-1 font-semibold"><Clock3 size={13} className="text-[hsl(var(--primary))]" />{treatment.duration}</span></div>
+      <div className="treatment-card-info">
+        <div><span className="price-caption">Price</span><strong className="treatment-price">{formatPrice(treatment)}</strong></div>
+        <div><span className="price-caption">Duration</span><strong className="treatment-duration"><Clock3 size={13} />{treatment.duration}</strong></div>
       </div>
-      <div className="mt-5 flex items-center gap-4">
+      <div className="treatment-card-actions">
         <button onClick={onDetails} className="text-xs font-bold uppercase tracking-[0.12em] text-[hsl(var(--primary))] hover:underline" data-testid={`button-details-${treatment.id}`}>View details</button>
         <button onClick={onBook} className="button-small ml-auto" data-testid={`button-book-${treatment.id}`}>Book <ArrowUpRight size={14} /></button>
       </div>
@@ -665,14 +636,14 @@ function Home() {
         <QuickActions onBook={() => openBooking()} />
 
         <section id="treatments" className="container-clinic scroll-mt-20 py-20 md:py-28">
-          <div className="section-heading-row"><div><SectionLabel>Treatments & services</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">Care that meets<br /><em className="text-[hsl(var(--primary))]">you where you are.</em></h2></div><p className="max-w-sm text-sm leading-6 text-[hsl(var(--muted-foreground))]">Explore the editable treatment catalogue and choose the care you would like to ask about.</p></div>
+           <div className="section-heading-row"><div><SectionLabel>Treatments & pricing</SectionLabel><h2 className="treatments-heading">Dental Treatments &amp; Prices</h2></div><div className="treatment-section-intro"><strong>{treatmentConfig.length} treatments</strong><p>Explore our dental treatments and view the applicable rates.</p></div></div>
           <div className="catalogue-toolbar">
             <label className="search-field"><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search treatments..." aria-label="Search treatments" data-testid="input-treatment-search" /></label>
             <div className="category-scroll" aria-label="Treatment categories">{categories.map(([value, label]) => <button key={value} onClick={() => setCategory(value)} className={`category-pill ${category === value ? 'category-pill-active' : ''}`} data-testid={`filter-${value}`}>{label}</button>)}</div>
           </div>
           <div className="treatment-grid">{visibleTreatments.map((treatment) => <TreatmentCard key={treatment.id} treatment={treatment} onDetails={() => setDetailTreatment(treatment)} onBook={() => openBooking(treatment.id)} />)}</div>
           {!visibleTreatments.length && <div className="empty-catalogue">No treatments match that search. Try a different word or category.</div>}
-          <p className="catalogue-disclaimer">This is a configurable treatment catalogue. Prices and availability are to be updated by the clinic. Final treatment recommendations and costs are discussed with the dentist.</p>
+           <p className="catalogue-disclaimer">Rates are shown as provided on the Dental Care rate sheet. Final treatment recommendations and costs are discussed with the dentist.</p>
         </section>
 
         <section id="pricing" className="pricing-section scroll-mt-20">

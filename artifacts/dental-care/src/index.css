@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -65,8 +65,8 @@
   --sidebar-accent: 215 61% 20%;
   --sidebar-accent-foreground: 0 0% 100%;
   --app-font-sans: 'DM Sans', sans-serif;
-  --app-font-serif: 'Instrument Serif', Georgia, serif;
-  --app-font-mono: 'Space Mono', monospace;
+  --app-font-serif: 'DM Sans', sans-serif;
+  --app-font-mono: 'DM Sans', sans-serif;
   --radius: 0.85rem;
   --tracking-normal: 0em;
   --spacing: 0.25rem;
@@ -85,13 +85,14 @@
   * { box-sizing: border-box; @apply border-border; }
   html { scroll-behavior: smooth; }
   body { @apply font-sans antialiased bg-background text-foreground; margin: 0; }
+  em { font-style: normal; }
   button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
   button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid hsl(var(--accent)); outline-offset: 3px; }
   ::selection { background: hsl(var(--accent)); color: hsl(var(--foreground)); }
 }
 
 @layer utilities {
-  .font-display { font-family: var(--app-font-serif); }
+  .font-display { font-family: var(--app-font-sans); }
   .font-mono-ui { font-family: var(--app-font-mono); }
   .container-clinic { width: min(100% - 2.5rem, 1240px); margin-inline: auto; }
   .eyebrow { font-family: var(--app-font-mono); font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; }
@@ -160,13 +161,25 @@
 .category-pill { white-space: nowrap; padding: .55rem .8rem; border: 1px solid hsl(var(--border)); border-radius: 999px; color: hsl(var(--muted-foreground)); font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; transition: all .2s ease; }
 .category-pill:hover, .category-pill-active { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: white; }
 .treatment-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.treatment-card { display: flex; min-height: 320px; flex-direction: column; padding: 1.35rem; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: white; box-shadow: 0 3px 0 hsl(var(--primary) / .02); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.treatment-card { display: flex; min-height: 252px; flex-direction: column; padding: 1.1rem; border: 1px solid hsl(var(--border)); border-radius: .85rem; background: white; box-shadow: 0 3px 0 hsl(var(--primary) / .02); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
 .treatment-card:hover { transform: translateY(-4px); border-color: hsl(var(--primary) / .45); box-shadow: var(--shadow-sm); }
 .icon-bubble { display: inline-flex; width: 42px; height: 42px; align-items: center; justify-content: center; border-radius: .75rem; background: hsl(var(--secondary)); color: hsl(var(--primary)); }
 .treatment-category { margin-top: .4rem; color: hsl(var(--primary)); font: .55rem var(--app-font-mono); letter-spacing: .08em; text-transform: uppercase; }
 .treatment-card .price-caption { color: hsl(var(--muted-foreground)); }
+.treatment-name { margin: 0; min-height: 3.2rem; font-size: 1.25rem; font-weight: 700; line-height: 1.2; letter-spacing: -.02em; }
+.treatment-description { margin: .55rem 0 0; min-height: 2.4rem; color: hsl(var(--muted-foreground)); font-size: .72rem; line-height: 1.45; }
+.treatment-card-info { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: .75rem; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid hsl(var(--border)); }
+.treatment-card-info > div { min-width: 0; }
+.treatment-price { display: block; margin-top: .25rem; color: hsl(var(--primary)); font-size: 1.1rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.treatment-duration { display: flex; align-items: center; gap: .3rem; margin-top: .28rem; color: hsl(var(--foreground)); font-size: .68rem; font-weight: 600; line-height: 1.3; }
+.treatment-duration svg { flex: 0 0 auto; color: hsl(var(--primary)); }
+.treatment-card-actions { display: flex; align-items: center; gap: .7rem; margin-top: auto; padding-top: 1rem; }
+.treatment-card-actions .button-small { padding: .55rem .75rem; font-size: .68rem; }
 .empty-catalogue { padding: 3rem; border: 1px dashed hsl(var(--border)); border-radius: 1rem; color: hsl(var(--muted-foreground)); text-align: center; }
 .catalogue-disclaimer, .pricing-disclaimer { margin-top: 1.25rem; color: hsl(var(--muted-foreground)); font-size: .7rem; line-height: 1.6; }
+.treatments-heading { margin: 1.05rem 0 0; max-width: 42rem; font-size: clamp(2rem, 5vw, 3.3rem); font-weight: 700; line-height: 1.02; letter-spacing: -.05em; }
+.treatment-section-intro { max-width: 19rem; color: hsl(var(--muted-foreground)); font-size: .8rem; line-height: 1.55; }
+.treatment-section-intro strong { display: block; margin-bottom: .55rem; color: hsl(var(--primary)); font: .68rem var(--app-font-mono); letter-spacing: .12em; text-transform: uppercase; }
 
 .pricing-section { background: linear-gradient(125deg, hsl(219 70% 14%), hsl(212 83% 25%)); padding: 5rem 0; }
 .section-heading-light > p { color: hsl(0 0% 100% / .68); }
@@ -294,7 +307,12 @@
   .quick-action svg:last-child { display: none; }
   .section-heading-row { display: grid; gap: 1.25rem; }
   .treatment-grid { grid-template-columns: 1fr; }
-  .treatment-card { min-height: 290px; }
+  .treatment-card { min-height: 230px; }
+  .treatment-name { min-height: auto; font-size: 1.2rem; }
+  .treatment-description { min-height: auto; }
+  .treatment-section-intro { max-width: 100%; }
+  .treatment-card-info { margin-top: .85rem; }
+  .noise { padding-bottom: 3.6rem; }
   .pricing-section, .blue-feature-section, .faq-section, .final-cta { padding: 3.7rem 0; }
   .pricing-row { grid-template-columns: 1fr auto; gap: .4rem .8rem; padding: 1rem 0; }
   .pricing-row span:nth-child(2) { grid-column: 1; grid-row: 2; }

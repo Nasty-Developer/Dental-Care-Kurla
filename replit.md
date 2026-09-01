@@ -32,7 +32,7 @@ Premium, responsive Dental Care clinic website for appointment requests and pati
 
 - The public site is a single-page experience with anchored navigation so the booking CTA remains close to every key decision point.
 - Appointment submissions are modeled as pending requests, not confirmations; the UI and API both make the follow-up step explicit.
-- Treatment prices and availability are configuration-driven so the catalogue can be populated with clinic-approved values without editing multiple UI surfaces.
+- Treatment prices and availability are configuration-driven; the current catalogue contains all 46 supplied Dental Care rate-sheet entries and prices in one source.
 - Clinic contact details, map URL, doctors, and testimonials are centralized as editable configuration and intentionally default to empty when not provided.
 
 ## Product
@@ -46,7 +46,7 @@ The clinic brief prioritizes a premium, blue-led healthcare identity, intentiona
 ## Gotchas
 
 - The generated API client expects the appointment mutation body shape `{ data: AppointmentRequestInput }`.
-- Treatment catalogue values live in `treatmentConfig`; all price values are intentionally unset until supplied by the clinic.
+- Treatment catalogue values live in `treatmentConfig`; rate-sheet prices are shown exactly as supplied, while durations remain `As advised` because no durations were included in the rate sheet.
 - Keep the exact address in `artifacts/dental-care/src/App.tsx` and the API response aligned with the supplied reference.
 
 ## Pointers
