@@ -11,31 +11,41 @@ export interface HealthStatus {
 
 export interface AppointmentRequestInput {
   /** @minLength 2 */
-  name: string;
+  patientName: string;
   /** @minLength 10 */
   phone: string;
   /** @minLength 3 */
-  email: string;
+  email?: string;
   /** @minLength 1 */
-  service: string;
-  preferredDate: string;
+  treatmentId: string;
   /** @minLength 1 */
-  preferredTime: string;
+  treatmentName: string;
+  /** @nullable */
+  price: string | null;
+  date: string;
+  /** @minLength 1 */
+  time: string;
   /** @maxLength 1000 */
-  message?: string;
+  reason?: string;
 }
 
 export type AppointmentRequestStatus = typeof AppointmentRequestStatus[keyof typeof AppointmentRequestStatus];
 
 
 export const AppointmentRequestStatus = {
-  request_received: 'request_received',
+  pending: 'pending',
+  confirmed: 'confirmed',
+  cancelled: 'cancelled',
+  completed: 'completed',
+  rescheduled: 'rescheduled',
 } as const;
 
 export interface AppointmentRequest {
+  success: boolean;
   appointmentId: string;
   status: AppointmentRequestStatus;
-  receivedAt: string;
+  message: string;
+  receivedAt?: string;
   clinicAddress: string;
 }
 

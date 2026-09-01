@@ -21,7 +21,7 @@ export const HealthCheckResponse = zod.object({
  * Receives a patient appointment request for follow-up by the clinic team.
  * @summary Submit an appointment request
  */
-export const createAppointmentRequestBodyNameMin = 2;
+export const createAppointmentRequestBodyPatientNameMin = 2;
 
 export const createAppointmentRequestBodyPhoneMin = 10;
 
@@ -29,24 +29,29 @@ export const createAppointmentRequestBodyEmailMin = 3;
 
 
 
-export const createAppointmentRequestBodyMessageMax = 1000;
+
+export const createAppointmentRequestBodyReasonMax = 1000;
 
 
 
 export const CreateAppointmentRequestBody = zod.object({
-  "name": zod.string().min(createAppointmentRequestBodyNameMin),
+  "patientName": zod.string().min(createAppointmentRequestBodyPatientNameMin),
   "phone": zod.string().min(createAppointmentRequestBodyPhoneMin),
-  "email": zod.string().min(createAppointmentRequestBodyEmailMin),
-  "service": zod.string().min(1),
-  "preferredDate": zod.coerce.date(),
-  "preferredTime": zod.string().min(1),
-  "message": zod.string().max(createAppointmentRequestBodyMessageMax).optional()
+  "email": zod.string().min(createAppointmentRequestBodyEmailMin).optional(),
+  "treatmentId": zod.string().min(1),
+  "treatmentName": zod.string().min(1),
+  "price": zod.string().nullable(),
+  "date": zod.coerce.date(),
+  "time": zod.string().min(1),
+  "reason": zod.string().max(createAppointmentRequestBodyReasonMax).optional()
 })
 
 export const CreateAppointmentRequestResponse = zod.object({
+  "success": zod.boolean(),
   "appointmentId": zod.string(),
-  "status": zod.enum(['request_received']),
-  "receivedAt": zod.coerce.date(),
+  "status": zod.enum(['pending', 'confirmed', 'cancelled', 'completed', 'rescheduled']),
+  "message": zod.string(),
+  "receivedAt": zod.coerce.date().optional(),
   "clinicAddress": zod.string()
 })
 

@@ -8,16 +8,20 @@
 
 export interface AppointmentRequestInput {
   /** @minLength 2 */
-  name: string;
+  patientName: string;
   /** @minLength 10 */
   phone: string;
   /** @minLength 3 */
-  email: string;
+  email?: string;
   /** @minLength 1 */
-  service: string;
-  preferredDate: Date;
+  treatmentId: string;
   /** @minLength 1 */
-  preferredTime: string;
+  treatmentName: string;
+  /** @nullable */
+  price: string | null;
+  date: Date;
+  /** @minLength 1 */
+  time: string;
   /** @maxLength 1000 */
-  message?: string;
+  reason?: string;
 }

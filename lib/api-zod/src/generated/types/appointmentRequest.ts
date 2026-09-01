@@ -8,8 +8,10 @@
 import type { AppointmentRequestStatus } from './appointmentRequestStatus';
 
 export interface AppointmentRequest {
+  success: boolean;
   appointmentId: string;
   status: AppointmentRequestStatus;
-  receivedAt: Date;
+  message: string;
+  receivedAt?: Date;
   clinicAddress: string;
 }

@@ -63,7 +63,7 @@ components:
     AppointmentRequestInput:
       type: object
       properties:
-        name:
+        patientName:
           type: string
           minLength: 2
         phone:
@@ -72,42 +72,53 @@ components:
         email:
           type: string
           minLength: 3
-        service:
+        treatmentId:
           type: string
           minLength: 1
-        preferredDate:
+        treatmentName:
+          type: string
+          minLength: 1
+        price:
+          type: ["string", "null"]
+        date:
           type: string
           format: date
-        preferredTime:
+        time:
           type: string
           minLength: 1
-        message:
+        reason:
           type: string
           maxLength: 1000
       required:
-        - name
+        - patientName
         - phone
-        - email
-        - service
-        - preferredDate
-        - preferredTime
+        - treatmentId
+        - treatmentName
+        - price
+        - date
+        - time
     AppointmentRequest:
       type: object
       properties:
+        success:
+          type: boolean
         appointmentId:
           type: string
         status:
           type: string
-          enum: [request_received]
+          enum: [pending, confirmed, cancelled, completed, rescheduled]
+        message:
+          type: string
         receivedAt:
           type: string
           format: date-time
         clinicAddress:
           type: string
       required:
+        - success
         - appointmentId
         - status
-        - receivedAt
+        - message
         - clinicAddress
     ErrorResponse:
       type: object

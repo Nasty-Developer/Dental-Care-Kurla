@@ -22,8 +22,8 @@ Premium, responsive Dental Care clinic website for appointment requests and pati
 
 ## Where things live
 
-- `artifacts/dental-care/src/App.tsx` — clinic landing page, content configuration, responsive interactions, and appointment request UI
-- `artifacts/dental-care/src/index.css` — visual tokens, responsive layout, motion, and accessibility styles
+- `artifacts/dental-care/src/App.tsx` — treatment catalogue, pricing states, responsive interactions, and five-step appointment flow
+- `artifacts/dental-care/src/index.css` — blue visual system, compact responsive layout, booking states, motion, and accessibility styles
 - `artifacts/dental-care/public/clinic-atrium.png` — generated clinic interior visual used in the hero
 - `artifacts/api-server/src/routes/appointments.ts` — appointment request endpoint and validation
 - `lib/api-spec/openapi.yaml` — source of truth for the appointment request contract
@@ -31,12 +31,13 @@ Premium, responsive Dental Care clinic website for appointment requests and pati
 ## Architecture decisions
 
 - The public site is a single-page experience with anchored navigation so the booking CTA remains close to every key decision point.
-- Appointment submissions are modeled as requests, not confirmations; the UI and API both use `request_received` to avoid making an unverified medical scheduling promise.
+- Appointment submissions are modeled as pending requests, not confirmations; the UI and API both make the follow-up step explicit.
+- Treatment prices and availability are configuration-driven so the catalogue can be populated with clinic-approved values without editing multiple UI surfaces.
 - Clinic contact details, map URL, doctors, and testimonials are centralized as editable configuration and intentionally default to empty when not provided.
 
 ## Product
 
-Visitors can understand Dental Care's approach, explore care options, see the exact clinic location, review FAQs, and submit a preferred appointment request. The experience includes responsive navigation, mobile booking actions, request loading/error/success states, and a clinic request-desk availability indicator.
+Visitors can browse and search treatments, filter by category, inspect details, understand duration and pricing states, choose a preferred date/time, review an appointment summary, submit a pending appointment request, see the exact clinic location, and review FAQs. The experience includes responsive navigation, mobile action bar, booking loading/error/success states, and a clinic request-desk availability indicator.
 
 ## User preferences
 
@@ -45,6 +46,7 @@ The clinic brief prioritizes a premium, blue-led healthcare identity, intentiona
 ## Gotchas
 
 - The generated API client expects the appointment mutation body shape `{ data: AppointmentRequestInput }`.
+- Treatment catalogue values live in `treatmentConfig`; all price values are intentionally unset until supplied by the clinic.
 - Keep the exact address in `artifacts/dental-care/src/App.tsx` and the API response aligned with the supplied reference.
 
 ## Pointers

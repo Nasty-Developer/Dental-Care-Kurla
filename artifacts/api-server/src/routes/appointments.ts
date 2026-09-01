@@ -21,15 +21,17 @@ router.post("/appointments", (req, res) => {
   }
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(parsed.data.email)) {
+  if (parsed.data.email && !emailPattern.test(parsed.data.email)) {
     res.status(400).json({ error: "Please enter a valid email address." });
     return;
   }
 
   const response = CreateAppointmentRequestResponse.parse({
+    success: true,
     appointmentId: `DC-${randomUUID().slice(0, 8).toUpperCase()}`,
-    status: "request_received",
-    receivedAt: new Date(),
+    status: "pending",
+    message:
+      "We've received your appointment request. The clinic will contact you to confirm the appointment.",
     clinicAddress,
   });
 

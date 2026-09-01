@@ -1,14 +1,34 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import { useCreateAppointmentRequest, useHealthCheck, type AppointmentRequest, type AppointmentRequestInput } from '@workspace/api-client-react';
-import { ArrowUpRight, CalendarDays, Check, ChevronDown, CircleCheck, Clock3, MapPin, Menu, MessageCircle, Navigation, Phone, Send, ShieldCheck, Sparkles, Stethoscope, X } from 'lucide-react';
+import {
+  useCreateAppointmentRequest,
+  useHealthCheck,
+  type AppointmentRequest,
+  type AppointmentRequestInput,
+} from '@workspace/api-client-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  CalendarDays,
+  Check,
+  ChevronDown,
+  CircleCheck,
+  Clock3,
+  Filter,
+  HeartPulse,
+  Menu,
+  MessageCircle,
+  Navigation,
+  Phone,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  X,
+} from 'lucide-react';
 import { ErrorBoundary } from '@/components/error-boundary';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
@@ -22,9 +42,19 @@ import {
 const queryClient = new QueryClient();
 
 const clinicConfig = {
+  name: 'Dental Care',
   city: 'Mumbai',
   location: 'Kurla East, Mumbai - 400024',
-  address: 'Shop No: 01, Bldg No: 84, Navchaitanya CHS, Police Colony, Nehru Nagar, Kurla East - 400024',
+  addressLines: [
+    'Shop No: 01,',
+    'Bldg No: 84,',
+    'Navchaitanya CHS,',
+    'Police Colony,',
+    'Nehru Nagar,',
+    'Kurla East - 400024',
+  ],
+  address:
+    'Shop No: 01, Bldg No: 84, Navchaitanya CHS, Police Colony, Nehru Nagar, Kurla East - 400024',
   phone: '',
   email: '',
   whatsapp: '',
@@ -33,64 +63,241 @@ const clinicConfig = {
   testimonials: [] as Array<{ quote: string; name: string; detail: string }>,
 };
 
-const serviceOptions = [
-  { name: 'General dentistry', note: 'Everyday care, made unrushed.', icon: ShieldCheck },
-  { name: 'Preventive care', note: 'Keep small concerns small.', icon: Sparkles },
-  { name: 'Cosmetic dentistry', note: 'Subtle changes, considered well.', icon: CircleCheck },
-  { name: 'Restorative dentistry', note: 'Strong, natural-feeling solutions.', icon: Stethoscope },
-  { name: 'Children’s dentistry', note: 'A gentle first relationship with care.', icon: Check },
+type PriceType = 'fixed' | 'starting_from' | 'range' | 'custom';
+
+type Treatment = {
+  id: string;
+  name: string;
+  category: string;
+  shortDescription: string;
+  description: string;
+  duration: string;
+  price: string | null;
+  priceType: PriceType;
+  available: boolean;
+  featured: boolean;
+  icon: typeof ShieldCheck;
+  faqs: string[];
+};
+
+const treatmentConfig: Treatment[] = [
+  {
+    id: 'consultation',
+    name: 'Dental Consultation',
+    category: 'general',
+    shortDescription: 'A considered first conversation about your oral health.',
+    description:
+      'A consultation gives you space to share what is on your mind and understand the next sensible step. Your dentist will talk through your concerns and answer questions without rushing.',
+    duration: '30 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: Stethoscope,
+    faqs: ['Do I need to know what treatment I need?', 'What should I bring to my first visit?'],
+  },
+  {
+    id: 'cleaning',
+    name: 'Dental Cleaning',
+    category: 'cleaning',
+    shortDescription: 'Professional cleaning and practical hygiene guidance.',
+    description:
+      'A cleaning appointment focuses on removing everyday build-up and understanding habits that support a healthier mouth. The exact approach depends on your needs and will be discussed with you.',
+    duration: '45 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: Sparkles,
+    faqs: ['How often should I book a cleaning?', 'Will the dentist explain home care?'],
+  },
+  {
+    id: 'filling',
+    name: 'Dental Filling',
+    category: 'restorative',
+    shortDescription: 'Care for a tooth that needs support and protection.',
+    description:
+      'A filling may be recommended when a tooth needs to be restored. Your dentist will explain the finding, the available options, and what the visit generally involves before treatment begins.',
+    duration: '45 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: ShieldCheck,
+    faqs: ['Will I know what my options are?', 'How long does a filling visit take?'],
+  },
+  {
+    id: 'root-canal',
+    name: 'Root Canal Treatment',
+    category: 'root-canal',
+    shortDescription: 'Thoughtful treatment planning for a tooth in pain.',
+    description:
+      'When the inside of a tooth needs attention, a root canal consultation helps clarify what is happening and what care may be appropriate. Timing and treatment steps vary by case.',
+    duration: '60–90 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: HeartPulse,
+    faqs: ['What happens after I request an appointment?', 'Will the dentist explain the next step?'],
+  },
+  {
+    id: 'smile-care',
+    name: 'Smile Care',
+    category: 'cosmetic',
+    shortDescription: 'Explore subtle, personal options for your smile.',
+    description:
+      'Smile care starts with a conversation about what you would like to change and what feels natural to you. Your dentist will discuss suitable options and their considerations.',
+    duration: '45 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: CircleCheck,
+    faqs: ['Can I ask questions before deciding?', 'Are prices discussed before treatment?'],
+  },
+  {
+    id: 'children',
+    name: 'Children’s Dentistry',
+    category: 'pediatric',
+    shortDescription: 'A gentle, unhurried introduction to dental care.',
+    description:
+      'Children’s visits are shaped around comfort, age, and what helps a young patient feel at ease. Share anything useful when requesting a visit so the team can prepare.',
+    duration: '30 min',
+    price: null,
+    priceType: 'custom',
+    available: true,
+    featured: false,
+    icon: ShieldCheck,
+    faqs: ['Can I request care for a child?', 'How can I prepare my child for a first visit?'],
+  },
 ];
 
+const categories = [
+  ['all', 'All'],
+  ['general', 'General dentistry'],
+  ['cleaning', 'Cleaning & prevention'],
+  ['cosmetic', 'Cosmetic dentistry'],
+  ['restorative', 'Restorative dentistry'],
+  ['root-canal', 'Root canal'],
+  ['pediatric', 'Pediatric dentistry'],
+];
+
+const bookingConfig = {
+  availableDays: [1, 2, 3, 4, 5, 6],
+  timeSlots: ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '4:00 PM', '4:30 PM', '5:00 PM'],
+};
+
 const bookingSchema = z.object({
-  name: z.string().min(2, 'Please enter your name.'),
-  phone: z.string().min(10, 'Please enter a reachable phone number.'),
-  email: z.string().min(3, 'Please enter your email address.').email('Please check your email address.'),
-  service: z.string().min(1, 'Please choose what you would like help with.'),
-  preferredDate: z.string().min(1, 'Please choose a preferred date.'),
-  preferredTime: z.string().min(1, 'Please choose a preferred time.'),
-  message: z.string().max(1000, 'Please keep your note under 1000 characters.').optional(),
+  patientName: z.string().min(2, 'Please enter your name.'),
+  phone: z
+    .string()
+    .regex(/^(?:\+91[\s-]?)?[6-9]\d{9}$/, 'Please enter a valid Indian phone number.'),
+  email: z.union([z.literal(''), z.string().email('Please check your email address.')]),
+  age: z.string(),
+  reason: z.string().max(1000, 'Please keep your note under 1000 characters.'),
 });
 
-type BookingValues = z.infer<typeof bookingSchema>;
+type BookingDraft = {
+  treatmentId: string;
+  date: string;
+  time: string;
+  patientName: string;
+  phone: string;
+  email: string;
+  age: string;
+  reason: string;
+};
 
-function BrandMark() {
+const initialDraft: BookingDraft = {
+  treatmentId: '',
+  date: '',
+  time: '',
+  patientName: '',
+  phone: '',
+  email: '',
+  age: '',
+  reason: '',
+};
+
+function formatPrice(treatment: Treatment) {
+  if (!treatment.price) return 'Price to be updated';
+  if (treatment.priceType === 'starting_from') return `Starting from ${treatment.price}`;
+  return treatment.price;
+}
+
+function formatLongDate(value: string) {
+  if (!value) return 'Not selected';
+  return new Intl.DateTimeFormat('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(`${value}T12:00:00`));
+}
+
+function todayKey() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+function getCalendarDays(month: Date) {
+  const first = new Date(month.getFullYear(), month.getMonth(), 1);
+  const last = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+  const leading = Array.from({ length: first.getDay() }, () => null as Date | null);
+  const days = Array.from({ length: last.getDate() }, (_, index) => new Date(month.getFullYear(), month.getMonth(), index + 1));
+  return [...leading, ...days] as Array<Date | null>;
+}
+
+function BrandMark({ light = false }: { light?: boolean }) {
   return (
     <div className="flex items-center gap-3" data-testid="brand-clinic">
-      <div className="relative flex size-10 items-center justify-center rounded-full bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]">
+      <div className={`brand-mark ${light ? 'brand-mark-light' : ''}`}>
         <span className="font-display text-[1.7rem] leading-none">d</span>
         <span className="absolute bottom-[7px] right-[8px] size-1.5 rounded-full bg-[hsl(var(--accent))]" />
       </div>
       <div className="leading-none">
-        <div className="font-semibold tracking-[-0.03em] text-[hsl(var(--foreground))]">Dental Care</div>
-        <div className="mt-1 text-[0.62rem] font-mono-ui uppercase tracking-[0.16em] text-[hsl(var(--muted-foreground))]">Kurla East · Mumbai</div>
+        <div className={`font-semibold tracking-[-0.03em] ${light ? 'text-white' : 'text-[hsl(var(--foreground))]'}`}>Dental Care</div>
+        <div className={`mt-1 text-[0.6rem] font-mono-ui uppercase tracking-[0.16em] ${light ? 'text-white/55' : 'text-[hsl(var(--muted-foreground))]'}`}>Kurla East · Mumbai</div>
       </div>
     </div>
   );
 }
 
-function Header({ onBook }: { onBook: () => void }) {
+function Header({ onBook }: { onBook: (treatmentId?: string) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const links = [['Our approach', '#approach'], ['Care options', '#care'], ['What to expect', '#expect']];
+  const links = [
+    ['Home', '#top'],
+    ['Treatments', '#treatments'],
+    ['Pricing', '#pricing'],
+    ['About', '#about'],
+    ['Why us', '#why-us'],
+    ['FAQ', '#faq'],
+    ['Contact', '#contact'],
+  ];
   const go = () => setMenuOpen(false);
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
-      <div className="container-clinic flex h-[88px] items-center justify-between">
+    <header className="site-header">
+      <div className="container-clinic flex h-[78px] items-center justify-between">
         <a href="#top" onClick={go} data-testid="link-home"><BrandMark /></a>
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
-          {links.map(([label, href]) => <a key={href} href={href} className="text-sm text-[hsl(var(--muted-foreground))] transition-colors hover:text-[hsl(var(--foreground))]" data-testid={`link-${label.toLowerCase().replaceAll(' ', '-')}`}>{label}</a>)}
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary navigation">
+          {links.map(([label, href]) => (
+            <a key={href} href={href} className="nav-link" onClick={go} data-testid={`link-${label.toLowerCase().replaceAll(' ', '-')}`}>{label}</a>
+          ))}
         </nav>
-        <button onClick={onBook} className="hidden items-center gap-2 rounded-full bg-[hsl(var(--primary))] px-5 py-3 text-sm font-semibold text-[hsl(var(--primary-foreground))] transition-transform hover:-translate-y-0.5 md:flex" data-testid="button-header-book">
-          Request a visit <ArrowUpRight size={16} />
+        <button onClick={() => onBook()} className="button-primary hidden items-center gap-2 px-5 py-3 text-sm lg:flex" data-testid="button-header-book">
+          Book appointment <ArrowUpRight size={16} />
         </button>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-full border border-[hsl(var(--border))] p-2.5 md:hidden" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
+        <button onClick={() => setMenuOpen(!menuOpen)} className="menu-button lg:hidden" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
           {menuOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
       </div>
       {menuOpen && (
-        <div className="container-clinic md:hidden">
-          <nav className="rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-3 shadow-[var(--shadow-md)]" aria-label="Mobile navigation">
-            {links.map(([label, href]) => <a key={href} href={href} onClick={go} className="block rounded-xl px-4 py-3 text-sm hover:bg-[hsl(var(--muted))]" data-testid={`mobile-link-${label.toLowerCase().replaceAll(' ', '-')}`}>{label}</a>)}
-            <button onClick={() => { go(); onBook(); }} className="mt-1 flex w-full items-center justify-between rounded-xl bg-[hsl(var(--primary))] px-4 py-3 text-sm font-semibold text-[hsl(var(--primary-foreground))]" data-testid="button-mobile-book">Request a visit <ArrowUpRight size={16} /></button>
+        <div className="container-clinic lg:hidden">
+          <nav className="mobile-nav" aria-label="Mobile navigation">
+            {links.map(([label, href]) => <a key={href} href={href} onClick={go} className="mobile-nav-link" data-testid={`mobile-link-${label.toLowerCase().replaceAll(' ', '-')}`}>{label}</a>)}
+            <button onClick={() => { go(); onBook(); }} className="button-primary mt-2 flex w-full items-center justify-between px-5 py-3.5" data-testid="button-mobile-book">Book appointment <ArrowUpRight size={16} /></button>
           </nav>
         </div>
       )}
@@ -99,173 +306,399 @@ function Header({ onBook }: { onBook: () => void }) {
 }
 
 function SectionLabel({ children, light = false }: { children: string; light?: boolean }) {
-  return <div className={`eyebrow flex items-center gap-3 ${light ? 'text-[hsl(var(--sidebar-primary))]' : 'text-[hsl(var(--primary))]'}`}><span className="h-px w-8 bg-current" />{children}</div>;
+  return <div className={`eyebrow flex items-center gap-3 ${light ? 'text-[hsl(var(--accent-light))]' : 'text-[hsl(var(--primary))]'}`}><span className="h-px w-8 bg-current" />{children}</div>;
 }
 
-function BookingForm() {
+function QuickActions({ onBook }: { onBook: () => void }) {
+  const actions = [
+    { label: 'Book appointment', icon: CalendarDays, action: onBook },
+    { label: 'View treatments', icon: Stethoscope, href: '#treatments' },
+    { label: 'View pricing', icon: Filter, href: '#pricing' },
+    { label: 'Get directions', icon: Navigation, href: clinicConfig.mapUrl || undefined },
+    { label: 'Call clinic', icon: Phone, href: clinicConfig.phone ? `tel:${clinicConfig.phone}` : undefined },
+  ];
+  return (
+    <section className="quick-actions" aria-label="Quick actions">
+      <div className="container-clinic grid grid-cols-2 md:grid-cols-5">
+        {actions.map(({ label, icon: Icon, href, action }) => href ? (
+          <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" className={`quick-action ${!href ? 'quick-action-disabled' : ''}`} data-testid={`quick-${label.toLowerCase().replaceAll(' ', '-')}`}>
+            <Icon size={17} /><span>{label}</span><ArrowUpRight size={14} className="ml-auto opacity-60" />
+          </a>
+        ) : action ? (
+          <button key={label} onClick={action} className="quick-action text-left" data-testid={`quick-${label.toLowerCase().replaceAll(' ', '-')}`}><Icon size={17} /><span>{label}</span><ArrowUpRight size={14} className="ml-auto opacity-60" /></button>
+        ) : (
+          <span key={label} className="quick-action quick-action-disabled"><Icon size={17} /><span>{label}</span></span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TreatmentCard({ treatment, onDetails, onBook }: { treatment: Treatment; onDetails: () => void; onBook: () => void }) {
+  const Icon = treatment.icon;
+  return (
+    <article className="treatment-card" data-testid={`card-treatment-${treatment.id}`}>
+      <div className="flex items-start justify-between gap-3">
+        <span className="icon-bubble"><Icon size={18} /></span>
+        <span className="treatment-category">{treatment.category.replace('-', ' ')}</span>
+      </div>
+      <div className="mt-8">
+        <h3 className="font-display text-[2rem] leading-[0.94] tracking-[-0.03em]">{treatment.name}</h3>
+        <p className="mt-3 min-h-[50px] text-sm leading-6 text-[hsl(var(--muted-foreground))]">{treatment.shortDescription}</p>
+      </div>
+      <div className="mt-7 grid grid-cols-2 border-y border-[hsl(var(--border))] py-3 text-xs">
+        <div><span className="block price-caption">Price</span><span className="mt-1 block font-semibold">{formatPrice(treatment)}</span></div>
+        <div><span className="block price-caption">Duration</span><span className="mt-1 flex items-center gap-1 font-semibold"><Clock3 size={13} className="text-[hsl(var(--primary))]" />{treatment.duration}</span></div>
+      </div>
+      <div className="mt-5 flex items-center gap-4">
+        <button onClick={onDetails} className="text-xs font-bold uppercase tracking-[0.12em] text-[hsl(var(--primary))] hover:underline" data-testid={`button-details-${treatment.id}`}>View details</button>
+        <button onClick={onBook} className="button-small ml-auto" data-testid={`button-book-${treatment.id}`}>Book <ArrowUpRight size={14} /></button>
+      </div>
+    </article>
+  );
+}
+
+function TreatmentDetail({ treatment, onClose, onBook }: { treatment: Treatment; onClose: () => void; onBook: () => void }) {
+  const Icon = treatment.icon;
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div className="dialog-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <div className="detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button onClick={onClose} className="dialog-close" aria-label="Close treatment details"><X size={19} /></button>
+        <div className="icon-bubble size-12"><Icon size={20} /></div>
+        <div className="eyebrow mt-7 text-[hsl(var(--primary))]">{treatment.category.replace('-', ' ')} · {treatment.duration}</div>
+        <h2 id="detail-title" className="mt-3 max-w-lg font-display text-5xl leading-[0.9] tracking-[-0.04em]">{treatment.name}</h2>
+        <p className="mt-6 max-w-xl text-base leading-7 text-[hsl(var(--muted-foreground))]">{treatment.description}</p>
+        <div className="mt-8 grid gap-4 border-y border-[hsl(var(--border))] py-5 sm:grid-cols-2">
+          <div><span className="price-caption">Price</span><p className="mt-1 font-semibold">{formatPrice(treatment)}</p></div>
+          <div><span className="price-caption">Appointment length</span><p className="mt-1 font-semibold">{treatment.duration}</p></div>
+        </div>
+        <div className="mt-7">
+          <p className="price-caption">Questions this visit can help answer</p>
+          <ul className="mt-3 space-y-2 text-sm text-[hsl(var(--muted-foreground))]">{treatment.faqs.map((faq) => <li key={faq} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-[hsl(var(--primary))]" />{faq}</li>)}</ul>
+        </div>
+        <button onClick={onBook} className="button-primary mt-8 inline-flex items-center gap-2 px-6 py-3.5">Book this treatment <ArrowUpRight size={16} /></button>
+      </div>
+    </div>
+  );
+}
+
+function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: string; onClose: () => void }) {
+  const [step, setStep] = useState(1);
+  const [draft, setDraft] = useState<BookingDraft>({ ...initialDraft, treatmentId: initialTreatmentId || '' });
+  const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const [error, setError] = useState('');
   const [result, setResult] = useState<AppointmentRequest | null>(null);
   const createRequest = useCreateAppointmentRequest();
-  const form = useForm<BookingValues>({
-    resolver: zodResolver(bookingSchema),
-    defaultValues: { name: '', phone: '', email: '', service: '', preferredDate: '', preferredTime: '', message: '' },
-  });
+  const selectedTreatment = treatmentConfig.find((item) => item.id === draft.treatmentId);
+  const calendarDays = useMemo(() => getCalendarDays(month), [month]);
 
-  const onSubmit = (values: BookingValues) => {
-    const payload: AppointmentRequestInput = { ...values, message: values.message?.trim() || undefined };
-    createRequest.mutate({ data: payload }, { onSuccess: (response) => { setResult(response); form.reset(); } });
+  const update = <K extends keyof BookingDraft>(key: K, value: BookingDraft[K]) => {
+    setDraft((current) => ({ ...current, [key]: value }));
+    setError('');
   };
 
-  if (result) {
+  const validateStep = () => {
+    if (step === 1 && !draft.treatmentId) return 'Please select a treatment.';
+    if (step === 2 && !draft.date) return 'Please choose a date.';
+    if (step === 3 && !draft.time) return 'Please select a time slot.';
+    if (step === 4) {
+      const parsed = bookingSchema.safeParse({
+        patientName: draft.patientName,
+        phone: draft.phone,
+        email: draft.email,
+        age: draft.age,
+        reason: draft.reason,
+      });
+      if (!parsed.success) return parsed.error.issues[0]?.message || 'Please check your details.';
+    }
+    return '';
+  };
+
+  const next = () => {
+    const validation = validateStep();
+    if (validation) {
+      setError(validation);
+      return;
+    }
+    setError('');
+    setStep((current) => Math.min(current + 1, 5));
+  };
+
+  const submit = () => {
+    const validation = validateStep();
+    if (validation || !selectedTreatment) {
+      setError(validation || 'Please select a treatment.');
+      return;
+    }
+    const payload: AppointmentRequestInput = {
+      patientName: draft.patientName.trim(),
+      phone: draft.phone.trim(),
+      email: draft.email.trim() || undefined,
+      treatmentId: selectedTreatment.id,
+      treatmentName: selectedTreatment.name,
+      price: selectedTreatment.price,
+      date: draft.date,
+      time: draft.time,
+      reason: draft.reason.trim() || undefined,
+    };
+    createRequest.mutate({ data: payload }, { onSuccess: (response) => setResult(response) });
+  };
+
+  const progress = ['Treatment', 'Date', 'Time', 'Details', 'Review'];
+
+  if (result && selectedTreatment) {
     return (
-      <div className="rounded-[2rem] border border-[hsl(var(--sidebar-primary)/0.28)] bg-[hsl(var(--sidebar-accent))] p-7 md:p-10" data-testid="status-request-received">
-        <div className="flex size-14 items-center justify-center rounded-full bg-[hsl(var(--sidebar-primary))] text-[hsl(var(--sidebar-primary-foreground))]"><CircleCheck size={27} /></div>
-        <div className="mt-8 max-w-lg">
-          <div className="eyebrow text-[hsl(var(--sidebar-primary))]">Request received</div>
-          <h3 className="mt-3 font-display text-4xl leading-[0.95] text-[hsl(var(--sidebar-foreground))] md:text-5xl">Thank you for reaching out.</h3>
-          <p className="mt-5 text-base leading-7 text-[hsl(var(--sidebar-foreground)/0.72)]">Our clinic team has received your request. We will follow up to understand what you need and find a suitable time. This is a request, not an appointment confirmation.</p>
-          <div className="mt-8 grid gap-3 border-t border-[hsl(var(--sidebar-primary)/0.2)] pt-5 text-sm text-[hsl(var(--sidebar-foreground)/0.72)] sm:grid-cols-2">
-            <div><span className="block font-mono-ui text-[0.62rem] uppercase tracking-[0.14em] text-[hsl(var(--sidebar-primary))]">Reference</span><span className="mt-1 block text-[hsl(var(--sidebar-foreground))]" data-testid="text-appointment-reference">{result.appointmentId}</span></div>
-            <div><span className="block font-mono-ui text-[0.62rem] uppercase tracking-[0.14em] text-[hsl(var(--sidebar-primary))]">Received</span><span className="mt-1 block text-[hsl(var(--sidebar-foreground))]" data-testid="text-request-status">Request received</span></div>
+      <div className="dialog-backdrop">
+        <div className="booking-dialog booking-success" role="dialog" aria-modal="true" aria-labelledby="success-title">
+          <button onClick={onClose} className="dialog-close" aria-label="Close booking"><X size={19} /></button>
+          <div className="success-icon"><CircleCheck size={26} /></div>
+          <div className="eyebrow mt-7 text-[hsl(var(--primary))]">Appointment request received</div>
+          <h2 id="success-title" className="mt-3 font-display text-5xl leading-[0.9] tracking-[-0.04em]">Your next step is clear.</h2>
+          <p className="mt-5 max-w-xl text-base leading-7 text-[hsl(var(--muted-foreground))]">{result.message}</p>
+          <div className="summary-grid mt-8">
+            <div><span className="price-caption">Appointment ID</span><strong data-testid="text-appointment-id">{result.appointmentId}</strong></div>
+            <div><span className="price-caption">Status</span><strong className="capitalize" data-testid="text-appointment-status">{result.status}</strong></div>
+            <div><span className="price-caption">Treatment</span><strong>{selectedTreatment.name}</strong></div>
+            <div><span className="price-caption">Date & time</span><strong>{formatLongDate(draft.date)} · {draft.time}</strong></div>
           </div>
-          <button className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[hsl(var(--sidebar-primary))] underline-offset-4 hover:underline" onClick={() => setResult(null)} data-testid="button-new-request">Send another request <ArrowUpRight size={15} /></button>
+          <div className="mt-6 rounded-2xl bg-[hsl(var(--secondary))] p-5 text-sm leading-6">
+            <span className="price-caption">Dental Care</span>
+            <p className="mt-2">{clinicConfig.addressLines.map((line) => <span key={line} className="block">{line}</span>)}</p>
+          </div>
+          <button onClick={onClose} className="button-primary mt-8 inline-flex items-center gap-2 px-6 py-3.5">Done <ArrowUpRight size={16} /></button>
         </div>
       </div>
     );
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="rounded-[2rem] bg-[hsl(var(--card))] p-6 text-[hsl(var(--foreground))] shadow-[var(--shadow-md)] md:p-9" data-testid="form-appointment-request">
-        <div className="mb-7 flex items-start justify-between gap-4">
-          <div><div className="eyebrow text-[hsl(var(--primary))]">01 / Start here</div><h3 className="mt-3 font-display text-4xl leading-none md:text-5xl">Tell us what you need.</h3></div>
-          <div className="hidden rounded-full bg-[hsl(var(--secondary))] p-3 text-[hsl(var(--primary))] sm:block"><CalendarDays size={21} /></div>
+    <div className="dialog-backdrop booking-backdrop">
+      <div className="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+        <div className="booking-topbar">
+          <div><div className="eyebrow text-[hsl(var(--primary))]">Dental Care · booking</div><h2 id="booking-title" className="mt-2 font-display text-4xl leading-none">Book your visit.</h2></div>
+          <button onClick={onClose} className="dialog-close static" aria-label="Close booking"><X size={19} /></button>
         </div>
-        <div className="grid gap-x-5 gap-y-5 md:grid-cols-2">
-          <FormField control={form.control} name="name" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">Your name</FormLabel><FormControl><Input {...field} placeholder="How should we address you?" className="mt-1 h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4" data-testid="input-name" /></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="phone" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">Phone number</FormLabel><FormControl><Input {...field} type="tel" placeholder="A number we can reach you on" className="mt-1 h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4" data-testid="input-phone" /></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="email" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">Email address</FormLabel><FormControl><Input {...field} type="email" placeholder="you@example.com" className="mt-1 h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4" data-testid="input-email" /></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="service" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">I’m looking for</FormLabel><FormControl><select {...field} className="mt-1 h-12 w-full rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4 text-sm outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]" data-testid="select-service"><option value="">Choose a care option</option>{serviceOptions.map((service) => <option key={service.name} value={service.name}>{service.name}</option>)}</select></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="preferredDate" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">Preferred date</FormLabel><FormControl><Input {...field} type="date" className="mt-1 h-12 rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4" data-testid="input-date" /></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="preferredTime" render={({ field }) => <FormItem><FormLabel className="text-xs font-semibold">Preferred time</FormLabel><FormControl><select {...field} className="mt-1 h-12 w-full rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4 text-sm outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]" data-testid="select-time"><option value="">Choose a time window</option><option value="Morning">Morning</option><option value="Afternoon">Afternoon</option><option value="Evening">Evening</option></select></FormControl><FormMessage /></FormItem>} />
-          <FormField control={form.control} name="message" render={({ field }) => <FormItem className="md:col-span-2"><FormLabel className="text-xs font-semibold">A little more, if useful <span className="font-normal text-[hsl(var(--muted-foreground))]">(optional)</span></FormLabel><FormControl><Textarea {...field} placeholder="Tell us about a concern, sensitivity, or question." className="mt-1 min-h-[104px] resize-none rounded-xl border-[hsl(var(--border))] bg-[hsl(var(--background))] px-4 py-3" data-testid="input-message" /></FormControl><FormMessage /></FormItem>} />
+        <div className="booking-progress" aria-label="Booking progress">
+          {progress.map((label, index) => <div key={label} className={`progress-step ${step >= index + 1 ? 'progress-step-active' : ''}`}><span>{String(index + 1).padStart(2, '0')}</span><small>{label}</small></div>)}
         </div>
-        {createRequest.isError && <p className="mt-5 rounded-xl bg-[hsl(var(--destructive)/0.09)] px-4 py-3 text-sm text-[hsl(var(--destructive))]" data-testid="status-request-error">We could not send that request just now. Please try again.</p>}
-        <div className="mt-7 flex flex-col gap-4 border-t border-[hsl(var(--border))] pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-xs text-xs leading-5 text-[hsl(var(--muted-foreground))]">We’ll contact you to discuss availability. Your visit is only confirmed once our team speaks with you.</p>
-          <button type="submit" disabled={createRequest.isPending} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[hsl(var(--primary))] px-6 text-sm font-semibold text-[hsl(var(--primary-foreground))] transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" data-testid="button-submit-request">{createRequest.isPending ? 'Sending request…' : 'Send request'}<Send size={15} /></button>
+
+        {step === 1 && (
+          <div className="booking-section">
+            <SectionLabel>Step 01 · choose treatment</SectionLabel>
+            <h3 className="mt-4 font-display text-4xl leading-[0.93]">What would you like help with?</h3>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Choose the closest fit. You can ask questions when the clinic follows up.</p>
+            <div className="booking-treatment-list">
+              {treatmentConfig.filter((treatment) => treatment.available).map((treatment) => (
+                <button key={treatment.id} onClick={() => update('treatmentId', treatment.id)} className={`booking-treatment ${draft.treatmentId === treatment.id ? 'booking-treatment-selected' : ''}`} data-testid={`booking-treatment-${treatment.id}`}>
+                  <span><strong>{treatment.name}</strong><small>{treatment.duration} · {formatPrice(treatment)}</small></span>
+                  {draft.treatmentId === treatment.id ? <CircleCheck size={20} /> : <span className="select-mark">Select</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="booking-section">
+            <SectionLabel>Step 02 · choose date</SectionLabel>
+            <div className="booking-heading-row"><div><h3 className="mt-4 font-display text-4xl leading-[0.93]">When feels right?</h3><p className="mt-3 text-sm text-[hsl(var(--muted-foreground))]">Available dates are configurable and subject to confirmation.</p></div></div>
+            <div className="calendar-wrap">
+              <div className="calendar-head"><button onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} className="calendar-arrow" aria-label="Previous month"><ArrowLeft size={16} /></button><strong>{new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' }).format(month)}</strong><button onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} className="calendar-arrow" aria-label="Next month"><ArrowRight size={16} /></button></div>
+              <div className="calendar-grid calendar-weekdays">{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => <span key={day}>{day}</span>)}</div>
+              <div className="calendar-grid">{calendarDays.map((day, index) => {
+                if (!day) return <span key={`empty-${index}`} />;
+                const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
+                const isUnavailable = key < todayKey() || !bookingConfig.availableDays.includes(day.getDay());
+                return <button key={key} disabled={isUnavailable} onClick={() => update('date', key)} className={`calendar-day ${draft.date === key ? 'calendar-day-selected' : ''} ${key === todayKey() ? 'calendar-day-today' : ''}`} aria-label={formatLongDate(key)}>{day.getDate()}</button>;
+              })}</div>
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className="booking-section">
+            <SectionLabel>Step 03 · choose time</SectionLabel>
+            <h3 className="mt-4 font-display text-4xl leading-[0.93]">Find a good time.</h3>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Preferred slots are requests; the clinic team will confirm availability with you.</p>
+            <div className="selected-date-chip"><CalendarDays size={16} /> {formatLongDate(draft.date)}</div>
+            <div className="time-grid">{bookingConfig.timeSlots.map((slot) => <button key={slot} onClick={() => update('time', slot)} className={`time-slot ${draft.time === slot ? 'time-slot-selected' : ''}`}>{draft.time === slot && <Check size={15} />}{slot}</button>)}</div>
+          </div>
+        )}
+
+        {step === 4 && (
+          <div className="booking-section">
+            <SectionLabel>Step 04 · patient details</SectionLabel>
+            <h3 className="mt-4 font-display text-4xl leading-[0.93]">A few details, please.</h3>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Just enough for the clinic team to reach you. No unnecessary medical information.</p>
+            <div className="detail-form">
+              <label>Full name *<input value={draft.patientName} onChange={(event) => update('patientName', event.target.value)} placeholder="How should we address you?" autoComplete="name" data-testid="input-patient-name" /></label>
+              <label>Phone number *<input value={draft.phone} onChange={(event) => update('phone', event.target.value)} placeholder="+91 98765 43210" inputMode="tel" autoComplete="tel" data-testid="input-patient-phone" /></label>
+              <label>Email <span className="optional">(optional)</span><input value={draft.email} onChange={(event) => update('email', event.target.value)} placeholder="you@example.com" type="email" autoComplete="email" data-testid="input-patient-email" /></label>
+              <label>Age <span className="optional">(optional)</span><input value={draft.age} onChange={(event) => update('age', event.target.value)} placeholder="Age" inputMode="numeric" data-testid="input-patient-age" /></label>
+              <label className="sm:col-span-2">Reason for visit <span className="optional">(optional)</span><textarea value={draft.reason} onChange={(event) => update('reason', event.target.value)} placeholder="A concern, question, or anything useful to know." data-testid="input-visit-reason" /></label>
+            </div>
+          </div>
+        )}
+
+        {step === 5 && selectedTreatment && (
+          <div className="booking-section">
+            <SectionLabel>Step 05 · review</SectionLabel>
+            <h3 className="mt-4 font-display text-4xl leading-[0.93]">Does this look right?</h3>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">We will receive this as an appointment request and contact you before anything is confirmed.</p>
+            <div className="review-card">
+              <div className="review-card-heading"><span className="price-caption">Your appointment</span><CalendarDays size={19} className="text-[hsl(var(--primary))]" /></div>
+              <div className="review-grid">
+                <div><span className="price-caption">Treatment</span><strong>{selectedTreatment.name}</strong></div>
+                <div><span className="price-caption">Price</span><strong>{formatPrice(selectedTreatment)}</strong></div>
+                <div><span className="price-caption">Duration</span><strong>{selectedTreatment.duration}</strong></div>
+                <div><span className="price-caption">Date & time</span><strong>{formatLongDate(draft.date)} · {draft.time}</strong></div>
+                <div><span className="price-caption">Patient</span><strong>{draft.patientName}</strong></div>
+                <div><span className="price-caption">Phone</span><strong>{draft.phone}</strong></div>
+              </div>
+              <div className="review-address"><span className="price-caption">Clinic</span>{clinicConfig.addressLines.map((line) => <span key={line}>{line}</span>)}</div>
+            </div>
+            {createRequest.isError && <div className="booking-error" role="alert">Something went wrong. Your appointment request could not be submitted. Please try again.</div>}
+          </div>
+        )}
+
+        {error && <div className="booking-error" role="alert">{error}</div>}
+        <div className="booking-footer">
+          <button onClick={() => step === 1 ? onClose() : setStep((current) => current - 1)} className="button-ghost">{step === 1 ? 'Cancel' : <><ArrowLeft size={15} /> Back</>}</button>
+          {step < 5 ? <button onClick={next} className="button-primary inline-flex items-center gap-2 px-6 py-3.5">Continue <ArrowRight size={16} /></button> : <button onClick={submit} disabled={createRequest.isPending} className="button-primary inline-flex items-center gap-2 px-6 py-3.5 disabled:opacity-60">{createRequest.isPending ? 'Submitting request…' : 'Submit appointment request'}<ArrowUpRight size={16} /></button>}
         </div>
-      </form>
-    </Form>
+      </div>
+    </div>
   );
 }
 
 function ContactDetails() {
-  const items = [
-    clinicConfig.phone ? { icon: Phone, label: 'Phone', value: clinicConfig.phone, href: `tel:${clinicConfig.phone}` } : null,
-    clinicConfig.email ? { icon: Send, label: 'Email', value: clinicConfig.email, href: `mailto:${clinicConfig.email}` } : null,
-    clinicConfig.whatsapp ? { icon: MessageCircle, label: 'WhatsApp', value: clinicConfig.whatsapp, href: clinicConfig.whatsapp } : null,
-  ].filter(Boolean) as Array<{ icon: typeof Phone; label: string; value: string; href: string }>;
+  const hasContact = clinicConfig.phone || clinicConfig.email || clinicConfig.whatsapp;
   return (
-    <div className="space-y-5" data-testid="contact-details">
-      {items.length ? items.map(({ icon: Icon, label, value, href }) => <a key={label} href={href} className="flex items-center gap-3 text-sm hover:text-[hsl(var(--primary))]" data-testid={`link-${label.toLowerCase()}`}><span className="flex size-9 items-center justify-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--primary))]"><Icon size={16} /></span><span><span className="block font-mono-ui text-[0.6rem] uppercase tracking-[0.13em] text-[hsl(var(--muted-foreground))]">{label}</span><span className="mt-0.5 block">{value}</span></span></a>) : <p className="max-w-xs text-sm leading-6 text-[hsl(var(--muted-foreground))]">Phone, email and WhatsApp details are available from the clinic team.</p>}
-      {clinicConfig.mapUrl ? <a href={clinicConfig.mapUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm hover:text-[hsl(var(--primary))]" data-testid="link-map"><span className="flex size-9 items-center justify-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--primary))]"><Navigation size={16} /></span><span>Open map</span><ArrowUpRight size={14} /></a> : <p className="flex items-center gap-3 text-xs text-[hsl(var(--muted-foreground))]"><MapPin size={16} className="text-[hsl(var(--primary))]" /> Map link to be added</p>}
+    <div className="contact-list" data-testid="contact-details">
+      {clinicConfig.phone ? <a href={`tel:${clinicConfig.phone}`}><Phone size={16} /> <span><small>Phone</small>{clinicConfig.phone}</span></a> : null}
+      {clinicConfig.email ? <a href={`mailto:${clinicConfig.email}`}><MessageCircle size={16} /> <span><small>Email</small>{clinicConfig.email}</span></a> : null}
+      {clinicConfig.whatsapp ? <a href={clinicConfig.whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={16} /> <span><small>WhatsApp</small>Message the clinic</span></a> : null}
+      {!hasContact && <p className="text-sm leading-6 text-white/65">Phone, email, and WhatsApp details will appear here once configured by the clinic.</p>}
+      {clinicConfig.mapUrl ? <a href={clinicConfig.mapUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> <span><small>Location</small>Get directions</span><ArrowUpRight size={14} className="ml-auto" /></a> : <p className="flex items-center gap-2 text-xs text-white/55"><Navigation size={15} /> Map link to be added</p>}
     </div>
   );
 }
 
 function Home() {
   const [faq, setFaq] = useState<number | null>(0);
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('all');
+  const [detailTreatment, setDetailTreatment] = useState<Treatment | null>(null);
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingTreatmentId, setBookingTreatmentId] = useState<string | undefined>();
   const health = useHealthCheck();
-  const scrollToBooking = (service?: string) => {
-    if (service) {
-      const select = document.querySelector<HTMLSelectElement>('[data-testid="select-service"]');
-      if (select) { select.value = service; select.dispatchEvent(new Event('change', { bubbles: true })); }
-    }
-    document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+  const visibleTreatments = useMemo(() => treatmentConfig.filter((treatment) => {
+    const matchesCategory = category === 'all' || treatment.category === category;
+    const searchable = `${treatment.name} ${treatment.shortDescription} ${treatment.description}`.toLowerCase();
+    return matchesCategory && searchable.includes(query.toLowerCase());
+  }), [category, query]);
+  const openBooking = (treatmentId?: string) => {
+    setDetailTreatment(null);
+    setBookingTreatmentId(treatmentId);
+    setBookingOpen(true);
   };
   const faqItems = [
-    ['What happens after I send a request?', 'Your request goes to the clinic team for follow-up. We will speak with you about your concern and availability before anything is confirmed.'],
-    ['Can I request care for a child?', 'Yes. Choose Children’s dentistry in the request form and share anything that would help us make the first conversation comfortable.'],
+    ['How do I book an appointment?', 'Choose a treatment, preferred date, time, and share your contact details. Your request is sent to the clinic team for follow-up.'],
     ['Where is Dental Care located?', clinicConfig.address],
-    ['Do I need to know exactly what treatment I need?', 'Not at all. A concern, a question, or a wish to get back on track is enough to begin.'],
+    ['How do treatment prices work?', 'Prices are configurable and will be updated when the clinic provides its actual pricing. The final treatment cost is discussed based on your requirements.'],
+    ['Can I choose my preferred time?', 'Yes. Choose from the configured preferred slots. The clinic team will contact you to confirm availability.'],
+    ['What happens after I submit a request?', 'You will receive a request ID immediately. The clinic will contact you to confirm the appointment; submitting a request does not confirm a visit.'],
+    ['Can I contact the clinic through WhatsApp?', clinicConfig.whatsapp ? 'Yes. Use the WhatsApp link in the Contact section.' : 'WhatsApp details will be added here once configured by the clinic.'],
   ];
   return (
     <div id="top" className="noise min-h-[100dvh] overflow-hidden bg-[hsl(var(--background))]">
-      <Header onBook={() => scrollToBooking()} />
+      <Header onBook={openBooking} />
       <main>
-        <section className="relative pb-20 pt-32 md:pb-28 md:pt-44">
-          <div className="container-clinic grid items-center gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
-            <div className="reveal relative z-10">
-              <SectionLabel>Dental care, made human</SectionLabel>
-              <h1 className="text-balance mt-7 max-w-[650px] font-display text-[4.3rem] leading-[0.87] tracking-[-0.04em] text-[hsl(var(--foreground))] sm:text-[6.3rem] lg:text-[7.45rem]">A calmer way to care for your <em className="text-[hsl(var(--primary))]">smile.</em></h1>
-              <p className="reveal reveal-delay-1 mt-8 max-w-[430px] text-[1.05rem] leading-7 text-[hsl(var(--muted-foreground))]">Thoughtful dentistry for real life, right here in Kurla East. Clear explanations, modern care, and time to feel looked after.</p>
-              <div className="reveal reveal-delay-2 mt-9 flex flex-wrap items-center gap-4">
-                <button onClick={() => scrollToBooking()} className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--primary))] px-6 py-3.5 text-sm font-semibold text-[hsl(var(--primary-foreground))] transition-transform hover:-translate-y-0.5" data-testid="button-hero-book">Request a visit <ArrowUpRight size={16} /></button>
-                <a href="#approach" className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--border))] px-5 py-3.5 text-sm font-semibold text-[hsl(var(--foreground))] transition-colors hover:bg-[hsl(var(--muted))]" data-testid="link-hero-approach">How we work <span className="text-[hsl(var(--primary))]">↓</span></a>
+        <section className="hero-section">
+          <div className="hero-orb hero-orb-one" /><div className="hero-orb hero-orb-two" />
+          <div className="container-clinic relative z-10 grid items-center gap-10 py-28 lg:grid-cols-[0.92fr_1.08fr] lg:gap-12 lg:py-32">
+            <div className="max-w-xl">
+              <SectionLabel light>Dental Care · Kurla East, Mumbai</SectionLabel>
+              <h1 className="mt-6 max-w-[710px] font-display text-[4.25rem] leading-[0.86] tracking-[-0.05em] text-white sm:text-[6.5rem] lg:text-[7.35rem]">Confident<br /><span className="text-[hsl(var(--accent-light))]">smiles</span> start here.</h1>
+              <p className="mt-7 max-w-lg text-base leading-7 text-white/70 sm:text-lg">Modern dental care designed around your comfort, health, and smile.</p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <button onClick={() => openBooking()} className="button-light inline-flex items-center gap-2 px-6 py-3.5" data-testid="button-hero-book">Book an appointment <ArrowUpRight size={16} /></button>
+                <a href="#treatments" className="button-outline-light inline-flex items-center gap-2 px-5 py-3.5" data-testid="link-hero-treatments">View treatments & prices <ArrowRight size={16} /></a>
               </div>
-              <div className="reveal reveal-delay-3 mt-12 flex items-center gap-3 text-xs text-[hsl(var(--muted-foreground))]"><span className={`size-2 rounded-full ${health.isError ? 'bg-[hsl(var(--accent))]' : 'bg-[hsl(var(--primary))]'}`} /><span data-testid="status-clinic-availability">{health.isLoading ? 'Checking request desk' : health.isError ? 'Request desk available' : 'Request desk online'}</span><span className="text-[hsl(var(--border))]">/</span><span>{clinicConfig.location}</span></div>
+              <div className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-white/60"><span className="status-dot" /><span>{health.isLoading ? 'Checking request desk' : 'Request desk online'}</span><span className="text-white/25">/</span><span>Kurla East, Mumbai</span></div>
             </div>
-            <div className="reveal reveal-delay-1 relative min-h-[480px] lg:min-h-[625px]">
-              <div className="absolute -right-16 -top-12 size-64 rounded-full bg-[hsl(var(--secondary)/0.55)] blur-3xl" />
-              <div className="relative h-full overflow-hidden rounded-[2.2rem] bg-[hsl(var(--secondary))]">
-                <img src="/clinic-atrium.png" alt="Sunlit interior at Dental Care clinic" className="h-full min-h-[480px] w-full object-cover object-center mix-blend-multiply opacity-90 lg:min-h-[625px]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--foreground)/0.58)] via-transparent to-transparent" />
-                <div className="absolute left-5 top-5 rounded-full border border-[hsl(var(--card)/0.6)] bg-[hsl(var(--card)/0.78)] px-4 py-2 text-[0.68rem] font-semibold backdrop-blur-md md:left-7 md:top-7" data-testid="text-clinic-welcome">A neighborhood clinic, considered well.</div>
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4 text-[hsl(var(--card))] md:bottom-8 md:left-8 md:right-8"><div><div className="eyebrow text-[hsl(var(--card)/0.7)]">At a glance</div><div className="mt-2 text-sm">Care that starts with a conversation.</div></div><div className="flex size-12 items-center justify-center rounded-full border border-[hsl(var(--card)/0.55)]"><ArrowUpRight size={19} /></div></div>
-              </div>
-              <div className="absolute -bottom-8 -left-5 hidden w-44 rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 shadow-[var(--shadow-sm)] sm:block md:-left-12" data-testid="card-clinic-hours"><div className="flex items-center justify-between"><Clock3 size={17} className="text-[hsl(var(--primary))]" /><span className="font-mono-ui text-[0.6rem] uppercase tracking-[0.12em] text-[hsl(var(--muted-foreground))]">Good to know</span></div><div className="mt-7 font-display text-2xl">Take your time.</div><p className="mt-1 text-xs leading-5 text-[hsl(var(--muted-foreground))]">We leave room for questions.</p></div>
+            <div className="hero-visual">
+              <img src="/clinic-atrium.png" alt="Sunlit modern interior at Dental Care clinic" className="hero-image" />
+              <div className="hero-image-wash" />
+              <div className="hero-note"><Sparkles size={16} /><span>Care that starts<br />with a conversation.</span></div>
+              <div className="hero-stat"><span className="price-caption text-white/50">At a glance</span><strong>Clear care.<br />No pressure.</strong></div>
             </div>
           </div>
         </section>
+        <QuickActions onBook={() => openBooking()} />
 
-        <section className="border-y border-[hsl(var(--border))] bg-[hsl(var(--card)/0.5)]" aria-label="Clinic principles">
-          <div className="container-clinic grid gap-0 md:grid-cols-3">
-            {['Clear, kind explanations', 'Modern clinical thinking', 'A familiar local address'].map((item, index) => <div key={item} className={`flex items-center gap-4 py-5 text-sm ${index !== 0 ? 'border-t border-[hsl(var(--border))] md:border-l md:border-t-0 md:pl-8' : ''}`} data-testid={`text-principle-${index}`}><span className="font-mono-ui text-xs text-[hsl(var(--primary))]">0{index + 1}</span>{item}</div>)}
+        <section id="treatments" className="container-clinic scroll-mt-20 py-20 md:py-28">
+          <div className="section-heading-row"><div><SectionLabel>Treatments & services</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">Care that meets<br /><em className="text-[hsl(var(--primary))]">you where you are.</em></h2></div><p className="max-w-sm text-sm leading-6 text-[hsl(var(--muted-foreground))]">Explore the editable treatment catalogue and choose the care you would like to ask about.</p></div>
+          <div className="catalogue-toolbar">
+            <label className="search-field"><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search treatments..." aria-label="Search treatments" data-testid="input-treatment-search" /></label>
+            <div className="category-scroll" aria-label="Treatment categories">{categories.map(([value, label]) => <button key={value} onClick={() => setCategory(value)} className={`category-pill ${category === value ? 'category-pill-active' : ''}`} data-testid={`filter-${value}`}>{label}</button>)}</div>
           </div>
+          <div className="treatment-grid">{visibleTreatments.map((treatment) => <TreatmentCard key={treatment.id} treatment={treatment} onDetails={() => setDetailTreatment(treatment)} onBook={() => openBooking(treatment.id)} />)}</div>
+          {!visibleTreatments.length && <div className="empty-catalogue">No treatments match that search. Try a different word or category.</div>}
+          <p className="catalogue-disclaimer">This is a configurable treatment catalogue. Prices and availability are to be updated by the clinic. Final treatment recommendations and costs are discussed with the dentist.</p>
         </section>
 
-        <section id="approach" className="container-clinic scroll-mt-10 py-28 md:py-40">
-          <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
-            <div><SectionLabel>Our approach</SectionLabel><p className="mt-8 max-w-xs text-sm leading-6 text-[hsl(var(--muted-foreground))]">Good care is not only what happens during treatment. It is the feeling of understanding what comes next.</p></div>
-            <div><h2 className="text-balance max-w-3xl font-display text-[3.3rem] leading-[0.92] tracking-[-0.03em] sm:text-[5.5rem]">Good dentistry starts <span className="text-[hsl(var(--primary))]">before</span> the chair.</h2><p className="mt-9 max-w-xl text-lg leading-8 text-[hsl(var(--muted-foreground))]">We built Dental Care around a simple idea: when people feel heard, they make better decisions for their health. So we slow down the first conversation, explain the why, and plan care that fits.</p><div className="mt-12 grid gap-8 border-t border-[hsl(var(--border))] pt-8 sm:grid-cols-3">{[['Listen first', 'Your concerns set the direction.'], ['Explain clearly', 'No jargon. No pressure.'], ['Plan together', 'Care that respects your life.']].map(([title, body], index) => <div key={title} data-testid={`card-approach-${index}`}><div className="font-mono-ui text-xs text-[hsl(var(--primary))]">0{index + 1}</div><h3 className="mt-4 text-base font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-[hsl(var(--muted-foreground))]">{body}</p></div>)}</div></div>
-          </div>
-        </section>
-
-        <section id="care" className="bg-[hsl(var(--secondary)/0.45)] py-28 md:py-36">
+        <section id="pricing" className="pricing-section scroll-mt-20">
           <div className="container-clinic">
-            <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><SectionLabel>Care options</SectionLabel><h2 className="mt-6 max-w-xl font-display text-5xl leading-[0.9] tracking-[-0.03em] sm:text-6xl">The right care,<br /><em className="text-[hsl(var(--primary))]">at the right pace.</em></h2></div><p className="max-w-xs text-sm leading-6 text-[hsl(var(--muted-foreground))]">Start with what is on your mind. We will help you understand the rest.</p></div>
-            <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-[1.1fr_0.9fr_0.9fr]">
-              {serviceOptions.map((service, index) => { const Icon = service.icon; return <button key={service.name} onClick={() => scrollToBooking(service.name)} className={`group relative flex min-h-[210px] flex-col justify-between rounded-[1.5rem] border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-6 text-left transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)] ${index === 0 ? 'lg:row-span-2 lg:min-h-[435px] lg:p-8' : ''}`} data-testid={`button-care-${index}`}><div className="flex items-start justify-between"><span className="flex size-11 items-center justify-center rounded-full bg-[hsl(var(--secondary))] text-[hsl(var(--primary))]"><Icon size={19} /></span><ArrowUpRight size={18} className="text-[hsl(var(--muted-foreground))] transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" /></div><div><div className="font-mono-ui text-[0.62rem] uppercase tracking-[0.14em] text-[hsl(var(--primary))]">0{index + 1} / Care</div><h3 className={`mt-2 font-display text-3xl leading-none ${index === 0 ? 'lg:text-5xl' : ''}`}>{service.name}</h3><p className="mt-3 text-sm text-[hsl(var(--muted-foreground))]">{service.note}</p></div></button>; })}
+            <div className="section-heading-row section-heading-light"><div><SectionLabel light>Transparent treatment pricing</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-6xl">Know what to<br /><em className="text-[hsl(var(--accent-light))]">expect next.</em></h2></div><p className="max-w-sm text-sm leading-6 text-white/65">Actual Dental Care prices will be displayed here once supplied. Until then, nothing is presented as a clinic price.</p></div>
+            <div className="pricing-table" role="table" aria-label="Treatment pricing">
+              <div className="pricing-row pricing-head" role="row"><span>Treatment</span><span>Duration</span><span>Price</span><span /></div>
+              {treatmentConfig.map((treatment) => <div className="pricing-row" role="row" key={treatment.id}><strong>{treatment.name}</strong><span>{treatment.duration}</span><span>{formatPrice(treatment)}</span><button onClick={() => openBooking(treatment.id)} className="table-book" data-testid={`pricing-book-${treatment.id}`}>Book <ArrowUpRight size={14} /></button></div>)}
             </div>
+            <p className="pricing-disclaimer">Prices shown are indicative and may vary depending on treatment requirements. Final treatment cost will be discussed with the dentist.</p>
           </div>
         </section>
 
-        <section id="expect" className="container-clinic scroll-mt-10 py-28 md:py-40">
-          <div className="grid gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-24"><div><SectionLabel>What to expect</SectionLabel><h2 className="mt-7 max-w-md font-display text-5xl leading-[0.92] tracking-[-0.03em] sm:text-6xl">No surprises.<br /><span className="text-[hsl(var(--primary))]">Just next steps.</span></h2><p className="mt-7 max-w-sm text-base leading-7 text-[hsl(var(--muted-foreground))]">From your first note to your first visit, we keep the process light, clear, and yours.</p></div><div className="space-y-0 border-t border-[hsl(var(--border))]">{[['Send a request', 'Share a little about what brings you in. It takes a minute.'], ['Have a conversation', 'Our team follows up and finds a suitable time with you.'], ['Leave with a plan', 'Understand your options and decide what feels right.']].map(([title, body], index) => <div key={title} className="grid gap-4 border-b border-[hsl(var(--border))] py-7 sm:grid-cols-[60px_1fr] sm:gap-7" data-testid={`step-expect-${index}`}><div className="font-mono-ui text-sm text-[hsl(var(--primary))]">0{index + 1}</div><div><h3 className="text-xl font-semibold tracking-[-0.02em]">{title}</h3><p className="mt-2 max-w-md text-sm leading-6 text-[hsl(var(--muted-foreground))]">{body}</p></div></div>)}</div></div>
+        <section id="about" className="container-clinic scroll-mt-20 py-20 md:py-28">
+          <div className="split-section"><div><SectionLabel>About Dental Care</SectionLabel><h2 className="mt-5 max-w-xl font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">Thoughtful care.<br /><em className="text-[hsl(var(--primary))]">Confident smiles.</em></h2></div><div><p className="max-w-xl text-lg leading-8 text-[hsl(var(--muted-foreground))]">Dental Care is built around a simple idea: when people feel heard, they make better decisions for their health. We make space for the first conversation, explain the why, and help you understand what comes next.</p><div className="mini-values mt-10"><div><strong>01</strong><span>Listen first</span></div><div><strong>02</strong><span>Explain clearly</span></div><div><strong>03</strong><span>Plan together</span></div></div></div></div>
         </section>
 
-        <section id="booking" className="scroll-mt-4 bg-[hsl(var(--sidebar))] py-20 text-[hsl(var(--sidebar-foreground))] md:py-28">
-          <div className="container-clinic grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20"><div className="pt-2"><SectionLabel light>02 / Request a visit</SectionLabel><h2 className="mt-7 max-w-md font-display text-5xl leading-[0.9] tracking-[-0.03em] md:text-7xl">A small step<br />towards feeling <em className="text-[hsl(var(--sidebar-primary))]">better.</em></h2><p className="mt-8 max-w-sm text-base leading-7 text-[hsl(var(--sidebar-foreground)/0.68)]">Tell us what is on your mind. We’ll take it from there, one clear conversation at a time.</p><div className="mt-12 hidden border-t border-[hsl(var(--sidebar-border))] pt-6 lg:block"><div className="eyebrow text-[hsl(var(--sidebar-primary))]">Visit us</div><p className="mt-3 max-w-xs text-sm leading-6 text-[hsl(var(--sidebar-foreground)/0.72)]" data-testid="text-address-booking">{clinicConfig.address}</p></div></div><BookingForm /></div>
+        <section id="why-us" className="blue-feature-section scroll-mt-20">
+          <div className="container-clinic"><SectionLabel light>Why choose Dental Care</SectionLabel><div className="mt-6 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]"><h2 className="max-w-xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-6xl">A better feeling<br />from the <em className="text-[hsl(var(--accent-light))]">start.</em></h2><div className="feature-grid">{['Patient-centered care', 'Comfortable experience', 'Clear treatment guidance', 'Modern clinical approach', 'Personalized care', 'Convenient local address'].map((item, index) => <div key={item} className="feature-item"><span>0{index + 1}</span><strong>{item}</strong><Check size={16} /></div>)}</div></div></div>
         </section>
 
-        <section className="container-clinic py-28 md:py-36">
-          <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24"><div><SectionLabel>Questions, answered</SectionLabel><h2 className="mt-7 font-display text-5xl leading-[0.9] sm:text-6xl">A little more<br /><em className="text-[hsl(var(--primary))]">clarity.</em></h2></div><div className="border-t border-[hsl(var(--border))]">{faqItems.map(([question, answer], index) => <div key={question} className="border-b border-[hsl(var(--border))]"><button onClick={() => setFaq(faq === index ? null : index)} className="flex w-full items-center justify-between gap-6 py-6 text-left text-base font-semibold" aria-expanded={faq === index} data-testid={`button-faq-${index}`}><span>{question}</span><ChevronDown size={18} className={`shrink-0 text-[hsl(var(--primary))] transition-transform ${faq === index ? 'rotate-180' : ''}`} /></button>{faq === index && <p className="max-w-2xl pb-7 pr-10 text-sm leading-7 text-[hsl(var(--muted-foreground))]" data-testid={`text-faq-answer-${index}`}>{answer}</p>}</div>)}</div></div>
+        <section className="container-clinic py-20 md:py-28">
+          <div className="split-section"><div><SectionLabel>What to expect</SectionLabel><h2 className="mt-5 max-w-md font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">No surprises.<br /><em className="text-[hsl(var(--primary))]">Just next steps.</em></h2></div><div className="journey-list">{[['Choose your care', 'Start with a treatment or simply describe what is on your mind.'], ['Choose your moment', 'Share a preferred date and time that works with your life.'], ['Leave with clarity', 'The clinic follows up, confirms availability, and explains the next step.']].map(([title, body], index) => <div className="journey-item" key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{body}</p></div></div>)}</div></div>
         </section>
 
-        <section className="container-clinic pb-24">
-          <div className="grid overflow-hidden rounded-[2rem] bg-[hsl(var(--secondary))] lg:grid-cols-[1.1fr_0.9fr]"><div className="bg-paper-grid p-8 md:p-12"><SectionLabel>Find your way here</SectionLabel><h2 className="mt-7 max-w-lg font-display text-5xl leading-[0.9] sm:text-6xl">A familiar address<br />for better <em className="text-[hsl(var(--primary))]">care.</em></h2><div className="mt-12 flex items-start gap-4"><MapPin className="mt-1 shrink-0 text-[hsl(var(--primary))]" size={19} /><p className="max-w-sm text-sm leading-6" data-testid="text-clinic-address">{clinicConfig.address}</p></div></div><div className="flex min-h-[310px] flex-col justify-between bg-[hsl(var(--primary))] p-8 text-[hsl(var(--primary-foreground))] md:p-12"><div><div className="eyebrow opacity-70">Contact details</div><h3 className="mt-5 font-display text-4xl leading-none">Make a beginning<br />that feels easy.</h3></div><ContactDetails /></div></div>
+        {clinicConfig.doctors.length > 0 && <section className="container-clinic py-20"><SectionLabel>Meet the team</SectionLabel></section>}
+        {clinicConfig.testimonials.length > 0 && <section className="container-clinic py-20"><SectionLabel>Patient stories</SectionLabel></section>}
+
+        <section id="faq" className="faq-section scroll-mt-20">
+          <div className="container-clinic split-section"><div><SectionLabel>Questions, answered</SectionLabel><h2 className="mt-5 max-w-md font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">A little more<br /><em className="text-[hsl(var(--primary))]">clarity.</em></h2></div><div className="faq-list">{faqItems.map(([question, answer], index) => <div className="faq-item" key={question}><button onClick={() => setFaq(faq === index ? null : index)} aria-expanded={faq === index} className="faq-trigger" data-testid={`button-faq-${index}`}><span>{question}</span><ChevronDown size={18} className={faq === index ? 'rotate-180' : ''} /></button>{faq === index && <p className="faq-answer" data-testid={`text-faq-answer-${index}`}>{answer}</p>}</div>)}</div></div>
         </section>
+
+        <section id="contact" className="container-clinic scroll-mt-20 pb-20 md:pb-28">
+          <div className="location-card"><div className="location-copy"><SectionLabel>Visit Dental Care</SectionLabel><h2 className="mt-5 max-w-xl font-display text-5xl leading-[0.9] tracking-[-0.04em] sm:text-6xl">A familiar address<br />for better <em className="text-[hsl(var(--primary))]">care.</em></h2><div className="address-block"><Navigation size={19} className="mt-1 shrink-0 text-[hsl(var(--primary))]" /><p data-testid="text-clinic-address">{clinicConfig.addressLines.map((line) => <span key={line}>{line}</span>)}</p></div><div className="flex flex-wrap gap-3"><button onClick={() => openBooking()} className="button-primary inline-flex items-center gap-2 px-5 py-3.5">Book appointment <ArrowUpRight size={16} /></button>{clinicConfig.mapUrl ? <a href={clinicConfig.mapUrl} target="_blank" rel="noreferrer" className="button-secondary inline-flex items-center gap-2 px-5 py-3.5">Get directions <Navigation size={16} /></a> : <span className="button-secondary inline-flex items-center gap-2 px-5 py-3.5 text-[hsl(var(--muted-foreground))]">Map link to be added <Navigation size={16} /></span>}</div></div><div className="location-contact"><div><div className="eyebrow text-[hsl(var(--accent-light))]">Contact system</div><h3 className="mt-5 font-display text-4xl leading-[0.9] text-white">Make a beginning<br />that feels easy.</h3></div><ContactDetails /></div></div>
+        </section>
+
+        <section className="final-cta"><div className="container-clinic flex flex-col items-start justify-between gap-8 md:flex-row md:items-end"><div><SectionLabel light>Ready when you are</SectionLabel><h2 className="mt-5 max-w-3xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-7xl">Ready to book<br />your <em className="text-[hsl(var(--accent-light))]">visit?</em></h2><p className="mt-5 max-w-md text-sm leading-6 text-white/65">Choose your treatment, preferred date, and time in a few simple steps.</p></div><button onClick={() => openBooking()} className="button-light inline-flex items-center gap-2 px-6 py-3.5">Book an appointment <ArrowUpRight size={16} /></button></div></section>
       </main>
-      <footer className="border-t border-[hsl(var(--border))] py-8"><div className="container-clinic flex flex-col gap-6 text-xs text-[hsl(var(--muted-foreground))] sm:flex-row sm:items-center sm:justify-between"><BrandMark /><div className="flex flex-wrap gap-x-5 gap-y-2"><span data-testid="text-footer-city">{clinicConfig.city}</span><span>•</span><span>{clinicConfig.location}</span><a href="#top" className="font-semibold text-[hsl(var(--primary))]" data-testid="link-back-top">Back to top ↑</a></div></div></footer>
-      <button onClick={() => scrollToBooking()} className="fixed bottom-5 right-5 z-20 flex items-center gap-2 rounded-full bg-[hsl(var(--primary))] px-5 py-3 text-sm font-semibold text-[hsl(var(--primary-foreground))] shadow-[var(--shadow-md)] transition-transform hover:-translate-y-1 md:hidden" data-testid="button-floating-book"><CalendarDays size={16} /> Request a visit</button>
+      <footer className="site-footer"><div className="container-clinic grid gap-10 py-10 md:grid-cols-[1fr_1fr_1fr]"><div><BrandMark light /><p className="mt-5 max-w-xs text-sm leading-6 text-white/55">Modern dental care designed around your comfort, health, and smile.</p></div><div><span className="price-caption text-white/45">Explore</span><div className="footer-links mt-4"><a href="#treatments">Treatments</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div></div><div><span className="price-caption text-white/45">Address</span><p className="mt-4 text-sm leading-6 text-white/65" data-testid="text-footer-address">{clinicConfig.addressLines.map((line) => <span key={line} className="block">{line}</span>)}</p></div></div><div className="container-clinic flex flex-col gap-2 border-t border-white/10 py-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} Dental Care</span><a href="#top" className="text-[hsl(var(--accent-light))]">Back to top ↑</a></div></footer>
+      <div className="mobile-action-bar"><button onClick={() => clinicConfig.phone && (window.location.href = `tel:${clinicConfig.phone}`)} disabled={!clinicConfig.phone}><Phone size={16} /> Call</button><button onClick={() => clinicConfig.whatsapp && window.open(clinicConfig.whatsapp, '_blank')} disabled={!clinicConfig.whatsapp}><MessageCircle size={16} /> WhatsApp</button><button onClick={() => openBooking()}><CalendarDays size={16} /> Book</button></div>
+      {detailTreatment && <TreatmentDetail treatment={detailTreatment} onClose={() => setDetailTreatment(null)} onBook={() => openBooking(detailTreatment.id)} />}
+      {bookingOpen && <BookingFlow initialTreatmentId={bookingTreatmentId} onClose={() => setBookingOpen(false)} />}
     </div>
   );
 }
 
 function Router() {
   return (
-    // Keep a shared shell (sidebar, navbar) outside the boundary so it
-    // survives a page crash.
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />

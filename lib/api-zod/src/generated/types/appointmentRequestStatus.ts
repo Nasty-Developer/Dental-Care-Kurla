@@ -10,5 +10,9 @@ export type AppointmentRequestStatus = typeof AppointmentRequestStatus[keyof typ
 
 
 export const AppointmentRequestStatus = {
-  request_received: 'request_received',
+  pending: 'pending',
+  confirmed: 'confirmed',
+  cancelled: 'cancelled',
+  completed: 'completed',
+  rescheduled: 'rescheduled',
 } as const;
