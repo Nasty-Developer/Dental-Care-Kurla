@@ -44,6 +44,7 @@ const clinicPhoneDisplay = '+91 81697 66396';
 const clinicPhoneHref = 'tel:+918169766396';
 const whatsappNumber = '918169766396';
 const whatsappMessage = 'Hello Dental Care, I would like to enquire about a dental appointment.';
+const publicEnv = import.meta.env as Record<string, string | undefined>;
 const getWhatsAppHref = (message = whatsappMessage) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
@@ -64,7 +65,7 @@ const clinicConfig = {
   phone: clinicPhoneDisplay,
   email: '',
   whatsapp: getWhatsAppHref(),
-  mapUrl: env.VITE_CLINIC_MAP_URL || '',
+  mapUrl: publicEnv.VITE_CLINIC_MAP_URL || '',
   doctors: [] as Array<{ name: string; role: string; focus: string }>,
   testimonials: [] as Array<{ quote: string; name: string; detail: string }>,
 };
