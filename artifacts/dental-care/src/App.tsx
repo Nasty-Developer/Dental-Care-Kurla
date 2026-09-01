@@ -40,15 +40,12 @@ import {
 } from 'wouter';
 
 const queryClient = new QueryClient();
-const whatsappMessage = 'Hello Dental Care, I would like to enquire about booking an appointment.';
-const env = import.meta.env as Record<string, string | undefined>;
-const configuredPhone = env.NEXT_PUBLIC_CLINIC_PHONE || env.VITE_CLINIC_PHONE || '';
-const configuredWhatsApp = env.NEXT_PUBLIC_WHATSAPP_NUMBER || env.VITE_WHATSAPP_NUMBER || '';
-const configuredWhatsAppUrl = configuredWhatsApp
-  ? configuredWhatsApp.startsWith('http')
-    ? configuredWhatsApp
-    : `https://wa.me/${configuredWhatsApp.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`
-  : '';
+const clinicPhoneDisplay = '+91 81697 66396';
+const clinicPhoneHref = 'tel:+918169766396';
+const whatsappNumber = '918169766396';
+const whatsappMessage = 'Hello Dental Care, I would like to enquire about a dental appointment.';
+const getWhatsAppHref = (message = whatsappMessage) =>
+  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
 const clinicConfig = {
   name: 'Dental Care',
@@ -64,9 +61,9 @@ const clinicConfig = {
   ],
   address:
     'Shop No: 01, Bldg No: 84, Navchaitanya CHS, Police Colony, Nehru Nagar, Kurla East - 400024',
-  phone: configuredPhone,
+  phone: clinicPhoneDisplay,
   email: '',
-  whatsapp: configuredWhatsAppUrl,
+  whatsapp: getWhatsAppHref(),
   mapUrl: env.VITE_CLINIC_MAP_URL || '',
   doctors: [] as Array<{ name: string; role: string; focus: string }>,
   testimonials: [] as Array<{ quote: string; name: string; detail: string }>,
@@ -268,9 +265,12 @@ function Header({ onBook }: { onBook: (treatmentId?: string) => void }) {
             <a key={href} href={href} className="nav-link" onClick={go} data-testid={`link-${label.toLowerCase().replaceAll(' ', '-')}`}>{label}</a>
           ))}
         </nav>
-        <button onClick={() => onBook()} className="button-primary hidden items-center gap-2 px-5 py-3 text-sm lg:flex" data-testid="button-header-book">
-          Book appointment <ArrowUpRight size={16} />
-        </button>
+        <div className="hidden items-center gap-4 lg:flex">
+          <a href={clinicPhoneHref} className="header-phone" data-testid="header-phone"><Phone size={14} /> Call clinic</a>
+          <button onClick={() => onBook()} className="button-primary flex items-center gap-2 px-5 py-3 text-sm" data-testid="button-header-book">
+            Book appointment <ArrowUpRight size={16} />
+          </button>
+        </div>
         <button onClick={() => setMenuOpen(!menuOpen)} className="menu-button lg:hidden" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} data-testid="button-mobile-menu">
           {menuOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
@@ -297,11 +297,12 @@ function QuickActions({ onBook }: { onBook: () => void }) {
     { label: 'View treatments', icon: Stethoscope, href: '#treatments' },
     { label: 'View pricing', icon: Filter, href: '#pricing' },
     { label: 'Get directions', icon: Navigation, href: clinicConfig.mapUrl || undefined },
-    { label: 'Call clinic', icon: Phone, href: clinicConfig.phone ? `tel:${clinicConfig.phone}` : undefined },
+    { label: 'WhatsApp clinic', icon: MessageCircle, href: getWhatsAppHref() },
+    { label: 'Call clinic', icon: Phone, href: clinicPhoneHref },
   ];
   return (
     <section className="quick-actions" aria-label="Quick actions">
-      <div className="container-clinic grid grid-cols-2 md:grid-cols-5">
+      <div className="container-clinic grid grid-cols-2 md:grid-cols-6">
         {actions.map(({ label, icon: Icon, href, action }) => href ? (
           <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer" className={`quick-action ${!href ? 'quick-action-disabled' : ''}`} data-testid={`quick-${label.toLowerCase().replaceAll(' ', '-')}`}>
             <Icon size={17} /><span>{label}</span><ArrowUpRight size={14} className="ml-auto opacity-60" />
@@ -318,6 +319,7 @@ function QuickActions({ onBook }: { onBook: () => void }) {
 
 function TreatmentCard({ treatment, onDetails, onBook }: { treatment: Treatment; onDetails: () => void; onBook: () => void }) {
   const Icon = treatment.icon;
+  const whatsappHref = getWhatsAppHref(`Hello Dental Care, I would like to enquire about ${treatment.name} (${formatPrice(treatment)}).`);
   return (
     <article className="treatment-card" data-testid={`card-treatment-${treatment.id}`}>
       <div className="flex items-start justify-between gap-3">
@@ -334,6 +336,7 @@ function TreatmentCard({ treatment, onDetails, onBook }: { treatment: Treatment;
       </div>
       <div className="treatment-card-actions">
         <button onClick={onDetails} className="text-xs font-bold uppercase tracking-[0.12em] text-[hsl(var(--primary))] hover:underline" data-testid={`button-details-${treatment.id}`}>View details</button>
+        <a href={whatsappHref} target="_blank" rel="noreferrer" className="treatment-whatsapp" aria-label={`WhatsApp about ${treatment.name}`} data-testid={`button-whatsapp-${treatment.id}`}><MessageCircle size={15} /></a>
         <button onClick={onBook} className="button-small ml-auto" data-testid={`button-book-${treatment.id}`}>Book <ArrowUpRight size={14} /></button>
       </div>
     </article>
@@ -573,12 +576,222 @@ function ContactDetails() {
   const hasContact = clinicConfig.phone || clinicConfig.email || clinicConfig.whatsapp;
   return (
     <div className="contact-list" data-testid="contact-details">
-      {clinicConfig.phone ? <a href={`tel:${clinicConfig.phone}`}><Phone size={16} /> <span><small>Phone</small>{clinicConfig.phone}</span></a> : null}
+      <a href={clinicPhoneHref}><Phone size={16} /> <span><small>Phone</small>{clinicConfig.phone}</span></a>
       {clinicConfig.email ? <a href={`mailto:${clinicConfig.email}`}><MessageCircle size={16} /> <span><small>Email</small>{clinicConfig.email}</span></a> : null}
-      {clinicConfig.whatsapp ? <a href={clinicConfig.whatsapp} target="_blank" rel="noreferrer"><MessageCircle size={16} /> <span><small>WhatsApp</small>Message the clinic</span></a> : null}
+      <a href={getWhatsAppHref()} target="_blank" rel="noreferrer"><MessageCircle size={16} /> <span><small>WhatsApp</small>Message the clinic</span></a>
       {!hasContact && <p className="text-sm leading-6 text-white/65">Phone, email, and WhatsApp details will appear here once configured by the clinic.</p>}
       {clinicConfig.mapUrl ? <a href={clinicConfig.mapUrl} target="_blank" rel="noreferrer"><Navigation size={16} /> <span><small>Location</small>Get directions</span><ArrowUpRight size={14} className="ml-auto" /></a> : <p className="flex items-center gap-2 text-xs text-white/55"><Navigation size={15} /> Map link to be added</p>}
     </div>
+  );
+}
+
+type AssistantAction = {
+  label: string;
+  kind: 'book' | 'whatsapp' | 'call' | 'treatments';
+  treatmentId?: string;
+};
+
+type AssistantMessage = {
+  id: number;
+  role: 'assistant' | 'user';
+  text: string;
+  actions?: AssistantAction[];
+};
+
+function findTreatmentForAssistant(query: string) {
+  const normalized = query.toLowerCase();
+  const exact = treatmentConfig.find((treatment) => normalized.includes(treatment.name.toLowerCase()));
+  if (exact) return exact;
+  return treatmentConfig.find((treatment) => {
+    const keywords = treatment.name.toLowerCase().split(/[^a-z0-9]+/).filter((word) => word.length > 3);
+    return keywords.length > 0 && keywords.every((word) => normalized.includes(word));
+  });
+}
+
+function buildAssistantResponse(query: string): Omit<AssistantMessage, 'id' | 'role'> {
+  const normalized = query.toLowerCase();
+  const treatment = findTreatmentForAssistant(query);
+  const contactActions: AssistantAction[] = [
+    { label: 'Call clinic', kind: 'call' },
+    { label: 'WhatsApp', kind: 'whatsapp' },
+  ];
+
+  if (/(diagnos|medicine|medication|prescri|what do i have|is this serious|pain|swelling|bleed)/.test(normalized)) {
+    return {
+      text: 'I can share clinic information and help you request a visit, but a dentist needs to evaluate individual symptoms. Please contact Dental Care directly if you need clinical guidance.',
+      actions: contactActions,
+    };
+  }
+
+  if (/(where|located|address|direction|find the clinic|location)/.test(normalized)) {
+    return {
+      text: `Dental Care is at:\n${clinicConfig.addressLines.join('\n')}`,
+      actions: contactActions,
+    };
+  }
+
+  if (/(whatsapp|message the clinic)/.test(normalized)) {
+    return {
+      text: 'You can message Dental Care on WhatsApp with a pre-filled enquiry.',
+      actions: [{ label: 'Open WhatsApp', kind: 'whatsapp' }],
+    };
+  }
+
+  if (/(call|phone|speak to someone)/.test(normalized)) {
+    return {
+      text: `You can call Dental Care on ${clinicPhoneDisplay}.`,
+      actions: [{ label: 'Call clinic', kind: 'call' }],
+    };
+  }
+
+  if (/(root canal|rct|re-rct)/.test(normalized) && /(price|rate|cost|how much)/.test(normalized)) {
+    const rootCanalTreatments = treatmentConfig.filter((item) => item.category === 'root-canal' && /(rct|re-rct|kids)/i.test(item.name));
+    return {
+      text: `These Root Canal rate-sheet options are listed:\n${rootCanalTreatments.map((item) => `${item.name}: ${formatPrice(item)}`).join('\n')}`,
+      actions: rootCanalTreatments.slice(0, 3).map((item) => ({ label: `Book ${item.name}`, kind: 'book' as const, treatmentId: item.id })),
+    };
+  }
+
+  if (/(price|rate|cost|how much)/.test(normalized)) {
+    if (treatment) {
+      return {
+        text: `${treatment.name} is listed at ${formatPrice(treatment)} in the current Dental Care rate sheet.\n\nWould you like to book an appointment?`,
+        actions: [
+          { label: `Book ${treatment.name}`, kind: 'book', treatmentId: treatment.id },
+          { label: 'WhatsApp', kind: 'whatsapp', treatmentId: treatment.id },
+        ],
+      };
+    }
+    const category = normalized.includes('crown') ? 'crowns' : normalized.includes('fill') ? 'fillings' : normalized.includes('clean') ? 'cleaning' : '';
+    if (category) {
+      const items = treatmentConfig.filter((item) => item.category === category);
+      return {
+        text: `${categories.find(([value]) => value === category)?.[1] || 'Treatment'} rates:\n${items.map((item) => `${item.name}: ${formatPrice(item)}`).join('\n')}`,
+        actions: [{ label: 'View all treatments', kind: 'treatments' }],
+      };
+    }
+  }
+
+  if (treatment && /(book|appointment|schedule|visit|want)/.test(normalized)) {
+    return {
+      text: `I found ${treatment.name}. I can open the structured booking flow with it already selected.`,
+      actions: [{ label: `Book ${treatment.name}`, kind: 'book', treatmentId: treatment.id }],
+    };
+  }
+
+  if (/(book|appointment|schedule|request a visit)/.test(normalized)) {
+    return {
+      text: 'I can open the structured appointment flow. You will choose a treatment, date, time, and share only the details the clinic needs to follow up.',
+      actions: [{ label: 'Book appointment', kind: 'book' }],
+    };
+  }
+
+  if (/(faq|after i submit|what happens|process|how does booking work)/.test(normalized)) {
+    return {
+      text: 'Choose a treatment, preferred date and time, then share your name and phone number. Dental Care receives your request and contacts you to confirm availability. A submitted request is not a confirmed appointment.',
+      actions: [{ label: 'Book appointment', kind: 'book' }, ...contactActions],
+    };
+  }
+
+  if (/(treatment|service|category|available care|what do you offer)/.test(normalized)) {
+    return {
+      text: `There are ${treatmentConfig.length} treatments in the current rate sheet across Diagnostics, Extraction, Cleaning, Fillings, Root Canal, Crowns, and Dentures & RPD.`,
+      actions: [{ label: 'View treatments & prices', kind: 'treatments' }],
+    };
+  }
+
+  return {
+    text: "I don't have that information yet. You can contact Dental Care directly.",
+    actions: contactActions,
+  };
+}
+
+function Assistant({ onBook }: { onBook: (treatmentId?: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState('');
+  const [pendingQuery, setPendingQuery] = useState<string | null>(null);
+  const [messages, setMessages] = useState<AssistantMessage[]>([
+    {
+      id: 1,
+      role: 'assistant',
+      text: 'Hello. I can help you find treatments, check rate-sheet prices, or start an appointment request.',
+    },
+  ]);
+
+  useEffect(() => {
+    if (!pendingQuery) return;
+    const timer = window.setTimeout(() => {
+      const response = buildAssistantResponse(pendingQuery);
+      setMessages((current) => [...current, { id: Date.now(), role: 'assistant', ...response }]);
+      setPendingQuery(null);
+    }, 380);
+    return () => window.clearTimeout(timer);
+  }, [pendingQuery]);
+
+  const send = (value = input) => {
+    const trimmed = value.trim();
+    if (!trimmed || pendingQuery) return;
+    setMessages((current) => [...current, { id: Date.now(), role: 'user', text: trimmed }]);
+    setInput('');
+    setPendingQuery(trimmed);
+  };
+
+  const executeAction = (action: AssistantAction) => {
+    if (action.kind === 'book') {
+      onBook(action.treatmentId);
+      setOpen(false);
+    } else if (action.kind === 'whatsapp') {
+      const treatment = action.treatmentId ? treatmentConfig.find((item) => item.id === action.treatmentId) : undefined;
+      const message = treatment
+        ? `Hello Dental Care, I would like to enquire about ${treatment.name} (${formatPrice(treatment)}).`
+        : whatsappMessage;
+      window.open(getWhatsAppHref(message), '_blank', 'noopener,noreferrer');
+    } else if (action.kind === 'call') {
+      window.location.href = clinicPhoneHref;
+    } else {
+      document.getElementById('treatments')?.scrollIntoView({ behavior: 'smooth' });
+      setOpen(false);
+    }
+  };
+
+  const quickActions = [
+    ['Treatments & prices', 'Show me treatments and prices'],
+    ['Book appointment', 'I want to book an appointment'],
+    ['Clinic location', 'Where is the clinic located?'],
+    ['FAQs', 'What happens after I submit an appointment request?'],
+  ];
+
+  return (
+    <>
+      {open && (
+        <section className="assistant-panel" role="dialog" aria-modal="true" aria-labelledby="assistant-title">
+          <div className="assistant-header">
+            <div className="assistant-avatar"><Sparkles size={17} /></div>
+            <div className="assistant-header-copy"><strong id="assistant-title">Dental Care Assistant</strong><span>How can I help you today?</span></div>
+            <button className="assistant-close" onClick={() => setOpen(false)} aria-label="Close Dental Care Assistant"><X size={17} /></button>
+          </div>
+          <div className="assistant-messages" aria-live="polite">
+            {messages.map((message) => (
+              <div key={message.id} className={`assistant-message ${message.role === 'assistant' ? 'assistant-message-assistant' : 'assistant-message-user'}`}>
+                {message.text}
+                {message.actions && <div className="assistant-actions">{message.actions.map((action) => <button key={`${message.id}-${action.label}`} className="assistant-action" onClick={() => executeAction(action)}>{action.label}</button>)}</div>}
+              </div>
+            ))}
+            {pendingQuery && <div className="assistant-message assistant-message-assistant assistant-typing" aria-label="Assistant is typing"><span /><span /><span /></div>}
+          </div>
+          <div className="assistant-quick-actions" aria-label="Assistant quick actions">
+            {quickActions.map(([label, value]) => <button key={label} className="assistant-quick-action" onClick={() => send(value)}>{label}</button>)}
+            <button className="assistant-quick-action" onClick={() => executeAction({ label: 'WhatsApp', kind: 'whatsapp' })}>WhatsApp</button>
+            <button className="assistant-quick-action" onClick={() => executeAction({ label: 'Call clinic', kind: 'call' })}>Call clinic</button>
+          </div>
+          <form className="assistant-input-row" onSubmit={(event) => { event.preventDefault(); send(); }}>
+            <input className="assistant-input" value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask about treatments, prices or appointments..." aria-label="Ask Dental Care Assistant" autoFocus />
+            <button className="assistant-send" type="submit" disabled={!input.trim() || Boolean(pendingQuery)} aria-label="Send message"><ArrowUpRight size={17} /></button>
+          </form>
+        </section>
+      )}
+      {!open && <button className="assistant-launcher" onClick={() => setOpen(true)} aria-label="Open Dental Care Assistant" data-testid="button-assistant"><span className="assistant-pulse" /><MessageCircle size={22} /></button>}
+    </>
   );
 }
 
@@ -682,8 +895,9 @@ function Home() {
 
         <section className="final-cta"><div className="container-clinic flex flex-col items-start justify-between gap-8 md:flex-row md:items-end"><div><SectionLabel light>Ready when you are</SectionLabel><h2 className="mt-5 max-w-3xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-7xl">Ready to book<br />your <em className="text-[hsl(var(--accent-light))]">visit?</em></h2><p className="mt-5 max-w-md text-sm leading-6 text-white/65">Choose your treatment, preferred date, and time in a few simple steps.</p></div><button onClick={() => openBooking()} className="button-light inline-flex items-center gap-2 px-6 py-3.5">Book an appointment <ArrowUpRight size={16} /></button></div></section>
       </main>
-      <footer className="site-footer"><div className="container-clinic grid gap-10 py-10 md:grid-cols-[1fr_1fr_1fr]"><div><BrandMark light /><p className="mt-5 max-w-xs text-sm leading-6 text-white/55">Modern dental care designed around your comfort, health, and smile.</p></div><div><span className="price-caption text-white/45">Explore</span><div className="footer-links mt-4"><a href="#treatments">Treatments</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div></div><div><span className="price-caption text-white/45">Address</span><p className="mt-4 text-sm leading-6 text-white/65" data-testid="text-footer-address">{clinicConfig.addressLines.map((line) => <span key={line} className="block">{line}</span>)}</p></div></div><div className="container-clinic flex flex-col gap-2 border-t border-white/10 py-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} Dental Care</span><a href="#top" className="text-[hsl(var(--accent-light))]">Back to top ↑</a></div></footer>
-      <div className="mobile-action-bar"><button onClick={() => clinicConfig.phone && (window.location.href = `tel:${clinicConfig.phone}`)} disabled={!clinicConfig.phone}><Phone size={16} /> Call</button><button onClick={() => clinicConfig.whatsapp && window.open(clinicConfig.whatsapp, '_blank')} disabled={!clinicConfig.whatsapp}><MessageCircle size={16} /> WhatsApp</button><button onClick={() => openBooking()}><CalendarDays size={16} /> Book</button></div>
+       <footer className="site-footer"><div className="container-clinic grid gap-10 py-10 md:grid-cols-[1fr_1fr_1fr]"><div><BrandMark light /><p className="mt-5 max-w-xs text-sm leading-6 text-white/55">Modern dental care designed around your comfort, health, and smile.</p></div><div><span className="price-caption text-white/45">Explore</span><div className="footer-links mt-4"><a href="#treatments">Treatments</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div></div><div><span className="price-caption text-white/45">Contact</span><div className="footer-links mt-4"><a href={clinicPhoneHref}><Phone size={14} /> {clinicConfig.phone}</a><a href={getWhatsAppHref()} target="_blank" rel="noreferrer"><MessageCircle size={14} /> WhatsApp</a><p className="text-sm leading-6 text-white/65" data-testid="text-footer-address">{clinicConfig.addressLines.map((line) => <span key={line} className="block">{line}</span>)}</p></div></div></div><div className="container-clinic flex flex-col gap-2 border-t border-white/10 py-5 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} Dental Care</span><a href="#top" className="text-[hsl(var(--accent-light))]">Back to top ↑</a></div></footer>
+       <div className="mobile-action-bar"><a href={clinicPhoneHref} aria-label={`Call Dental Care at ${clinicConfig.phone}`}><Phone size={16} /> Call</a><a href={getWhatsAppHref()} target="_blank" rel="noreferrer" aria-label="WhatsApp Dental Care"><MessageCircle size={16} /> WhatsApp</a><button onClick={() => openBooking()}><CalendarDays size={16} /> Book</button></div>
+       <Assistant onBook={openBooking} />
       {detailTreatment && <TreatmentDetail treatment={detailTreatment} onClose={() => setDetailTreatment(null)} onBook={() => openBooking(detailTreatment.id)} />}
       {bookingOpen && <BookingFlow initialTreatmentId={bookingTreatmentId} onClose={() => setBookingOpen(false)} />}
     </div>

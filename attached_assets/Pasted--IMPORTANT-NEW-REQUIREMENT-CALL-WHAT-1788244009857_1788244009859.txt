@@ -1,0 +1,469 @@
+============================================================
+IMPORTANT NEW REQUIREMENT — CALL + WHATSAPP + AI ASSISTANT
+============================================================
+
+Add the following clinic phone number throughout the website:
+
++91 81697 66396
+
+Use this exact number.
+
+============================================================
+1. CALL CLINIC
+============================================================
+
+Connect every "Call Clinic" / "Call" button to:
+
+tel:+918169766396
+
+This should work properly on mobile.
+
+Use the number in the Contact section as:
+
++91 81697 66396
+
+Do not invent or use any other number.
+
+Call buttons should appear in:
+
+- Header / quick actions
+- Contact section
+- Appointment error screen
+- Mobile sticky bottom bar
+- Footer where appropriate
+
+============================================================
+2. WHATSAPP
+============================================================
+
+Connect every WhatsApp button to the same number:
+
++91 81697 66396
+
+Use the WhatsApp international format:
+
+918169766396
+
+Create a pre-filled message such as:
+
+"Hello Dental Care, I would like to enquire about a dental
+appointment."
+
+When the user clicks WhatsApp:
+
+Open WhatsApp with the clinic number and pre-filled message.
+
+For treatment-specific WhatsApp buttons, dynamically include
+the treatment.
+
+Example:
+
+"Hello Dental Care, I would like to enquire about Crown -
+Zirconia (₹4,900)."
+
+Do not expose technical URLs in the UI.
+
+============================================================
+3. AI CHATBOT ASSISTANT
+============================================================
+
+Add a PREMIUM AI CHAT ASSISTANT to the website.
+
+The chatbot should appear as a floating button in the
+bottom-right corner.
+
+Use a clean:
+
+blue circular AI/chat icon
+
+with subtle animation.
+
+Do NOT make it annoying.
+
+It should remain accessible but must not cover:
+
+- Book button
+- Call button
+- WhatsApp button
+- Treatment cards
+- Important content
+
+On mobile, position it intelligently above the sticky bottom
+action bar.
+
+============================================================
+4. CHATBOT OPEN STATE
+============================================================
+
+When clicked, open a modern chat panel.
+
+Header:
+
+Dental Care Assistant
+
+Subtitle:
+
+"How can I help you today?"
+
+Use a premium blue healthcare design.
+
+The chat window should feel like a polished modern AI assistant,
+not a basic website chatbot.
+
+============================================================
+5. AI ASSISTANT CAPABILITIES
+============================================================
+
+The assistant should help visitors with:
+
+1. Finding treatments
+2. Finding treatment prices
+3. Explaining what a treatment is
+4. Showing treatment categories
+5. Helping users start appointment booking
+6. Helping users find the clinic
+7. Providing the clinic address
+8. Providing Call Clinic action
+9. Providing WhatsApp action
+10. Answering common FAQ questions
+11. Explaining the appointment process
+12. Helping users navigate the website
+
+============================================================
+6. TREATMENT KNOWLEDGE
+============================================================
+
+The AI assistant MUST have access to the same centralized
+treatment database used by the website.
+
+This means if the website contains:
+
+Crown - Zirconia
+₹4,900
+
+the AI assistant should also know:
+
+Crown - Zirconia
+₹4,900
+
+Do NOT create a separate manually typed treatment list for
+the chatbot.
+
+Use the same source of truth.
+
+If treatment pricing changes in the database, the chatbot's
+pricing should automatically update too.
+
+============================================================
+7. EXAMPLE CHAT
+============================================================
+
+USER:
+
+"What is the price of zirconia crown?"
+
+AI:
+
+"Crown - Zirconia is listed at ₹4,900 in the current Dental Care
+rate sheet.
+
+Would you like to book an appointment?"
+
+Buttons:
+
+BOOK THIS TREATMENT
+WHATSAPP
+
+============================================================
+
+USER:
+
+"Root canal ka price kya hai?"
+
+AI should show the available RCT options and their corresponding
+rates from the treatment database.
+
+For example:
+
+RCT using Hand Files:
+₹1,200 / ₹1,300 / ₹1,400
+
+RCT using Hand ProTapers:
+₹1,500 / ₹1,700 / ₹1,850
+
+RCT using Rotary Files:
+₹1,700 / ₹1,900 / ₹2,000
+
+Do not collapse multiple prices into one number.
+
+============================================================
+8. CHATBOT BOOKING HANDOFF
+============================================================
+
+If the user says:
+
+"I want to book a zirconia crown."
+
+The assistant should NOT try to conduct the entire booking
+conversation inside an unstructured chat.
+
+Instead:
+
+Identify the treatment.
+
+Then provide:
+
+[BOOK CROWN - ZIRCONIA]
+
+Clicking the button should open the proper appointment booking
+flow with:
+
+Treatment:
+Crown - Zirconia
+
+already selected.
+
+This keeps the booking system structured and reliable.
+
+============================================================
+9. QUICK CHAT ACTIONS
+============================================================
+
+When the chatbot opens, show quick actions:
+
+🦷 Treatments & Prices
+📅 Book Appointment
+📍 Clinic Location
+💬 WhatsApp
+📞 Call Clinic
+❓ FAQs
+
+These should be clickable.
+
+============================================================
+10. MEDICAL SAFETY
+============================================================
+
+The AI assistant is a dental clinic information and navigation
+assistant.
+
+It must NOT:
+
+- Diagnose patients
+- Claim certainty about medical conditions
+- Prescribe medication
+- Give emergency medical instructions beyond directing the
+  visitor to appropriate professional/emergency care
+- Promise treatment outcomes
+- Invent doctor credentials
+- Invent clinic information
+- Invent treatment prices
+
+For medical questions where individual diagnosis is required,
+respond appropriately that a dentist needs to evaluate the
+patient.
+
+Keep the assistant useful without pretending to replace a
+dentist.
+
+============================================================
+11. UNKNOWN INFORMATION
+============================================================
+
+If the chatbot does not know something:
+
+DO NOT HALLUCINATE.
+
+Say:
+
+"I don't have that information yet. You can contact Dental Care
+directly."
+
+Then provide:
+
+CALL CLINIC
+WHATSAPP
+
+buttons.
+
+============================================================
+12. AI CHAT UI
+============================================================
+
+Chat interface:
+
+Header:
+Dental Care Assistant
+
+Messages:
+
+User:
+Blue bubble
+
+Assistant:
+White/light-blue bubble
+
+Typing indicator:
+
+Animated three-dot indicator.
+
+Input:
+
+"Ask about treatments, prices or appointments..."
+
+Send button:
+
+Blue circular button.
+
+============================================================
+13. MOBILE CHAT
+============================================================
+
+On mobile:
+
+Chat should open as a near-full-screen panel.
+
+Do NOT make a tiny desktop-style popup that is difficult to use.
+
+Include:
+
+Close button
+Chat header
+Messages
+Quick actions
+Input
+Send button
+
+Make sure the keyboard does not hide the input.
+
+============================================================
+14. AI CONFIGURATION
+============================================================
+
+Do NOT expose an AI API key in frontend code.
+
+If an external AI API is used:
+
+Frontend
+↓
+Secure backend/API route
+↓
+AI provider
+
+Use environment variables.
+
+Example:
+
+AI_API_KEY
+
+Never hardcode secrets.
+
+============================================================
+15. WEBSITE CONTEXT
+============================================================
+
+Give the assistant access to:
+
+Clinic name:
+Dental Care
+
+Address:
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Phone:
+
++91 81697 66396
+
+WhatsApp:
+
++91 81697 66396
+
+Treatment catalogue:
+
+All 46 treatments and their provided prices.
+
+============================================================
+16. CALL + WHATSAPP EVERYWHERE
+============================================================
+
+Make sure the number is consistently connected.
+
+CALL:
+
++91 81697 66396
+
+WHATSAPP:
+
++91 81697 66396
+
+Do not create multiple contact numbers.
+
+============================================================
+17. FINAL MOBILE ACTION BAR
+============================================================
+
+Keep:
+
+CALL
+WHATSAPP
+BOOK
+
+at the bottom.
+
+Use:
+
+Call → +918169766396
+
+WhatsApp → 918169766396
+
+Book → Appointment booking flow
+
+The AI assistant should float just above this bar so the two
+interfaces never overlap.
+
+============================================================
+18. FINAL QUALITY CHECK
+============================================================
+
+Verify:
+
+[ ] Call buttons use +918169766396
+[ ] WhatsApp buttons use 918169766396
+[ ] WhatsApp opens with pre-filled message
+[ ] Treatment-specific WhatsApp messages work
+[ ] AI assistant appears
+[ ] AI assistant opens correctly
+[ ] AI assistant works on mobile
+[ ] AI assistant works on desktop
+[ ] Chatbot knows all treatment/pricing data
+[ ] Chatbot uses centralized treatment data
+[ ] Chatbot can help users start booking
+[ ] Chatbot does not diagnose
+[ ] Chatbot does not invent information
+[ ] AI API keys are server-side only
+[ ] Chatbot does not overlap mobile action bar
+[ ] Call / WhatsApp / Book remain easily accessible
+
+The final website should feel like a complete modern dental
+clinic platform with:
+
+TREATMENTS
++
+PRICING
++
+APPOINTMENT BOOKING
++
+CALL
++
+WHATSAPP
++
+AI ASSISTANT
+
+Everything should remain visually consistent with the premium
+blue Dental Care design.
