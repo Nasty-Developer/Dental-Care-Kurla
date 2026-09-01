@@ -6,28 +6,21 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
-  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
-  MutationFunction,
   QueryFunction,
   QueryKey,
-  UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
-  AppointmentRequest,
-  AppointmentRequestInput,
-  ErrorResponse,
   HealthStatus
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
-import type { ErrorType , BodyType } from '../custom-fetch';
+import type { ErrorType } from '../custom-fetch';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -130,76 +123,4 @@ export function useHealthCheck<TData = Awaited<ReturnType<typeof healthCheck>>, 
 
 
 
-
-export const getCreateAppointmentRequestUrl = () => {
-
-
-
-
-  return `/api/appointments`
-}
-
-/**
- * Receives a patient appointment request for follow-up by the clinic team.
- * @summary Submit an appointment request
- */
-export const createAppointmentRequest = async (appointmentRequestInput: AppointmentRequestInput, options?: Parameters<typeof customFetch>[1]): Promise<AppointmentRequest> => {
-
-  return customFetch<AppointmentRequest>(getCreateAppointmentRequestUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(appointmentRequestInput)
-  }
-);}
-
-
-
-
-
-export const getCreateAppointmentRequestMutationOptions = <TError = ErrorType<ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointmentRequest>>, TError,{data: BodyType<AppointmentRequestInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
-): UseMutationOptions<Awaited<ReturnType<typeof createAppointmentRequest>>, TError,{data: BodyType<AppointmentRequestInput>}, TContext> => {
-
-const mutationKey = ['createAppointmentRequest'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAppointmentRequest>>, {data: BodyType<AppointmentRequestInput>}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createAppointmentRequest(data,requestOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateAppointmentRequestMutationResult = NonNullable<Awaited<ReturnType<typeof createAppointmentRequest>>>
-    export type CreateAppointmentRequestMutationBody = BodyType<AppointmentRequestInput>
-    export type CreateAppointmentRequestMutationError = ErrorType<ErrorResponse>
-
-    /**
- * @summary Submit an appointment request
- */
-export const useCreateAppointmentRequest = <TError = ErrorType<ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointmentRequest>>, TError,{data: BodyType<AppointmentRequestInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof createAppointmentRequest>>,
-        TError,
-        {data: BodyType<AppointmentRequestInput>},
-        TContext
-      > => {
-      return useMutation(getCreateAppointmentRequestMutationOptions(options));
-    }
 

@@ -2,10 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { z } from 'zod';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
-  useCreateAppointmentRequest,
   useHealthCheck,
-  type AppointmentRequest,
-  type AppointmentRequestInput,
 } from '@workspace/api-client-react';
 import {
   ArrowLeft,
@@ -173,7 +170,6 @@ const bookingSchema = z.object({
     .string()
     .regex(/^(?:\+91[\s-]?)?[6-9]\d{9}$/, 'Please enter a valid Indian phone number.'),
   email: z.union([z.literal(''), z.string().email('Please check your email address.')]),
-  age: z.string(),
   reason: z.string().max(1000, 'Please keep your note under 1000 characters.'),
 });
 
@@ -184,7 +180,6 @@ type BookingDraft = {
   patientName: string;
   phone: string;
   email: string;
-  age: string;
   reason: string;
 };
 
@@ -195,7 +190,6 @@ const initialDraft: BookingDraft = {
   patientName: '',
   phone: '',
   email: '',
-  age: '',
   reason: '',
 };
 
@@ -213,6 +207,27 @@ function formatLongDate(value: string) {
     month: 'long',
     year: 'numeric',
   }).format(new Date(`${value}T12:00:00`));
+}
+
+function buildWhatsAppAppointmentMessage(draft: BookingDraft, treatment: Treatment) {
+  return [
+    'Hello Dental Care,',
+    '',
+    'I would like to book an appointment.',
+    '',
+    `Patient Name: ${draft.patientName.trim()}`,
+    `Phone: ${draft.phone.trim()}`,
+    ...(draft.email.trim() ? [`Email: ${draft.email.trim()}`] : []),
+    `Treatment: ${treatment.name}`,
+    `Price: ${formatPrice(treatment)}`,
+    `Preferred Date: ${formatLongDate(draft.date)}`,
+    `Preferred Time: ${draft.time}`,
+    ...(draft.reason.trim() ? ['', `Reason for Visit: ${draft.reason.trim()}`] : []),
+    '',
+    'Please confirm the appointment.',
+    '',
+    'Thank you.',
+  ].join('\n');
 }
 
 function todayKey() {
@@ -378,8 +393,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
   const [draft, setDraft] = useState<BookingDraft>({ ...initialDraft, treatmentId: initialTreatmentId || '' });
   const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [error, setError] = useState('');
-  const [result, setResult] = useState<AppointmentRequest | null>(null);
-  const createRequest = useCreateAppointmentRequest();
+  const [openingWhatsApp, setOpeningWhatsApp] = useState(false);
   const selectedTreatment = treatmentConfig.find((item) => item.id === draft.treatmentId);
   const calendarDays = useMemo(() => getCalendarDays(month), [month]);
 
@@ -397,7 +411,6 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
         patientName: draft.patientName,
         phone: draft.phone,
         email: draft.email,
-        age: draft.age,
         reason: draft.reason,
       });
       if (!parsed.success) return parsed.error.issues[0]?.message || 'Please check your details.';
@@ -407,62 +420,51 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
 
   const next = () => {
     const validation = validateStep();
-    if (validation) {
-      setError(validation);
+    if (validation || !selectedTreatment) {
+      setError(validation || 'Please select a treatment.');
       return;
     }
     setError('');
     setStep((current) => Math.min(current + 1, 5));
   };
 
-  const submit = () => {
-    if (createRequest.isPending) return;
-    const validation = validateStep();
-    if (validation || !selectedTreatment) {
-      setError(validation || 'Please select a treatment.');
+  const bookViaWhatsApp = () => {
+    if (openingWhatsApp) return;
+    if (!selectedTreatment) {
+      setError('Please select a treatment.');
       return;
     }
-    const payload: AppointmentRequestInput = {
-      patientName: draft.patientName.trim(),
-      phone: draft.phone.trim(),
-      email: draft.email.trim() || undefined,
-      treatmentId: selectedTreatment.id,
-      treatmentName: selectedTreatment.name,
-      price: selectedTreatment.price,
-      date: draft.date,
-      time: draft.time,
-      age: draft.age.trim() || undefined,
-      reason: draft.reason.trim() || undefined,
-    };
-    createRequest.mutate({ data: payload }, { onSuccess: (response) => setResult(response) });
+
+    const detailsValidation = bookingSchema.safeParse({
+      patientName: draft.patientName,
+      phone: draft.phone,
+      email: draft.email,
+      reason: draft.reason,
+    });
+    const validation = !draft.date
+      ? 'Please choose a date.'
+      : !draft.time
+        ? 'Please select a time slot.'
+        : !detailsValidation.success
+          ? detailsValidation.error.issues[0]?.message || 'Please check your details.'
+          : '';
+
+    if (validation) {
+      setError(validation);
+      return;
+    }
+
+    const whatsappHref = getWhatsAppHref(buildWhatsAppAppointmentMessage(draft, selectedTreatment));
+    setError('');
+    setOpeningWhatsApp(true);
+    window.setTimeout(() => {
+      const whatsappWindow = window.open(whatsappHref, '_blank', 'noopener,noreferrer');
+      if (!whatsappWindow) window.location.assign(whatsappHref);
+      setOpeningWhatsApp(false);
+    }, 250);
   };
 
   const progress = ['Treatment', 'Date', 'Time', 'Details', 'Review'];
-
-  if (result && selectedTreatment) {
-    return (
-      <div className="dialog-backdrop">
-        <div className="booking-dialog booking-success" role="dialog" aria-modal="true" aria-labelledby="success-title">
-          <button onClick={onClose} className="dialog-close" aria-label="Close booking"><X size={19} /></button>
-          <div className="success-icon"><CircleCheck size={26} /></div>
-          <div className="eyebrow mt-7 text-[hsl(var(--primary))]">Appointment request received</div>
-          <h2 id="success-title" className="mt-3 font-display text-5xl leading-[0.9] tracking-[-0.04em]">Your next step is clear.</h2>
-          <p className="mt-5 max-w-xl text-base leading-7 text-[hsl(var(--muted-foreground))]">{result.message}</p>
-          <div className="summary-grid mt-8">
-            <div><span className="price-caption">Appointment ID</span><strong data-testid="text-appointment-id">{result.appointmentId}</strong></div>
-            <div><span className="price-caption">Status</span><strong className="capitalize" data-testid="text-appointment-status">{result.status}</strong></div>
-            <div><span className="price-caption">Treatment</span><strong>{selectedTreatment.name}</strong></div>
-            <div><span className="price-caption">Date & time</span><strong>{formatLongDate(draft.date)} · {draft.time}</strong></div>
-          </div>
-          <div className="mt-6 rounded-2xl bg-[hsl(var(--secondary))] p-5 text-sm leading-6">
-            <span className="price-caption">Dental Care</span>
-            <p className="mt-2">{clinicConfig.addressLines.map((line) => <span key={line} className="block">{line}</span>)}</p>
-          </div>
-          <button onClick={onClose} className="button-primary mt-8 inline-flex items-center gap-2 px-6 py-3.5">Done <ArrowUpRight size={16} /></button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="dialog-backdrop booking-backdrop">
@@ -479,7 +481,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
           <div className="booking-section">
             <SectionLabel>Step 01 · choose treatment</SectionLabel>
             <h3 className="mt-4 font-display text-4xl leading-[0.93]">What would you like help with?</h3>
-            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Choose the closest fit. You can ask questions when the clinic follows up.</p>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Choose the closest fit. Your selected treatment and price will be included in your WhatsApp message.</p>
             <div className="booking-treatment-list">
               {treatmentConfig.filter((treatment) => treatment.available).map((treatment) => (
                 <button key={treatment.id} onClick={() => update('treatmentId', treatment.id)} className={`booking-treatment ${draft.treatmentId === treatment.id ? 'booking-treatment-selected' : ''}`} data-testid={`booking-treatment-${treatment.id}`}>
@@ -512,7 +514,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
           <div className="booking-section">
             <SectionLabel>Step 03 · choose time</SectionLabel>
             <h3 className="mt-4 font-display text-4xl leading-[0.93]">Find a good time.</h3>
-            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Preferred slots are requests; the clinic team will confirm availability with you.</p>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Preferred slots are requests; the clinic team will confirm availability with you on WhatsApp.</p>
             <div className="selected-date-chip"><CalendarDays size={16} /> {formatLongDate(draft.date)}</div>
             <div className="time-grid">{bookingConfig.timeSlots.map((slot) => <button key={slot} onClick={() => update('time', slot)} className={`time-slot ${draft.time === slot ? 'time-slot-selected' : ''}`}>{draft.time === slot && <Check size={15} />}{slot}</button>)}</div>
           </div>
@@ -527,7 +529,6 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
               <label>Full name *<input value={draft.patientName} onChange={(event) => update('patientName', event.target.value)} placeholder="How should we address you?" autoComplete="name" data-testid="input-patient-name" /></label>
               <label>Phone number *<input value={draft.phone} onChange={(event) => update('phone', event.target.value)} placeholder="+91 98765 43210" inputMode="tel" autoComplete="tel" data-testid="input-patient-phone" /></label>
               <label>Email <span className="optional">(optional)</span><input value={draft.email} onChange={(event) => update('email', event.target.value)} placeholder="you@example.com" type="email" autoComplete="email" data-testid="input-patient-email" /></label>
-              <label>Age <span className="optional">(optional)</span><input value={draft.age} onChange={(event) => update('age', event.target.value)} placeholder="Age" inputMode="numeric" data-testid="input-patient-age" /></label>
               <label className="sm:col-span-2">Reason for visit <span className="optional">(optional)</span><textarea value={draft.reason} onChange={(event) => update('reason', event.target.value)} placeholder="A concern, question, or anything useful to know." data-testid="input-visit-reason" /></label>
             </div>
           </div>
@@ -537,7 +538,7 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
           <div className="booking-section">
             <SectionLabel>Step 05 · review</SectionLabel>
             <h3 className="mt-4 font-display text-4xl leading-[0.93]">Does this look right?</h3>
-            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">We will receive this as an appointment request and contact you before anything is confirmed.</p>
+            <p className="mt-3 text-sm leading-6 text-[hsl(var(--muted-foreground))]">Review your details, then send this request directly to Dental Care on WhatsApp for confirmation.</p>
             <div className="review-card">
               <div className="review-card-heading"><span className="price-caption">Your appointment</span><CalendarDays size={19} className="text-[hsl(var(--primary))]" /></div>
               <div className="review-grid">
@@ -550,23 +551,17 @@ function BookingFlow({ initialTreatmentId, onClose }: { initialTreatmentId?: str
               </div>
               <div className="review-address"><span className="price-caption">Clinic</span>{clinicConfig.addressLines.map((line) => <span key={line}>{line}</span>)}</div>
             </div>
-            {createRequest.isError && (
-              <div className="booking-error" role="alert">
-                <p>Something went wrong. Your appointment request could not be submitted.</p>
-                <div className="mt-3 flex flex-wrap items-center gap-3">
-                  <button type="button" onClick={submit} className="font-bold underline underline-offset-4">Try again</button>
-                  {clinicConfig.phone && <a href={`tel:${clinicConfig.phone}`} className="font-bold underline underline-offset-4">Call clinic</a>}
-                  {clinicConfig.whatsapp && <a href={clinicConfig.whatsapp} target="_blank" rel="noreferrer" className="font-bold underline underline-offset-4">WhatsApp</a>}
-                </div>
-              </div>
-            )}
+             <div className="booking-whatsapp-note">
+               <MessageCircle size={16} />
+               <span>WhatsApp will open with these details pre-filled. The clinic will confirm your appointment there.</span>
+             </div>
           </div>
         )}
 
         {error && <div className="booking-error" role="alert">{error}</div>}
         <div className="booking-footer">
           <button onClick={() => step === 1 ? onClose() : setStep((current) => current - 1)} className="button-ghost">{step === 1 ? 'Cancel' : <><ArrowLeft size={15} /> Back</>}</button>
-          {step < 5 ? <button onClick={next} className="button-primary inline-flex items-center gap-2 px-6 py-3.5">Continue <ArrowRight size={16} /></button> : <button onClick={submit} disabled={createRequest.isPending} className="button-primary inline-flex items-center gap-2 px-6 py-3.5 disabled:opacity-60">{createRequest.isPending ? 'Submitting request…' : 'Submit appointment request'}<ArrowUpRight size={16} /></button>}
+          {step < 5 ? <button onClick={next} className="button-primary inline-flex items-center gap-2 px-6 py-3.5">Continue <ArrowRight size={16} /></button> : <button onClick={bookViaWhatsApp} disabled={openingWhatsApp} className="button-primary inline-flex items-center gap-2 px-6 py-3.5 disabled:opacity-60">{openingWhatsApp ? 'Opening WhatsApp…' : 'BOOK VIA WHATSAPP'}<MessageCircle size={16} /></button>}
         </div>
       </div>
     </div>
@@ -689,7 +684,7 @@ function buildAssistantResponse(query: string): Omit<AssistantMessage, 'id' | 'r
 
   if (/(faq|after i submit|what happens|process|how does booking work)/.test(normalized)) {
     return {
-      text: 'Choose a treatment, preferred date and time, then share your name and phone number. Dental Care receives your request and contacts you to confirm availability. A submitted request is not a confirmed appointment.',
+      text: 'Choose a treatment, preferred date and time, then share your name and phone number. I will prepare the details in WhatsApp for Dental Care, where the clinic team will confirm availability. Sending a message does not confirm an appointment.',
       actions: [{ label: 'Book appointment', kind: 'book' }, ...contactActions],
     };
   }
@@ -715,7 +710,7 @@ function Assistant({ onBook }: { onBook: (treatmentId?: string) => void }) {
     {
       id: 1,
       role: 'assistant',
-      text: 'Hello. I can help you find treatments, check rate-sheet prices, or start an appointment request.',
+      text: 'Hello. I can help you find treatments, check rate-sheet prices, or start a WhatsApp appointment request.',
     },
   ]);
 
@@ -759,7 +754,7 @@ function Assistant({ onBook }: { onBook: (treatmentId?: string) => void }) {
     ['Treatments & prices', 'Show me treatments and prices'],
     ['Book appointment', 'I want to book an appointment'],
     ['Clinic location', 'Where is the clinic located?'],
-    ['FAQs', 'What happens after I submit an appointment request?'],
+    ['FAQs', 'What happens after I book through WhatsApp?'],
   ];
 
   return (
@@ -819,7 +814,7 @@ function Home() {
     ['Where is Dental Care located?', clinicConfig.address],
     ['How do treatment prices work?', 'The displayed rates come from the current Dental Care rate sheet. Some services have ranges or multiple rates; the dentist will discuss the final cost based on your requirements.'],
     ['Can I choose my preferred time?', 'Yes. Choose from the configured preferred slots. The clinic team will contact you to confirm availability.'],
-    ['What happens after I submit a request?', 'You will receive a request ID immediately. The clinic will contact you to confirm the appointment; submitting a request does not confirm a visit.'],
+    ['What happens after I book through WhatsApp?', 'Your booking details open in a pre-filled WhatsApp message to Dental Care. Send it to the clinic team, who will confirm availability with you. Sending the message does not confirm a visit.'],
     ['Can I contact the clinic through WhatsApp?', clinicConfig.whatsapp ? 'Yes. Use the WhatsApp link in the Contact section.' : 'WhatsApp details will be added here once configured by the clinic.'],
   ];
   return (
@@ -837,7 +832,7 @@ function Home() {
                 <button onClick={() => openBooking()} className="button-light inline-flex items-center gap-2 px-6 py-3.5" data-testid="button-hero-book">Book an appointment <ArrowUpRight size={16} /></button>
                 <a href="#treatments" className="button-outline-light inline-flex items-center gap-2 px-5 py-3.5" data-testid="link-hero-treatments">View treatments & prices <ArrowRight size={16} /></a>
               </div>
-              <div className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-white/60"><span className="status-dot" /><span>{health.isLoading ? 'Checking request desk' : 'Request desk online'}</span><span className="text-white/25">/</span><span>Kurla East, Mumbai</span></div>
+              <div className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-white/60"><span className="status-dot" /><span>{health.isLoading ? 'Preparing WhatsApp booking' : 'WhatsApp booking ready'}</span><span className="text-white/25">/</span><span>Kurla East, Mumbai</span></div>
             </div>
             <div className="hero-visual">
               <img src="/clinic-atrium.png" alt="Sunlit modern interior at Dental Care clinic" className="hero-image" />

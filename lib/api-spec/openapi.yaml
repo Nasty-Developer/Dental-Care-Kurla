@@ -10,8 +10,6 @@ servers:
 tags:
   - name: health
     description: Health operations
-  - name: appointments
-    description: Appointment request operations
 paths:
   /healthz:
     get:
@@ -26,31 +24,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
-  /appointments:
-    post:
-      operationId: createAppointmentRequest
-      tags: [appointments]
-      summary: Submit an appointment request
-      description: Receives a patient appointment request for follow-up by the clinic team.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AppointmentRequestInput"
-      responses:
-        "201":
-          description: Appointment request received
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppointmentRequest"
-        "400":
-          description: Invalid appointment request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -60,69 +33,6 @@ components:
           type: string
       required:
         - status
-    AppointmentRequestInput:
-      type: object
-      properties:
-        patientName:
-          type: string
-          minLength: 2
-        phone:
-          type: string
-          minLength: 10
-        email:
-          type: string
-          minLength: 3
-        age:
-          type: string
-          maxLength: 3
-        treatmentId:
-          type: string
-          minLength: 1
-        treatmentName:
-          type: string
-          minLength: 1
-        price:
-          type: ["string", "null"]
-        date:
-          type: string
-          format: date
-        time:
-          type: string
-          minLength: 1
-        reason:
-          type: string
-          maxLength: 1000
-      required:
-        - patientName
-        - phone
-        - treatmentId
-        - treatmentName
-        - price
-        - date
-        - time
-    AppointmentRequest:
-      type: object
-      properties:
-        success:
-          type: boolean
-        appointmentId:
-          type: string
-        status:
-          type: string
-          enum: [pending, confirmed, cancelled, completed, rescheduled]
-        message:
-          type: string
-        receivedAt:
-          type: string
-          format: date-time
-        clinicAddress:
-          type: string
-      required:
-        - success
-        - appointmentId
-        - status
-        - message
-        - clinicAddress
     ErrorResponse:
       type: object
       properties:

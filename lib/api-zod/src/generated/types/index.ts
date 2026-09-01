@@ -6,8 +6,5 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from './appointmentRequest';
-export * from './appointmentRequestInput';
-export * from './appointmentRequestStatus';
 export * from './errorResponse';
 export * from './healthStatus';

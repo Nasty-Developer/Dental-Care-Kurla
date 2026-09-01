@@ -315,6 +315,8 @@
 .review-address { display: grid; gap: .15rem; padding-top: 1rem; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
 .review-address .price-caption { margin-bottom: .2rem; }
 .booking-error { margin: 0 2rem 1rem; padding: .75rem .9rem; border-radius: .65rem; background: hsl(var(--destructive) / .1); color: hsl(var(--destructive)); font-size: .75rem; line-height: 1.5; }
+.booking-whatsapp-note { display: flex; align-items: flex-start; gap: .55rem; margin-top: 1rem; padding: .8rem .9rem; border: 1px solid hsl(var(--primary) / .18); border-radius: .7rem; background: hsl(var(--secondary) / .55); color: hsl(var(--muted-foreground)); font-size: .72rem; line-height: 1.5; }
+.booking-whatsapp-note svg { flex: 0 0 auto; margin-top: .1rem; color: hsl(var(--primary)); }
 .booking-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 2rem 1.4rem; border-top: 1px solid hsl(var(--border)); }
 .booking-success { padding: 2rem; }
 .success-icon { display: flex; width: 52px; height: 52px; align-items: center; justify-content: center; border-radius: 999px; background: hsl(var(--primary)); color: white; }
