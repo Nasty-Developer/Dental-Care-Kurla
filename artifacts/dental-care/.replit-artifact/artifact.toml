@@ -1,7 +1,7 @@
 kind = "web"
 previewPath = "/"
 title = "Dental Care Clinic Website"
-description = "A premium, responsive dental clinic website for Dental Care in Kurla East, Mumbai, with service discovery, location details, and an appointment request experience."
+description = "A premium, responsive dental clinic website for Dental Care in Kurla East, Mumbai, with treatment discovery, pricing, location details, and appointment requests."
 version = "1.0.0"
 id = "artifacts/dental-care"
 router = "path"
