@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: appointments
+    description: Appointment request operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /appointments:
+    post:
+      operationId: createAppointmentRequest
+      tags: [appointments]
+      summary: Submit an appointment request
+      description: Receives a patient appointment request for follow-up by the clinic team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentRequestInput"
+      responses:
+        "201":
+          description: Appointment request received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentRequest"
+        "400":
+          description: Invalid appointment request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +60,60 @@ components:
           type: string
       required:
         - status
+    AppointmentRequestInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+        phone:
+          type: string
+          minLength: 10
+        email:
+          type: string
+          minLength: 3
+        service:
+          type: string
+          minLength: 1
+        preferredDate:
+          type: string
+          format: date
+        preferredTime:
+          type: string
+          minLength: 1
+        message:
+          type: string
+          maxLength: 1000
+      required:
+        - name
+        - phone
+        - email
+        - service
+        - preferredDate
+        - preferredTime
+    AppointmentRequest:
+      type: object
+      properties:
+        appointmentId:
+          type: string
+        status:
+          type: string
+          enum: [request_received]
+        receivedAt:
+          type: string
+          format: date-time
+        clinicAddress:
+          type: string
+      required:
+        - appointmentId
+        - status
+        - receivedAt
+        - clinicAddress
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 

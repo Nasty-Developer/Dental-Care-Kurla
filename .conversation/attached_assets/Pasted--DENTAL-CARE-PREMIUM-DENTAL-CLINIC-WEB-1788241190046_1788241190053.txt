@@ -1,0 +1,2000 @@
+============================================================
+DENTAL CARE — PREMIUM DENTAL CLINIC WEBSITE
+ULTIMATE DESIGN + UX + DEVELOPMENT PROMPT
+============================================================
+
+Build a complete, premium, production-quality dental clinic
+website called:
+
+DENTAL CARE
+
+This must NOT look like a generic AI-generated dental template.
+
+Create a visually exceptional website with:
+- Premium UI
+- Excellent UX
+- Modern bluish visual identity
+- Smooth animations
+- Micro-interactions
+- Responsive design
+- Appointment booking
+- Contact functionality
+- Location information
+- Service discovery
+- Accessibility
+- SEO
+- Performance
+- Clean component architecture
+- Professional medical branding
+
+The final website should feel like it was designed by a
+high-end professional product/design team.
+
+============================================================
+1. BRAND IDENTITY
+============================================================
+
+Brand Name:
+
+Dental Care
+
+Primary brand feeling:
+
+- Professional
+- Trustworthy
+- Modern
+- Clean
+- Premium
+- Calm
+- Friendly
+- Advanced
+- Patient-focused
+- Elegant
+
+The website should communicate trust immediately.
+
+The visual identity must strongly use BLUE.
+
+Do NOT make the site mostly white with tiny blue accents.
+
+BLUE MUST BE A MAJOR PART OF THE VISUAL IDENTITY.
+
+============================================================
+2. COLOR SYSTEM
+============================================================
+
+Use a sophisticated bluish palette.
+
+Primary:
+Deep professional blue
+
+Secondary:
+Bright modern healthcare blue
+
+Accent:
+Light cyan / aqua blue
+
+Background:
+Very light blue-tinted white
+
+Dark sections:
+Deep navy / midnight blue
+
+Cards:
+White and very-light-blue surfaces
+
+Suggested palette direction:
+
+#0B5ED7
+#1677FF
+#38BDF8
+#EAF5FF
+#F5FAFF
+#0B1F3A
+#FFFFFF
+
+You may refine these exact colors if necessary, but maintain
+a clearly BLUE visual identity.
+
+Use gradients carefully.
+
+Premium blue gradients are encouraged in:
+- Hero backgrounds
+- CTA sections
+- Decorative elements
+- Buttons
+- Feature highlights
+
+Do NOT turn every element into a gradient.
+
+The result should feel like premium healthcare technology,
+not a gaming website.
+
+============================================================
+3. OVERALL VISUAL STYLE
+============================================================
+
+Create a premium modern dental/healthcare aesthetic.
+
+Visual inspiration:
+
+Luxury healthcare
++
+modern SaaS
++
+premium dental clinic
++
+Apple-level spacing
++
+modern fintech-style polish
++
+soft medical visuals
+
+The interface should feel:
+
+"Clean, advanced, trustworthy, calming and expensive."
+
+Use:
+
+- Large typography
+- Generous whitespace
+- Blue gradients
+- Soft shadows
+- Subtle borders
+- Rounded corners
+- Glass effects where appropriate
+- Premium cards
+- Beautiful dental photography
+- Consistent iconography
+- Strong visual hierarchy
+
+Avoid:
+
+- Cheap templates
+- Generic Bootstrap appearance
+- Random gradients
+- Excessive glassmorphism
+- Excessive rounded rectangles
+- Cartoon teeth everywhere
+- Huge walls of text
+- Overly childish designs
+- Excessive animations
+- Clutter
+
+============================================================
+4. CLINIC ADDRESS
+============================================================
+
+Use the exact address visible in the provided reference image:
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+City:
+
+Mumbai
+
+Location:
+
+Kurla East, Mumbai - 400024
+
+DO NOT modify or invent parts of this address.
+
+Display the address in:
+
+- Contact section
+- Location section
+- Footer
+- Appointment confirmation
+- Relevant mobile contact UI
+
+Create a configurable "Get Directions" button.
+
+The Google Maps URL should be configurable.
+
+Do not invent coordinates.
+
+============================================================
+5. REFERENCE IMAGE
+============================================================
+
+The provided image contains the clinic address.
+
+Use the address from that image exactly.
+
+Do not display the uploaded image itself as the primary
+website design.
+
+The image is reference information for the clinic location.
+
+============================================================
+6. NAVIGATION
+============================================================
+
+Create a premium sticky navbar.
+
+Desktop:
+
+Left:
+Dental Care logo / wordmark
+
+Center/right navigation:
+
+Home
+About
+Services
+Why Us
+FAQ
+Contact
+
+Right:
+BOOK APPOINTMENT
+
+The Book Appointment button should be visually prominent.
+
+Navbar behavior:
+
+At top:
+- Transparent or semi-transparent depending on hero
+
+When scrolling:
+- Become compact
+- Blue/white background
+- Backdrop blur
+- Subtle shadow
+- Smooth transition
+
+The navbar must remain elegant.
+
+============================================================
+7. DENTAL CARE LOGO
+============================================================
+
+Create a clean text-based or minimal dental logo.
+
+Logo concept:
+
+Dental Care
+
+Use a subtle dental-inspired symbol if appropriate.
+
+Do NOT create a childish cartoon tooth.
+
+Possible direction:
+
+Minimal tooth outline
++
+small healthcare/medical detail
++
+blue gradient
+
+The logo should work in:
+- Navbar
+- Footer
+- Mobile
+- Favicon
+
+============================================================
+8. HERO SECTION
+============================================================
+
+Create an extraordinary hero section.
+
+This is one of the most important parts of the entire website.
+
+Use a large bluish visual composition.
+
+Hero direction:
+
+Left:
+Large headline
+
+"Confident Smiles Start Here."
+
+Supporting copy:
+
+"Modern dental care designed around your comfort, health,
+and smile."
+
+Make the copy editable.
+
+Primary CTA:
+
+BOOK AN APPOINTMENT
+
+Secondary CTA:
+
+EXPLORE SERVICES
+
+Also show:
+
+Kurla East, Mumbai
+
+Hero visual:
+
+Use premium dental/clinic photography.
+
+The visual can include:
+- Dentist
+- Modern treatment room
+- Patient consultation
+- Beautiful smile imagery
+- Modern dental equipment
+
+The image should look realistic and premium.
+
+Use blue visual overlays where appropriate.
+
+============================================================
+9. HERO ANIMATIONS
+============================================================
+
+On initial load:
+
+1. Navbar fades in
+2. Logo appears smoothly
+3. Hero heading reveals
+4. Supporting text appears
+5. CTA buttons animate in
+6. Hero image smoothly enters
+7. Background decorative elements subtly move
+
+Use elegant motion.
+
+Do NOT use:
+- Aggressive bouncing
+- Excessive spinning
+- Distracting effects
+
+Animation should communicate quality.
+
+============================================================
+10. HERO TRUST STRIP
+============================================================
+
+Add a subtle trust/quick-action strip around the hero.
+
+Possible items:
+
+📍 Kurla East, Mumbai
+📅 Easy Appointment Booking
+🦷 Comprehensive Dental Care
+💙 Patient-Focused Experience
+
+Only use factual claims that are actually supported.
+
+Make these editable.
+
+============================================================
+11. QUICK ACTIONS
+============================================================
+
+Create highly visible quick actions:
+
+BOOK APPOINTMENT
+CALL CLINIC
+WHATSAPP
+GET DIRECTIONS
+
+These should be especially accessible on mobile.
+
+Use beautiful blue icons.
+
+============================================================
+12. SERVICES SECTION
+============================================================
+
+Heading:
+
+"Complete Dental Care"
+
+Supporting text:
+
+"Thoughtful dental care for every stage of your smile journey."
+
+Create premium service cards.
+
+Possible service categories:
+
+General Dentistry
+Dental Cleaning
+Teeth Whitening
+Tooth-Colored Fillings
+Root Canal Treatment
+Crowns & Bridges
+Dental Implants
+Orthodontics
+Pediatric Dentistry
+Preventive Dentistry
+Cosmetic Dentistry
+Emergency Dental Care
+
+IMPORTANT:
+
+These services must be editable.
+
+Do not present unconfirmed services as definite clinic offerings.
+
+If the actual service list is not supplied, make the data structure
+easy for the clinic owner/developer to customize.
+
+============================================================
+13. SERVICE CARDS
+============================================================
+
+Each service card should contain:
+
+- Elegant icon
+- Service title
+- Short description
+- Learn More
+
+Hover interaction:
+
+- Slight upward movement
+- Soft blue glow
+- Border transition
+- Icon movement
+- Shadow transition
+
+Do NOT make hover effects excessive.
+
+On mobile:
+- No hover-dependent information
+- Everything must remain accessible through tapping
+
+============================================================
+14. SERVICES DETAIL
+============================================================
+
+Clicking a service should open a polished detail experience.
+
+Could be:
+
+- Modal
+- Drawer
+- Dedicated page
+
+Include:
+
+- Service description
+- General information
+- What patients can expect
+- CTA
+
+"Book an Appointment"
+
+Do not make medical guarantees.
+
+Never use claims such as:
+
+"100% painless"
+"Guaranteed results"
+"Permanent results"
+
+unless explicitly provided and verified.
+
+============================================================
+15. ABOUT DENTAL CARE
+============================================================
+
+Create a premium About section.
+
+Headline:
+
+"Care That Puts You First."
+
+Explain the clinic philosophy.
+
+Keep content concise.
+
+Use:
+- Beautiful clinic image
+- Blue accent background
+- Modern layout
+- Small visual details
+
+Do not invent:
+- Doctor names
+- Qualifications
+- Years of experience
+- Awards
+- Certifications
+
+If those details aren't provided, use editable placeholders.
+
+============================================================
+16. WHY CHOOSE DENTAL CARE
+============================================================
+
+Create a strong blue-themed feature section.
+
+Possible features:
+
+Patient-Centered Care
+Comfortable Experience
+Modern Clinical Approach
+Clear Treatment Guidance
+Personalized Care
+Convenient Location
+
+Use beautiful icons.
+
+Design this section with a strong blue background.
+
+Possible layout:
+
+Dark navy/blue background
++
+white text
++
+light blue cards
++
+subtle gradient glow
+
+This should be one of the visual highlights of the website.
+
+============================================================
+17. DOCTOR / TEAM SECTION
+============================================================
+
+Create an elegant doctor/team section.
+
+Each doctor card can contain:
+
+Photo
+Name
+Qualification
+Specialty
+Experience
+Short bio
+
+IMPORTANT:
+
+Never invent actual medical professionals.
+
+If information hasn't been provided, create clearly editable
+placeholder data.
+
+The section must be ready for real doctor information later.
+
+============================================================
+18. PATIENT JOURNEY
+============================================================
+
+Create a visual patient journey.
+
+Title:
+
+"Your Visit, Made Simple."
+
+Steps:
+
+01
+Book Your Appointment
+
+02
+Visit Dental Care
+
+03
+Meet Your Dentist
+
+04
+Understand Your Treatment Options
+
+05
+Begin Your Care
+
+Use blue numbered indicators.
+
+Animate the steps as the user scrolls.
+
+============================================================
+19. APPOINTMENT BOOKING
+============================================================
+
+THIS IS A CORE FEATURE.
+
+The appointment booking experience must be extremely polished.
+
+When the user clicks:
+
+BOOK AN APPOINTMENT
+
+open a premium booking interface.
+
+============================================================
+20. BOOKING STEP 1
+============================================================
+
+Patient Information
+
+Fields:
+
+Full Name
+Phone Number
+Email Address
+Age (optional)
+Reason for Visit
+
+Use beautiful input fields.
+
+Blue focus states.
+
+Clear labels.
+
+No tiny text.
+
+============================================================
+21. BOOKING STEP 2
+============================================================
+
+Choose Service
+
+Display service cards or a clean dropdown.
+
+Possible options:
+
+General Consultation
+Dental Cleaning
+Teeth Whitening
+Filling
+Root Canal
+Braces / Orthodontics
+Dental Implant
+Cosmetic Dentistry
+Other
+
+Make this list configurable.
+
+============================================================
+22. BOOKING STEP 3
+============================================================
+
+Select Date
+
+Create a premium calendar UI.
+
+Requirements:
+
+- Current month
+- Next/previous navigation
+- Disabled unavailable dates
+- Selected date state
+- Blue accent
+- Mobile-friendly
+- Keyboard accessibility
+
+Do not allow obviously invalid dates.
+
+============================================================
+23. BOOKING STEP 4
+============================================================
+
+Select Preferred Time
+
+Show available slots.
+
+Example:
+
+10:00 AM
+10:30 AM
+11:00 AM
+11:30 AM
+12:00 PM
+
+These are examples only.
+
+Actual availability must eventually come from backend data.
+
+============================================================
+24. BOOKING STEP 5
+============================================================
+
+Confirmation screen.
+
+Display:
+
+Appointment Request
+
+Patient Name
+Service
+Preferred Date
+Preferred Time
+
+Clinic:
+
+Dental Care
+Shop No: 01, Bldg No: 84,
+Navchaitanya CHS, Police Colony,
+Nehru Nagar, Kurla East - 400024
+
+Button:
+
+SUBMIT APPOINTMENT REQUEST
+
+============================================================
+25. IMPORTANT APPOINTMENT LOGIC
+============================================================
+
+Do NOT falsely tell users their appointment is confirmed unless
+a real appointment system confirms it.
+
+If the backend only receives a request:
+
+"Your appointment request has been received."
+
+Use wording such as:
+
+"Our team will contact you to confirm your appointment."
+
+Do not claim automatic confirmation unless it actually exists.
+
+============================================================
+26. APPOINTMENT SUCCESS STATE
+============================================================
+
+After successful submission:
+
+Display a beautiful success screen.
+
+Example:
+
+"Appointment Request Received"
+
+"Thank you. We've received your appointment request and will
+contact you regarding confirmation."
+
+Include:
+
+Appointment ID
+
+if generated by backend.
+
+Buttons:
+
+BACK TO HOME
+CONTACT CLINIC
+WHATSAPP
+
+Use a subtle success animation.
+
+============================================================
+27. APPOINTMENT ERROR STATE
+============================================================
+
+If submission fails:
+
+"We couldn't submit your request."
+
+"Please try again or contact the clinic directly."
+
+Buttons:
+
+TRY AGAIN
+CONTACT CLINIC
+
+Never expose technical backend errors to patients.
+
+============================================================
+28. FORM VALIDATION
+============================================================
+
+Validate:
+
+Name
+Phone
+Email
+Service
+Date
+Time
+
+Phone number should support Indian numbers.
+
+Show friendly errors:
+
+"Please enter your name."
+
+"Please enter a valid phone number."
+
+"Please select a service."
+
+"Please choose a preferred date."
+
+"Please select a time."
+
+============================================================
+29. APPOINTMENT API
+============================================================
+
+Design the frontend so it can connect to a backend.
+
+Suggested endpoint:
+
+POST /api/appointments
+
+Payload:
+
+{
+  name,
+  phone,
+  email,
+  age,
+  service,
+  reason,
+  preferredDate,
+  preferredTime
+}
+
+Response:
+
+{
+  success,
+  appointmentId,
+  message
+}
+
+Never expose secrets in client-side code.
+
+============================================================
+30. ADMIN DASHBOARD ARCHITECTURE
+============================================================
+
+Prepare the application architecture for an admin dashboard.
+
+Admin should eventually be able to:
+
+View appointments
+Search appointments
+Filter by date
+Filter by service
+View patient request
+Confirm appointment
+Cancel appointment
+Reschedule appointment
+Mark completed
+
+Statuses:
+
+Pending
+Confirmed
+Cancelled
+Completed
+
+Keep this modular.
+
+============================================================
+31. CONTACT SYSTEM
+============================================================
+
+Create a premium Contact section.
+
+Include:
+
+Dental Care
+
+Address:
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Include configurable:
+
+Phone
+Email
+WhatsApp
+
+Do not invent actual phone/email information.
+
+============================================================
+32. WHATSAPP
+============================================================
+
+Create a WhatsApp CTA.
+
+Use configurable environment variable:
+
+NEXT_PUBLIC_WHATSAPP_NUMBER
+
+Example pre-filled message:
+
+"Hello Dental Care, I would like to enquire about booking an
+appointment."
+
+Do not hardcode a fake WhatsApp number.
+
+============================================================
+33. PHONE
+============================================================
+
+Use configurable environment variable:
+
+NEXT_PUBLIC_CLINIC_PHONE
+
+If configured:
+
+tel:
+
+should open the phone dialer.
+
+============================================================
+34. LOCATION
+============================================================
+
+Create a visually beautiful location section.
+
+Heading:
+
+"Find Dental Care"
+
+Show:
+
+Shop No: 01
+Bldg No: 84
+Navchaitanya CHS
+Police Colony
+Nehru Nagar
+Kurla East - 400024
+Mumbai
+
+Add:
+
+GET DIRECTIONS
+
+and
+
+CONTACT CLINIC
+
+Use a configurable map integration.
+
+Do not invent coordinates.
+
+============================================================
+35. MAP DESIGN
+============================================================
+
+Map area should have a premium card design.
+
+Possible structure:
+
+LEFT:
+Address + CTA
+
+RIGHT:
+Map
+
+Mobile:
+Stack vertically.
+
+If map API is unavailable, show a clean placeholder with
+"Map integration coming soon" rather than a broken map.
+
+============================================================
+36. TESTIMONIALS
+============================================================
+
+Create a beautiful testimonial carousel.
+
+IMPORTANT:
+
+Do NOT fabricate real patient reviews.
+
+Use editable placeholders.
+
+Each testimonial:
+
+★★★★★
+
+"Patient testimonial goes here."
+
+— Patient Name
+
+Make the testimonials easy to replace with verified reviews.
+
+Use elegant blue quotation styling.
+
+============================================================
+37. FAQ
+============================================================
+
+Create an animated FAQ accordion.
+
+Questions:
+
+How do I book an appointment?
+Where is Dental Care located?
+How can I contact the clinic?
+What should I bring to my appointment?
+How does online appointment booking work?
+What happens after I submit an appointment request?
+
+Answers should remain general and editable.
+
+Do not invent clinic-specific policies.
+
+============================================================
+38. URGENT DENTAL CARE
+============================================================
+
+If the clinic provides urgent dental care, create an editable
+section:
+
+"Need Urgent Dental Attention?"
+
+"Contact the clinic to discuss your situation."
+
+CTA:
+
+CONTACT CLINIC
+
+Do not claim 24/7 emergency availability unless confirmed.
+
+============================================================
+39. FINAL CTA
+============================================================
+
+Create a visually spectacular final CTA.
+
+Use deep blue/navy background.
+
+Headline:
+
+"Your Smile Deserves Great Care."
+
+Supporting text:
+
+"Take the next step toward a healthier, confident smile."
+
+Primary button:
+
+BOOK AN APPOINTMENT
+
+Secondary:
+
+CONTACT CLINIC
+
+Use subtle animated blue lighting.
+
+============================================================
+40. FOOTER
+============================================================
+
+Create a premium dark-blue footer.
+
+Include:
+
+Dental Care
+
+"Thoughtful dental care for healthier, confident smiles."
+
+Navigation:
+
+Home
+About
+Services
+Why Us
+FAQ
+Contact
+
+CTA:
+
+Book Appointment
+
+Location:
+
+Shop No: 01,
+Bldg No: 84,
+Navchaitanya CHS,
+Police Colony,
+Nehru Nagar,
+Kurla East - 400024
+
+Include configurable:
+
+Phone
+Email
+WhatsApp
+Social links
+
+Bottom:
+
+© Dental Care
+
+Privacy Policy
+Terms & Conditions
+
+============================================================
+41. MOBILE FLOATING ACTION BAR
+============================================================
+
+On mobile, create a premium fixed bottom action bar.
+
+Actions:
+
+CALL
+WHATSAPP
+BOOK
+
+Make it elegant.
+
+It must not cover important page content.
+
+When appointment modal is open:
+hide or reposition the floating bar.
+
+============================================================
+42. MOBILE NAVIGATION
+============================================================
+
+Mobile menu should be beautiful.
+
+Use:
+
+Menu icon
+
+Opening animation:
+smooth slide/fade.
+
+Menu items:
+
+Home
+About
+Services
+Why Us
+FAQ
+Contact
+
+Large CTA:
+
+BOOK APPOINTMENT
+
+Prevent background interaction while menu is open.
+
+Close with:
+- X button
+- Menu selection
+- Escape key
+
+============================================================
+43. ANIMATION SYSTEM
+============================================================
+
+Animations should be a major part of the premium experience.
+
+Use:
+
+- Scroll reveal
+- Fade-in
+- Slide-up
+- Scale transitions
+- Button micro-interactions
+- Card hover
+- Modal transitions
+- Calendar transitions
+- Accordion animation
+- Navbar transitions
+- Image reveal
+- Section transitions
+
+Keep animations smooth.
+
+Preferred timing:
+
+150ms
+250ms
+350ms
+500ms
+
+Use easing curves that feel natural.
+
+Do not animate everything simultaneously.
+
+============================================================
+44. BLUE VISUAL EFFECTS
+============================================================
+
+Use sophisticated blue visual effects:
+
+- Soft blue glows
+- Gradient light
+- Subtle blue shadows
+- Animated background blobs
+- Light blue particles where appropriate
+- Gradient borders
+- Blue hover states
+
+Keep these subtle.
+
+The goal is:
+
+Premium healthcare technology.
+
+NOT:
+
+Cyberpunk dental clinic from 2087.
+
+============================================================
+45. HERO BACKGROUND
+============================================================
+
+Create a sophisticated blue hero background.
+
+Possible design:
+
+Deep blue gradient
++
+soft radial blue light
++
+subtle abstract dental/medical shapes
++
+premium photography
+
+Use animated background elements very subtly.
+
+Avoid visual noise.
+
+============================================================
+46. RESPONSIVE DESIGN
+============================================================
+
+The website MUST work beautifully on:
+
+320px
+375px
+390px
+430px
+768px
+1024px
+1280px
+1440px
+1920px
+
+Mobile must NOT feel like a squeezed desktop website.
+
+Create layouts intentionally for each breakpoint.
+
+Ensure:
+
+- No horizontal scrolling
+- No overflowing text
+- No broken grids
+- No tiny buttons
+- No tiny form fields
+- No overlapping content
+- No clipped images
+
+============================================================
+47. ACCESSIBILITY
+============================================================
+
+Follow accessibility best practices.
+
+Include:
+
+Semantic HTML
+Proper heading hierarchy
+Accessible labels
+Keyboard navigation
+Visible focus states
+Strong color contrast
+Alt text
+Accessible buttons
+Accessible modal
+Accessible calendar
+Accessible error messages
+Screen reader support
+
+Support:
+
+prefers-reduced-motion
+
+If reduced motion is enabled, disable non-essential animations.
+
+============================================================
+48. PERFORMANCE
+============================================================
+
+The website must be fast.
+
+Optimize:
+
+Images
+Fonts
+JavaScript
+CSS
+Animations
+
+Use:
+
+Lazy loading
+Responsive images
+Modern image formats
+Code splitting
+Minimal dependencies
+
+Avoid unnecessarily large packages.
+
+Aim for excellent Core Web Vitals.
+
+============================================================
+49. SEO
+============================================================
+
+Implement complete SEO.
+
+Page title:
+
+Dental Care | Dental Clinic in Kurla East, Mumbai
+
+Meta description should naturally include:
+
+Dental Care
+Kurla East
+Mumbai
+dental clinic
+dental care
+appointment booking
+
+Implement:
+
+- Metadata
+- Open Graph
+- Twitter/X metadata where appropriate
+- Sitemap
+- Robots
+- Canonical URL
+- Semantic HTML
+
+============================================================
+50. LOCAL SEO
+============================================================
+
+Naturally optimize for searches around:
+
+Dentist in Kurla East
+Dental clinic in Kurla East
+Dental care in Kurla East
+Dentist near Nehru Nagar
+Dental clinic near Kurla East
+Dentist in Mumbai
+
+Do NOT keyword stuff.
+
+============================================================
+51. STRUCTURED DATA
+============================================================
+
+When appropriate, implement LocalBusiness / Dentist structured
+data.
+
+Use only real clinic information.
+
+Do NOT fabricate:
+
+- Ratings
+- Reviews
+- Awards
+- Opening hours
+- Phone numbers
+- Credentials
+
+============================================================
+52. SECURITY
+============================================================
+
+Protect appointment data.
+
+Never expose:
+
+API keys
+Database credentials
+Private keys
+Secrets
+
+Use environment variables.
+
+Validate data on both:
+
+Frontend
+Backend
+
+Sanitize input.
+
+Prevent duplicate appointment submissions.
+
+============================================================
+53. LOADING STATES
+============================================================
+
+Create beautiful loading states.
+
+For appointment submission:
+
+Show:
+
+"Submitting your appointment request..."
+
+Use a subtle blue loader.
+
+Disable submit button during submission.
+
+Prevent double submissions.
+
+============================================================
+54. EMPTY STATES
+============================================================
+
+Every dynamic section should have a graceful empty state.
+
+Examples:
+
+No appointment slots available.
+
+"No available times for this date."
+
+No testimonials:
+
+Do not display an empty carousel.
+
+No doctors:
+
+Do not show fake doctors.
+
+============================================================
+55. ERROR STATES
+============================================================
+
+Never show:
+
+500 Internal Server Error
+
+directly to patients.
+
+Instead show:
+
+"Something went wrong. Please try again."
+
+Provide a useful fallback CTA.
+
+============================================================
+56. DATA CONFIGURATION
+============================================================
+
+Create centralized configuration.
+
+Example:
+
+clinicConfig = {
+
+name: "Dental Care",
+
+address: {
+  shop: "Shop No: 01",
+  building: "Bldg No: 84",
+  society: "Navchaitanya CHS",
+  area: "Police Colony",
+  locality: "Nehru Nagar",
+  city: "Kurla East",
+  pincode: "400024",
+  state: "Mumbai"
+},
+
+phone: "",
+email: "",
+whatsapp: "",
+mapUrl: "",
+
+services: [],
+doctors: [],
+testimonials: []
+
+}
+
+Make the configuration easy to edit.
+
+============================================================
+57. COMPONENT ARCHITECTURE
+============================================================
+
+Use reusable components.
+
+Suggested:
+
+Navbar
+Logo
+Hero
+QuickActions
+Services
+ServiceCard
+ServiceDetails
+About
+WhyChooseUs
+DoctorSection
+DoctorCard
+PatientJourney
+Testimonials
+FAQ
+Location
+Map
+AppointmentModal
+AppointmentForm
+BookingProgress
+DatePicker
+TimeSlotSelector
+AppointmentConfirmation
+Contact
+FinalCTA
+Footer
+MobileActionBar
+
+Do NOT put the entire website into one giant component.
+
+============================================================
+58. TECH STACK
+============================================================
+
+Preferred:
+
+Next.js
+React
+TypeScript
+Tailwind CSS
+Framer Motion
+
+Use a clean modern architecture.
+
+If the existing project already has a different established stack,
+do not unnecessarily rewrite the entire project.
+
+Preserve good existing architecture.
+
+============================================================
+59. CODE QUALITY
+============================================================
+
+Production-quality code only.
+
+Requirements:
+
+- Strong TypeScript typing
+- Reusable components
+- Clean naming
+- No duplicated logic
+- No unnecessary dependencies
+- No dead code
+- No console errors
+- No broken links
+- No broken images
+- No lorem ipsum
+- No fake medical information
+
+============================================================
+60. UI DETAILS
+============================================================
+
+Pay obsessive attention to:
+
+Typography
+Spacing
+Alignment
+Button dimensions
+Border radius
+Shadows
+Icons
+Image cropping
+Card proportions
+Section spacing
+Hover states
+Focus states
+Mobile spacing
+Animation timing
+
+Everything should feel deliberate.
+
+============================================================
+61. BUTTON DESIGN
+============================================================
+
+Primary button:
+
+BLUE GRADIENT
+
+Text:
+
+BOOK AN APPOINTMENT
+
+Hover:
+
+- Slight elevation
+- Soft blue glow
+- Subtle movement
+
+Secondary button:
+
+Transparent/outlined blue
+
+Hover:
+
+Blue background
+White text
+
+Buttons must never feel tiny.
+
+============================================================
+62. CARD DESIGN
+============================================================
+
+Use premium cards.
+
+Cards should have:
+
+- White/light blue background
+- Subtle border
+- Soft shadow
+- Moderate corner radius
+
+Hover:
+
+- Slight elevation
+- Blue accent
+- Smooth transition
+
+Avoid giant exaggerated cards.
+
+============================================================
+63. TYPOGRAPHY
+============================================================
+
+Use a modern premium sans-serif.
+
+Headings:
+Strong and elegant.
+
+Body:
+Highly readable.
+
+Use responsive typography.
+
+Hero headline should be large on desktop but must scale
+beautifully on mobile.
+
+Never allow the heading to overflow.
+
+============================================================
+64. IMAGE STYLE
+============================================================
+
+Use high-quality realistic dental photography.
+
+Preferred:
+
+Modern clinic
+Modern dental equipment
+Professional consultation
+Clean treatment rooms
+Natural smiles
+Comfortable patient environment
+
+Avoid:
+
+Terrible generic stock photos
+Unnatural smiles
+Low-resolution images
+Overly staged imagery
+Creepy medical imagery
+
+Use blue overlays only where they improve composition.
+
+============================================================
+65. MICRO-INTERACTIONS
+============================================================
+
+Add subtle interactions to:
+
+Buttons
+Cards
+Navigation
+FAQ
+Appointment steps
+Calendar
+Time slots
+Form fields
+Links
+
+Examples:
+
+Button:
+slight lift
+
+Card:
+soft shadow
+
+FAQ:
+smooth expansion
+
+Time slot:
+blue selected state
+
+Input:
+blue focus ring
+
+These details should make the website feel alive.
+
+============================================================
+66. PAGE TRANSITIONS
+============================================================
+
+If multiple pages exist:
+
+Use subtle page transitions.
+
+Never make navigation feel slow.
+
+Performance takes priority over decorative animation.
+
+============================================================
+67. OPTIONAL PAGES
+============================================================
+
+Create architecture for:
+
+/
+ /about
+ /services
+ /services/[slug]
+ /contact
+ /book-appointment
+ /faq
+
+If a single-page experience is more appropriate, maintain clean
+anchor navigation while keeping architecture expandable.
+
+============================================================
+68. PRIVACY
+============================================================
+
+Appointment information should be handled responsibly.
+
+Do not collect unnecessary sensitive information.
+
+Include privacy notice where appropriate.
+
+Create:
+
+Privacy Policy
+Terms & Conditions
+
+as editable pages/placeholders.
+
+============================================================
+69. FINAL HOMEPAGE ORDER
+============================================================
+
+Use this approximate structure:
+
+1. Sticky Navbar
+
+2. Hero
+   "Confident Smiles Start Here."
+
+3. Quick Actions
+
+4. Services
+
+5. Why Choose Dental Care
+
+6. About Dental Care
+
+7. Doctor / Team
+
+8. Patient Journey
+
+9. Testimonials
+
+10. FAQ
+
+11. Location
+
+12. Final Appointment CTA
+
+13. Footer
+
+============================================================
+70. DESIGN PRIORITY
+============================================================
+
+Priority order:
+
+1. UX
+2. Trust
+3. Appointment booking
+4. Visual quality
+5. Accessibility
+6. Performance
+7. SEO
+8. Animation
+
+Do NOT sacrifice usability for visual effects.
+
+============================================================
+71. MOST IMPORTANT RULE
+============================================================
+
+DO NOT BUILD A GENERIC DENTAL WEBSITE.
+
+Do not simply create:
+
+Hero
++
+3 cards
++
+About
++
+Footer
+
+and call it finished.
+
+Build an actual product experience.
+
+Think like:
+
+Senior Product Designer
++
+Senior UX Designer
++
+Senior Frontend Engineer
++
+Brand Designer
++
+Healthcare Product Designer
+
+The website should feel coherent from the first pixel to the
+appointment confirmation screen.
+
+============================================================
+72. BLUE THEME REQUIREMENT
+============================================================
+
+BLUE IS THE PRIMARY VISUAL IDENTITY.
+
+The website should immediately look blue-themed.
+
+Use:
+
+Deep blue
+Royal/professional blue
+Sky blue
+Cyan accents
+Light blue backgrounds
+Navy sections
+
+Create a consistent design system.
+
+Do not randomly introduce unrelated colors.
+
+White is allowed as a supporting color.
+
+Blue should dominate the visual language.
+
+============================================================
+73. FINAL POLISH
+============================================================
+
+Before declaring the website finished, inspect every screen.
+
+Check:
+
+[ ] Desktop
+[ ] Tablet
+[ ] Mobile
+[ ] Navbar
+[ ] Mobile menu
+[ ] Hero
+[ ] Hero animations
+[ ] Services
+[ ] Service details
+[ ] About
+[ ] Why Us
+[ ] Doctors
+[ ] Patient Journey
+[ ] Testimonials
+[ ] FAQ
+[ ] Location
+[ ] Contact
+[ ] Appointment modal
+[ ] Appointment form
+[ ] Calendar
+[ ] Time slots
+[ ] Validation
+[ ] Loading state
+[ ] Success state
+[ ] Error state
+[ ] Footer
+[ ] Mobile floating actions
+[ ] Accessibility
+[ ] SEO
+[ ] Performance
+[ ] Reduced motion
+[ ] No horizontal overflow
+[ ] No console errors
+[ ] No broken links
+[ ] No broken images
+[ ] No fake medical claims
+[ ] No fabricated doctor information
+[ ] No fabricated reviews
+[ ] Exact clinic address
+
+============================================================
+74. FINAL QUALITY BAR
+============================================================
+
+The finished website should make a visitor think:
+
+"This is a serious, modern, trustworthy dental clinic."
+
+It should NOT make them think:
+
+"This is an AI-generated template."
+
+The website must feel:
+
+PREMIUM
+MODERN
+BLUE
+CLEAN
+TRUSTWORTHY
+FAST
+SMOOTH
+BEAUTIFUL
+EASY TO USE
+
+The appointment process must be so simple that a patient can
+understand how to book within seconds.
+
+The mobile experience must be treated as a first-class product.
+
+Animations must feel intentional.
+
+Blue must be the defining brand color.
+
+Every section must have a purpose.
+
+Every interaction must feel polished.
+
+Every detail must look intentional.
+
+============================================================
+FINAL INSTRUCTION
+============================================================
+
+DO NOT STOP AT A VISUAL MOCKUP.
+
+IMPLEMENT THE COMPLETE WEBSITE EXPERIENCE.
+
+Build the frontend, interaction states, responsive layouts,
+appointment-booking flow, configurable contact/location system,
+and clean architecture required for future backend integration.
+
+If something is not yet provided by the clinic, make it
+configurable rather than inventing it.
+
+Use the exact Dental Care address supplied above.
+
+Make this website exceptionally polished.
+
+Make it BLUE.
+
+Make it feel premium.
+
+Make it feel real.
+
+Make it feel like Dental Care deserves to be a genuinely
+excellent dental brand.
+============================================================

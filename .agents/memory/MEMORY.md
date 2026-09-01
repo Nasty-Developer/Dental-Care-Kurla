@@ -1,0 +1,1 @@
+- [OpenAPI email validation](orval-zod-compatibility.md) — the workspace's generated Zod client currently supports email as a length-checked string rather than zod.email().

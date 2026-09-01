@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Dental Care Clinic Website"
+description = "A premium, responsive dental clinic website for Dental Care in Kurla East, Mumbai, with service discovery, location details, and an appointment request experience."
+version = "1.0.0"
+id = "artifacts/dental-care"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25290
+
+[services.development]
+run = "pnpm --filter @workspace/dental-care run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dental-care", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dental-care/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25290"
+BASE_PATH = "/"
