@@ -816,7 +816,7 @@ function Home() {
   const faqItems = [
     ['How do I book an appointment?', 'Choose a treatment, preferred date, time, and share your contact details. Your request is sent to the clinic team for follow-up.'],
     ['Where is Dental Care located?', clinicConfig.address],
-    ['How do treatment prices work?', 'Prices are configurable and will be updated when the clinic provides its actual pricing. The final treatment cost is discussed based on your requirements.'],
+    ['How do treatment prices work?', 'The displayed rates come from the current Dental Care rate sheet. Some services have ranges or multiple rates; the dentist will discuss the final cost based on your requirements.'],
     ['Can I choose my preferred time?', 'Yes. Choose from the configured preferred slots. The clinic team will contact you to confirm availability.'],
     ['What happens after I submit a request?', 'You will receive a request ID immediately. The clinic will contact you to confirm the appointment; submitting a request does not confirm a visit.'],
     ['Can I contact the clinic through WhatsApp?', clinicConfig.whatsapp ? 'Yes. Use the WhatsApp link in the Contact section.' : 'WhatsApp details will be added here once configured by the clinic.'],
@@ -861,7 +861,7 @@ function Home() {
 
         <section id="pricing" className="pricing-section scroll-mt-20">
           <div className="container-clinic">
-            <div className="section-heading-row section-heading-light"><div><SectionLabel light>Transparent treatment pricing</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-6xl">Know what to<br /><em className="text-[hsl(var(--accent-light))]">expect next.</em></h2></div><p className="max-w-sm text-sm leading-6 text-white/65">Actual Dental Care prices will be displayed here once supplied. Until then, nothing is presented as a clinic price.</p></div>
+             <div className="section-heading-row section-heading-light"><div><SectionLabel light>Transparent treatment pricing</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-5xl leading-[0.9] tracking-[-0.04em] text-white sm:text-6xl">Know what to<br /><em className="text-[hsl(var(--accent-light))]">expect next.</em></h2></div><p className="max-w-sm text-sm leading-6 text-white/65">Browse the current Dental Care rate sheet in one clear, searchable view. Ranges and multiple rates are preserved as listed.</p></div>
             <div className="pricing-table" role="table" aria-label="Treatment pricing">
               <div className="pricing-row pricing-head" role="row"><span>Treatment</span><span>Duration</span><span>Price</span><span /></div>
               {treatmentConfig.map((treatment) => <div className="pricing-row" role="row" key={treatment.id}><strong>{treatment.name}</strong><span>{treatment.duration}</span><span>{formatPrice(treatment)}</span><button onClick={() => openBooking(treatment.id)} className="table-book" data-testid={`pricing-book-${treatment.id}`}>Book <ArrowUpRight size={14} /></button></div>)}
